@@ -7,5 +7,7 @@ namespace BovineBoss_API.Controllers
     [ApiController]
     public class EstateController : ControllerBase
     {
+        
+        //to doooo
     }
 }
