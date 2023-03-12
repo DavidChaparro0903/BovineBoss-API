@@ -7,7 +7,9 @@ namespace BovineBoss_API.Controllers
     [ApiController]
     public class AdminController : ControllerBase
     {
+       
+    
 
-        // to doooo
+
     }
 }

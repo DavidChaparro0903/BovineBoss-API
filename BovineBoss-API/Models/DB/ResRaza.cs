@@ -13,5 +13,5 @@ public partial class ResRaza
 
     public virtual Raza IdRazaNavigation { get; set; } = null!;
 
-    public virtual Reses IdResNavigation { get; set; } = null!;
+    public virtual Rese IdResNavigation { get; set; } = null!;
 }

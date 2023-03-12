@@ -15,7 +15,7 @@ public partial class FincaGasto
 
     public int IdGasto { get; set; }
 
-    public virtual Fincas IdFincaNavigation { get; set; } = null!;
+    public virtual Finca IdFincaNavigation { get; set; } = null!;
 
     public virtual Gasto IdGastoNavigation { get; set; } = null!;
 }

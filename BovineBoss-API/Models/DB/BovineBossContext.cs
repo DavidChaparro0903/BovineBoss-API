@@ -19,9 +19,9 @@ public partial class BovineBossContext : DbContext
 
     public virtual DbSet<Adquisicione> Adquisiciones { get; set; }
 
-    public virtual DbSet<Alimentos> Alimentos { get; set; }
+    public virtual DbSet<Alimento> Alimentos { get; set; }
 
-    public virtual DbSet<Fincas> Fincas { get; set; }
+    public virtual DbSet<Finca> Fincas { get; set; }
 
     public virtual DbSet<FincaAlimento> FincaAlimentos { get; set; }
 
@@ -43,15 +43,18 @@ public partial class BovineBossContext : DbContext
 
     public virtual DbSet<ResRaza> ResRazas { get; set; }
 
-    public virtual DbSet<Reses> Reses { get; set; }
+    public virtual DbSet<Rese> Reses { get; set; }
 
     public virtual DbSet<TrabajadorFinca> TrabajadorFincas { get; set; }
 
     public virtual DbSet<Venta> Ventas { get; set; }
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-#warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see http://go.microsoft.com/fwlink/?LinkId=723263.
-        => optionsBuilder.UseSqlServer("Server=localhost; Database=BovineBoss; User Id =sa; Password=123 ;TrustServerCertificate=True;");
+    {
+
+    }
+//#warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see http://go.microsoft.com/fwlink/?LinkId=723263.
+//        => optionsBuilder.UseSqlServer("Server=localhost; Database=BovineBoss; User Id = sa; Password=123 ;TrustServerCertificate=True;");
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -106,7 +109,7 @@ public partial class BovineBossContext : DbContext
                 .HasConstraintName("FK_Adquisiciones_Reses");
         });
 
-        modelBuilder.Entity<Alimentos>(entity =>
+        modelBuilder.Entity<Alimento>(entity =>
         {
             entity.HasKey(e => e.IdAlimento);
 
@@ -117,7 +120,7 @@ public partial class BovineBossContext : DbContext
                 .HasColumnName("tipo_alimento");
         });
 
-        modelBuilder.Entity<Fincas>(entity =>
+        modelBuilder.Entity<Finca>(entity =>
         {
             entity.HasKey(e => e.IdFinca);
 
@@ -273,6 +276,14 @@ public partial class BovineBossContext : DbContext
                 .HasMaxLength(30)
                 .IsUnicode(false)
                 .HasColumnName("cedula");
+            entity.Property(e => e.Contrasenia)
+                .HasMaxLength(50)
+                .IsUnicode(false)
+                .HasColumnName("contrasenia");
+            entity.Property(e => e.Usuario)
+                .HasMaxLength(50)
+                .IsUnicode(false)
+                .HasColumnName("email");
             entity.Property(e => e.FechaContratacion)
                 .HasColumnType("date")
                 .HasColumnName("fecha_contratacion");
@@ -353,7 +364,7 @@ public partial class BovineBossContext : DbContext
                 .HasConstraintName("FK_Res_Raza_Reses");
         });
 
-        modelBuilder.Entity<Reses>(entity =>
+        modelBuilder.Entity<Rese>(entity =>
         {
             entity.HasKey(e => e.IdRes);
 

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace BovineBoss_API.Models.DB;
 
-public partial class Alimentos
+public partial class Alimento
 {
     public int IdAlimento { get; set; }
 

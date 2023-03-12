@@ -21,6 +21,10 @@ public partial class Persona
 
     public DateTime? FechaContratacion { get; set; }
 
+    public string? Usuario { get; set; }
+
+    public string? Contrasenia { get; set; }
+
     public virtual ICollection<AdministradorFinca> AdministradorFincas { get; } = new List<AdministradorFinca>();
 
     public virtual ICollection<Adquisicione> Adquisiciones { get; } = new List<Adquisicione>();
