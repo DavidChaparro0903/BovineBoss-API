@@ -2,6 +2,7 @@
 using BovineBoss_API.Models;
 using BovineBoss_API.Services.Contrato;
 using BovineBoss_API.Models.DB;
+using Microsoft.AspNetCore.DataProtection.Repositories;
 
 namespace BovineBoss_API.Services.Implementacion
 {
@@ -40,7 +41,6 @@ namespace BovineBoss_API.Services.Implementacion
             try
             {
                 Persona? persona = new Persona();
-
                 persona = await dbContext.Personas.Where(e => idPersona == idPersona).FirstOrDefaultAsync();
                 return persona;
 
@@ -50,6 +50,18 @@ namespace BovineBoss_API.Services.Implementacion
                 throw ex;
 
 
+            }
+        }
+
+        public async Task AddPersona(Persona persona)
+        {
+            try
+            {
+                dbContext.Personas.AddAsync(persona);
+                await dbContext.SaveChangesAsync();
+            }catch (Exception ex)
+            {
+                throw ex;
             }
         }
     }

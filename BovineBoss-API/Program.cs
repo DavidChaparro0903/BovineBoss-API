@@ -25,7 +25,6 @@ builder.Services.AddScoped<IPersonaService, PersonaService>();
 builder.Services.AddScoped<IFincaService, FincaService>();
 
 
-
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.

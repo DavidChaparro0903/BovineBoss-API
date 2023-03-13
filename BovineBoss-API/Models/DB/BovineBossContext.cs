@@ -283,7 +283,7 @@ public partial class BovineBossContext : DbContext
             entity.Property(e => e.Usuario)
                 .HasMaxLength(50)
                 .IsUnicode(false)
-                .HasColumnName("email");
+                .HasColumnName("usuario");
             entity.Property(e => e.FechaContratacion)
                 .HasColumnType("date")
                 .HasColumnName("fecha_contratacion");
