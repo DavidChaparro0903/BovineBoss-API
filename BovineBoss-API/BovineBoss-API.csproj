@@ -23,7 +23,6 @@
 
   <ItemGroup>
     <Folder Include="Models\DB\" />
-    <Folder Include="Models\Dtos\" />
   </ItemGroup>
 
 </Project>

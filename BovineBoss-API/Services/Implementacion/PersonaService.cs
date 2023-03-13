@@ -2,10 +2,12 @@
 using BovineBoss_API.Models;
 using BovineBoss_API.Services.Contrato;
 using BovineBoss_API.Models.DB;
+using BovineBoss_API.Models.Dtos;
+using System.Collections.Generic;
 
 namespace BovineBoss_API.Services.Implementacion
 {
-    public class PersonaService : IPersonaService
+    public class PersonaService : IAdminService
     {
 
 
@@ -16,14 +18,23 @@ namespace BovineBoss_API.Services.Implementacion
             this.dbContext = dbContext;
         }
 
-        public async Task<List<Persona>> GetList()
+        public async Task<List<AdminDto>> GetListAdmin()
         {
-
             try
             {
                 List<Persona> listaPersona = new List<Persona>();
-                listaPersona = await dbContext.Personas.ToListAsync();
-                return listaPersona;
+                listaPersona = dbContext.Personas.Where(p => p.TipoPersona == "A").ToList();
+                List<AdminDto> listaAdminDto = listaPersona.Select(a => new AdminDto
+                {
+                    NombrePersona = a.NombrePersona,
+                    ApellidoPersona = a.ApellidoPersona,
+                    Cedula = a.Cedula,
+                    Salario = a.Salario,
+                    FechaContratacion = a.FechaContratacion,
+                    Usuario = a.Usuario
+                }).ToList();
+           
+                return listaAdminDto;
             }
             catch (Exception ex)
             {
@@ -35,14 +46,25 @@ namespace BovineBoss_API.Services.Implementacion
 
         }
 
-        public async Task<Persona> GetPersona(int idPersona)
+        public async Task<AdminDto> GetPersona(int idPersona)
         {
             try
             {
+                Console.WriteLine(idPersona);
                 Persona? persona = new Persona();
+                persona = await dbContext.Personas.Where(e => e.IdPersona == idPersona).FirstOrDefaultAsync();
+                Console.WriteLine("---------------------------------"+persona.Cedula + "  " + persona.TipoPersona);
+                AdminDto admin = new AdminDto
+                {
+                    NombrePersona = persona.NombrePersona,
+                    Cedula = persona.Cedula,
+                    ApellidoPersona = persona.ApellidoPersona,
+                    Salario = persona.Salario,
+                    FechaContratacion = persona.FechaContratacion,
+                    Usuario = persona.Usuario
+                };
 
-                persona = await dbContext.Personas.Where(e => idPersona == idPersona).FirstOrDefaultAsync();
-                return persona;
+                return admin;
 
             }
             catch (Exception ex)

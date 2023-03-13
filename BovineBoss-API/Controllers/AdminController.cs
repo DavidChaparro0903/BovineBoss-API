@@ -1,5 +1,8 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using BovineBoss_API.Services.Contrato;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using BovineBoss_API.Models.DB;
+using BovineBoss_API.Models.Dtos;
 
 namespace BovineBoss_API.Controllers
 {
@@ -7,8 +10,31 @@ namespace BovineBoss_API.Controllers
     [ApiController]
     public class AdminController : ControllerBase
     {
-       
-    
+
+
+        private IAdminService personaService;
+
+
+        public AdminController(IAdminService personaService)
+        {
+            this.personaService = personaService;
+        }
+
+        [HttpGet]
+        public async Task<List<AdminDto>> getListAdmin()
+        {
+            return await personaService.GetListAdmin();
+        }
+
+        [HttpGet("{id}")]
+        public async Task<AdminDto> getAdmin(int idPersona)
+        {
+
+            return await personaService.GetPersona(idPersona);
+        }
+
+
+
 
 
     }

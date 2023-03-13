@@ -20,7 +20,7 @@ builder.Services.AddDbContext<BovineBossContext>(options => {
 
 //Aca se trabaja la inyeccion de dependencias, de la relacion entre la interfaz y la implementacion
 //Para inyectar estos servicios
-builder.Services.AddScoped<IPersonaService, PersonaService>();
+builder.Services.AddScoped<IAdminService, PersonaService>();
 
 builder.Services.AddScoped<IFincaService, FincaService>();
 
