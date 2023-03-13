@@ -15,14 +15,19 @@ namespace BovineBoss_API.Services.Implementacion
             this.dbContext = dbContext;
         }
 
-        public async Task<Finca> AddFinca(Finca finca)
+        public async Task<FincaDto> AddFinca(FincaDto fincaDto)
         {
 
             try
             {
+                Finca finca = new Finca() { 
+                NombreFinca = fincaDto.NombreFinca,
+                DireccionFinca = fincaDto.DireccionFinca,
+                ExtensionFinca = fincaDto.ExtensionFinca
+                };
                 dbContext.Fincas.Add(finca);
                 await dbContext.SaveChangesAsync();
-                return finca;
+                return fincaDto;
             }
             catch (Exception ex) {
                 throw ex;
@@ -43,14 +48,14 @@ namespace BovineBoss_API.Services.Implementacion
             }
         }
 
-        public async Task<FincasDto> GetFinca(int idFinca)
+        public async Task<FincaDto> GetFinca(int idFinca)
         {
 
             try
             {
                 Finca? finca = new Finca();
                 finca = await dbContext.Fincas.Where(e => e.IdFinca == idFinca).FirstOrDefaultAsync();
-                FincasDto fincaDto = new FincasDto
+                FincaDto fincaDto = new FincaDto
                 {
                     NombreFinca = finca.NombreFinca,
                     DireccionFinca = finca.DireccionFinca,
@@ -67,13 +72,13 @@ namespace BovineBoss_API.Services.Implementacion
             }
         }
 
-        public async Task<List<FincasDto>> GetList()
+        public async Task<List<FincaDto>> GetList()
         {
             try {
                 List<Finca> listaFinca = new List<Finca>();
                 listaFinca = await dbContext.Fincas.ToListAsync();
-                List<FincasDto> listaFincaDto = listaFinca.Select(
-                  f => new FincasDto {
+                List<FincaDto> listaFincaDto = listaFinca.Select(
+                  f => new FincaDto {
                       NombreFinca = f.NombreFinca,
                       DireccionFinca = f.DireccionFinca,
                       ExtensionFinca = f.ExtensionFinca

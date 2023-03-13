@@ -5,11 +5,11 @@ namespace BovineBoss_API.Services.Contrato
 {
     public interface IFincaService
     {
-        Task<List<FincasDto>> GetList();
+        Task<List<FincaDto>> GetList();
 
-        Task<FincasDto> GetFinca(int idFinca);
+        Task<FincaDto> GetFinca(int idFinca);
 
-        Task<Finca> AddFinca(Finca finca);
+        Task<FincaDto> AddFinca(FincaDto finca);
 
         Task<bool> UpdateFinca(Finca finca);
 

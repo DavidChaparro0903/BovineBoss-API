@@ -10,6 +10,8 @@ namespace BovineBoss_API.Services.Contrato
 
         Task<AdminDto> GetPersona(int idPersona);
 
+        Task<CreateEmployeeDto> AddAdministrator(CreateEmployeeDto Admin);
+
 
 
 

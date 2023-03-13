@@ -27,13 +27,17 @@ namespace BovineBoss_API.Controllers
         }
 
         [HttpGet("{id}")]
-        public async Task<AdminDto> getAdmin(int idPersona)
+        public async Task<AdminDto> getAdmin(int id)
         {
-
-            return await personaService.GetPersona(idPersona);
+            return await personaService.GetPersona(id);
         }
 
 
+        [HttpPost]
+        public async Task<CreateEmployeeDto> addAdmin(CreateEmployeeDto Admin)
+        {
+            return await personaService.AddAdministrator(Admin);
+        }
 
 
 

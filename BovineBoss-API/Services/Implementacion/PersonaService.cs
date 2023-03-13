@@ -4,6 +4,10 @@ using BovineBoss_API.Services.Contrato;
 using BovineBoss_API.Models.DB;
 using BovineBoss_API.Models.Dtos;
 using System.Collections.Generic;
+using System;
+using Microsoft.AspNetCore.Http;
+using Microsoft.SqlServer.Server;
+using System.Globalization;
 
 namespace BovineBoss_API.Services.Implementacion
 {
@@ -50,10 +54,8 @@ namespace BovineBoss_API.Services.Implementacion
         {
             try
             {
-                Console.WriteLine(idPersona);
                 Persona? persona = new Persona();
                 persona = await dbContext.Personas.Where(e => e.IdPersona == idPersona).FirstOrDefaultAsync();
-                Console.WriteLine("---------------------------------"+persona.Cedula + "  " + persona.TipoPersona);
                 AdminDto admin = new AdminDto
                 {
                     NombrePersona = persona.NombrePersona,
@@ -74,6 +76,36 @@ namespace BovineBoss_API.Services.Implementacion
 
             }
         }
+
+        public async Task<CreateEmployeeDto> AddAdministrator(CreateEmployeeDto Admin)
+        {
+            try
+            { 
+                Persona persona = new Persona()
+                {
+                    NombrePersona = Admin.NombrePersona,
+                    ApellidoPersona = Admin.ApellidoPersona,
+                    Cedula = Admin.Cedula,
+                    TipoPersona = "A",
+                    Salario = Admin.Salario,
+                    FechaContratacion = DateTime.ParseExact(DateTime.UtcNow.ToString("MM-dd-yyyy"), "MM-dd-yyyy", CultureInfo.InvariantCulture),
+                    Usuario=Admin.Usuario,
+                    Contrasenia = Admin.Contrasenia,
+                    TelefonoPersona = Admin.TelefonoPersona
+                    
+                };
+                dbContext.Personas.Add(persona);
+                await dbContext.SaveChangesAsync();
+                return Admin;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+
+            }
+
+        }
+
     }
 
 }

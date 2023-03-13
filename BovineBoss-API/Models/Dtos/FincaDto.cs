@@ -1,6 +1,6 @@
 ﻿namespace BovineBoss_API.Models.Dtos
 {
-    public class FincasDto
+    public class FincaDto
     { 
         public string NombreFinca { get; set; } = null!;
 
@@ -8,5 +8,5 @@
 
         public int ExtensionFinca { get; set;}
 
-        }
+     }
 }
