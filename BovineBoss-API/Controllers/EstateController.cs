@@ -20,22 +20,16 @@ namespace BovineBoss_API.Controllers
         public async Task<List<FincaDto>> GetList()
         {
             return await fincaService.GetList();
-
         }
 
 
         [HttpGet("{id}")]
-
        public async Task<FincaDto> GetFinca(int id)
         {
-
             return await fincaService.GetFinca(id);
         }
 
-
-
         [HttpPost]
-
         public async Task<FincaDto> AddFinca(FincaDto fincaDto)
         {
             return await fincaService.AddFinca(fincaDto);

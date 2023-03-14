@@ -33,7 +33,7 @@ namespace BovineBoss_API.Controllers
         }
 
 
-        [HttpPost]
+        [HttpPost ("registerAdmin")]
         public async Task<CreateEmployeeDto> addAdmin(CreateEmployeeDto Admin)
         {
             return await personaService.AddAdministrator(Admin);

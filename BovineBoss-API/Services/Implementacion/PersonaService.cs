@@ -89,11 +89,11 @@ namespace BovineBoss_API.Services.Implementacion
                     TipoPersona = "A",
                     Salario = Admin.Salario,
                     FechaContratacion = DateTime.ParseExact(DateTime.UtcNow.ToString("MM-dd-yyyy"), "MM-dd-yyyy", CultureInfo.InvariantCulture),
-                    Usuario=Admin.Usuario,
-                    Contrasenia = Admin.Contrasenia,
+                    Usuario= Admin.Usuario,
+                    Contrasenia = BCrypt.Net.BCrypt.HashPassword(Admin.Contrasenia),
                     TelefonoPersona = Admin.TelefonoPersona
-                    
                 };
+
                 dbContext.Personas.Add(persona);
                 await dbContext.SaveChangesAsync();
                 return Admin;
