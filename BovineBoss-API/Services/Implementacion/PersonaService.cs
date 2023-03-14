@@ -77,8 +77,33 @@ namespace BovineBoss_API.Services.Implementacion
             }
         }
 
+        public async Task<LoginPersonaDTO> GetUser(string usuario)
+        {
+            try
+            {
+                Persona? persona = new Persona();
+                persona = await dbContext.Personas.Where(e => e.Usuario == usuario).FirstOrDefaultAsync();
+                LoginPersonaDTO user = new LoginPersonaDTO
+                {
+                    IdPersona = persona.IdPersona,
+                    RolPersona = persona.TipoPersona,
+                    Contrasenia = persona.Contrasenia
+                };
+
+                return user;
+
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+
+
+            }
+        }
+
         public async Task<CreateEmployeeDto> AddAdministrator(CreateEmployeeDto Admin)
         {
+            //TODO Agregar autogeneración de usuario
             try
             { 
                 Persona persona = new Persona()
