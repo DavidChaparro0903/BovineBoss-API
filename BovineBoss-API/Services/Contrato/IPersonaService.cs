@@ -8,6 +8,8 @@ namespace BovineBoss_API.Services.Contrato
 
         Task<Persona> GetPersona(int idPersona);
 
+        Task<Persona> GetPersona(String usuario);
+
         Task AddPersona(Persona persona);
 
     }

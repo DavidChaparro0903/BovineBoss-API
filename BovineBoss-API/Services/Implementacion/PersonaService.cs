@@ -35,6 +35,18 @@ namespace BovineBoss_API.Services.Implementacion
 
 
         }
+        public async Task<Persona> GetPersona(String usuario)
+        {
+            try
+            {
+                Persona? persona = new Persona();
+                persona = await dbContext.Personas.Where(p => usuario == p.Usuario).FirstOrDefaultAsync();
+                return persona;
+            } catch (Exception ex)
+            {
+                throw;
+            }
+        }
 
         public async Task<Persona> GetPersona(int idPersona)
         {
@@ -48,8 +60,6 @@ namespace BovineBoss_API.Services.Implementacion
             catch (Exception ex)
             {
                 throw ex;
-
-
             }
         }
 
