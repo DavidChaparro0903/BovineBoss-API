@@ -3,7 +3,7 @@
     public class LoginPersonaDTO
     {
         public int IdPersona { get; set; }
-        public string NombrePersona { get; set; }
+        public String NombrePersona { get; set; }
         public String NombreUsuario { get; set; }
         public String RolPersona { get; set; }
 

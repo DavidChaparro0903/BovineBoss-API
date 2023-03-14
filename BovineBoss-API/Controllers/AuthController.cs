@@ -2,13 +2,9 @@
 using BovineBoss_API.Models.DB;
 using BovineBoss_API.Models.Dtos;
 using BovineBoss_API.Services.Contrato;
-using BovineBoss_API.Services.Implementacion;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
-using System.Diagnostics;
 using System.IdentityModel.Tokens.Jwt;
-using System.Net;
 using System.Security.Claims;
 using System.Text;
 
@@ -30,9 +26,8 @@ namespace BovineBoss_API.Controllers
         }
 
         [HttpPost("register")]
-        public async Task<ActionResult<Persona>> Register(Persona persona)
+        public async Task<IActionResult> Register(Persona persona)
         {
-            Debug.WriteLine("Petición de creación alcanzada");
             if (persona.TipoPersona.Equals("A") || persona.TipoPersona.Equals("T"))
             {
                 try
@@ -40,7 +35,6 @@ namespace BovineBoss_API.Controllers
                     if (persona.Usuario.IsNullOrEmpty()) throw new Exception();
                     string hashContrasenia = BCrypt.Net.BCrypt.HashPassword(persona.Contrasenia);
                     persona.Contrasenia = hashContrasenia;
-                    Console.WriteLine(hashContrasenia.Length);
                 } catch(Exception e)
                 {
                     return Ok("Contraseña y nombre de usuario requeridos para registro");
@@ -48,7 +42,7 @@ namespace BovineBoss_API.Controllers
             }
             await _personaService.AddPersona(persona);
 
-            return Ok(persona);
+            return Ok("Usuario creado exitosamente");
         }
         [HttpPost("login")]
         public async Task<IActionResult> Login(String usuario, String contrasenia)
@@ -77,8 +71,6 @@ namespace BovineBoss_API.Controllers
             List<Claim> claims = new List<Claim>
             {
                 new Claim(ClaimTypes.NameIdentifier, persona.IdPersona.ToString()),
-                new Claim(ClaimTypes.NameIdentifier, persona.NombreUsuario),
-                new Claim(ClaimTypes.Name, persona.NombrePersona),
                 new Claim(ClaimTypes.Role, persona.RolPersona)
 
             };
