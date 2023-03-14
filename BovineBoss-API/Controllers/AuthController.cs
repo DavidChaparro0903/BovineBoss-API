@@ -2,6 +2,7 @@
 using BovineBoss_API.Models.DB;
 using BovineBoss_API.Models.Dtos;
 using BovineBoss_API.Services.Contrato;
+using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
@@ -12,76 +13,101 @@ namespace BovineBoss_API.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [EnableCors("CorsConfig")]
     //Controlador de autenticación y autorización
     public class AuthController : ControllerBase
     {
-        private readonly IPersonaService _personaService;
+        private readonly IAdminService _personaService;
         private readonly IConfiguration configuration;
 
-        public AuthController(IConfiguration _configuration, IPersonaService personaService)
+        public AuthController(IConfiguration _configuration, IAdminService personaService)
         {
             //Configuración para acceso a archivo de propiedades 'appsettings.json'
             this.configuration = _configuration;
             _personaService = personaService;
         }
-
-        [HttpPost("register")]
-        public async Task<IActionResult> Register(Persona persona)
-        {
-            if (persona.TipoPersona.Equals("A") || persona.TipoPersona.Equals("T"))
-            {
-                try
-                {
-                    if (persona.Usuario.IsNullOrEmpty()) throw new Exception();
-                    string hashContrasenia = BCrypt.Net.BCrypt.HashPassword(persona.Contrasenia);
-                    persona.Contrasenia = hashContrasenia;
-                } catch(Exception e)
-                {
-                    return Ok("Contraseña y nombre de usuario requeridos para registro");
-                }
-            }
-            await _personaService.AddPersona(persona);
-
-            return Ok("Usuario creado exitosamente");
-        }
+        /// <author>
+        /// Diego Ballesteros
+        /// </author>
+        /// <summary>
+        /// Metodo de autenticación de usuario y generación de Token
+        /// </summary>
+        /// <returns>
+        /// Retorna una token con claims idUsuario y Rol
+        /// </returns>
+        /// <response code="200">Si la solicitud se ejecutó con éxito</response>
+        /// <response code="400">Si la solicitud no se ejecuta correctamente</response>
+        /// <response code="401">Si el usuario no está autenticado</response>
+        /// <response code="403">Si el usuario no tiene permisos para realizar la solicitud</response>
+        /// <response code="500">Si ocurre un error en el servidor</response>
         [HttpPost("login")]
         public async Task<IActionResult> Login(String usuario, String contrasenia)
         {
+            Response r = new Response();
             if (string.IsNullOrEmpty(usuario) || string.IsNullOrEmpty(contrasenia))
             {
-                return BadRequest("Nombre de y contraseña usuario necesarios");
+                r.errors = "Campos Usuario y contraseña no deben ir vacios";
+                return BadRequest(r);
             }
-            var queryResult = await _personaService.GetPersona(usuario);
+            var queryResult = await _personaService.GetUser(usuario);
             if (queryResult == null)
             {
-                return Unauthorized("Nombre de usuario o contraseña incorrectos");
+                r.errors = "Nombre de usuario o contraseña incorrectos";
+                return Unauthorized(r);
             }
-            Persona p = queryResult;
-            if (!BCrypt.Net.BCrypt.Verify(contrasenia, p.Contrasenia))
+            LoginPersonaDTO user = queryResult;
+            if (!BCrypt.Net.BCrypt.Verify(contrasenia, user.Contrasenia))
             {
-                return Unauthorized("Nombre de usuario o contraseña incorrectos");
+                r.errors = "Nombre de usuario o contraseña incorrectos";
+                return Unauthorized(r);
             }
-            LoginPersonaDTO pdto = new LoginPersonaDTO(p.IdPersona, p.NombrePersona + " " + p.ApellidoPersona, p.Usuario, p.TipoPersona);
-            string token = CreateJWT(pdto);
-            return Ok(token);
+            string token = JWTTokenGenerator(user);
+            r.data = token;
+            r.message = "token";
+            return Ok(r);
         }
 
-        private string CreateJWT(LoginPersonaDTO persona)
+        //private string CreateJWT(LoginPersonaDTO persona)
+        //{
+        //    List<Claim> claims = new List<Claim>
+        //    {
+        //        new Claim(ClaimTypes.NameIdentifier, persona.IdPersona.ToString()),
+        //        new Claim(ClaimTypes.Role, persona.RolPersona)
+        //    };
+
+        //    var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(configuration.GetSection("JWT:Key").Value!));
+
+        //    var credentials = new SigningCredentials(key, SecurityAlgorithms.HmacSha512Signature);
+
+        //    var token = new JwtSecurityToken(claims:claims, expires:DateTime.Now.AddHours(6), signingCredentials:credentials);
+
+        //    return new JwtSecurityTokenHandler().WriteToken(token);
+        //}
+
+        private string JWTTokenGenerator(LoginPersonaDTO auth)
         {
-            List<Claim> claims = new List<Claim>
+            //cabecera
+            var _symmetricSecurityKey = new SymmetricSecurityKey(
+                Encoding.UTF8.GetBytes(configuration["JWT:Key"]));
+            var _signingCredentials = new SigningCredentials(
+                _symmetricSecurityKey, SecurityAlgorithms.HmacSha256);
+            var _Header = new JwtHeader(_signingCredentials);
+            //claims
+            var _Claims = new[]
             {
-                new Claim(ClaimTypes.NameIdentifier, persona.IdPersona.ToString()),
-                new Claim(ClaimTypes.Role, persona.RolPersona)
-
+                new Claim("Role", auth.RolPersona),
+                new Claim("CredentialId", auth.IdPersona + "")
             };
-
-            var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(configuration.GetSection("JWT:Key").Value!));
-
-            var credentials = new SigningCredentials(key, SecurityAlgorithms.HmacSha512Signature);
-
-            var token = new JwtSecurityToken(claims:claims, expires:DateTime.Now.AddHours(6), signingCredentials:credentials);
-
-            return new JwtSecurityTokenHandler().WriteToken(token);
+            //payload
+            var _Payload = new JwtPayload(
+                    issuer: configuration["JWT:JWTIssuer"],
+                    audience: configuration["JWT:JWTAudience"],
+                    claims: _Claims,
+                    notBefore: DateTime.UtcNow,
+                    expires: DateTime.UtcNow.AddHours(6));
+            //token
+            return new JwtSecurityTokenHandler().WriteToken(
+                new JwtSecurityToken(_Header, _Payload));
         }
     }
 }

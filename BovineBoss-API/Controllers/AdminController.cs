@@ -3,11 +3,15 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using BovineBoss_API.Models.DB;
 using BovineBoss_API.Models.Dtos;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Cors;
 
 namespace BovineBoss_API.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [EnableCors("CorsConfig")]
+    [Authorize]
     public class AdminController : ControllerBase
     {
 

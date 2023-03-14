@@ -1,12 +1,16 @@
 ﻿using BovineBoss_API.Models.Dtos;
 using BovineBoss_API.Services.Contrato;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace BovineBoss_API.Controllers
 {
     [Route("api/[controller]")]
+    [EnableCors("CorsConfig")]
     [ApiController]
+    [Authorize]
     public class EstateController : ControllerBase
     {
 

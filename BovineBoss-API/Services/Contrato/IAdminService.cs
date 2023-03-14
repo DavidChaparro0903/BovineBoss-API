@@ -12,7 +12,7 @@ namespace BovineBoss_API.Services.Contrato
 
         Task<CreateEmployeeDto> AddAdministrator(CreateEmployeeDto Admin);
 
-
+        Task<LoginPersonaDTO> GetUser(string usuario);
 
 
 

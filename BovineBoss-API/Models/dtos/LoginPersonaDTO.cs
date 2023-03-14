@@ -3,16 +3,7 @@
     public class LoginPersonaDTO
     {
         public int IdPersona { get; set; }
-        public String NombrePersona { get; set; }
-        public String NombreUsuario { get; set; }
-        public String RolPersona { get; set; }
-
-        public LoginPersonaDTO(int idPersona, string nombrePersona, string nombreUsuario, string rolPersona)
-        {
-            IdPersona = idPersona;
-            NombrePersona = nombrePersona;
-            NombreUsuario = nombreUsuario;
-            RolPersona = rolPersona;
-        }
+        public string RolPersona { get; set; } = null!;
+        public string Contrasenia { get; set; } = null!;
     }
 }
