@@ -21,5 +21,5 @@ public partial class Adquisicione
 
     public virtual Persona IdPropietarioNavigation { get; set; } = null!;
 
-    public virtual Reses IdResNavigation { get; set; } = null!;
+    public virtual Rese IdResNavigation { get; set; } = null!;
 }

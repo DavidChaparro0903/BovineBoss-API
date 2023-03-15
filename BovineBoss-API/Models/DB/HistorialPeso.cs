@@ -11,5 +11,5 @@ public partial class HistorialPeso
 
     public int IdRes { get; set; }
 
-    public virtual Reses IdResNavigation { get; set; } = null!;
+    public virtual Rese IdResNavigation { get; set; } = null!;
 }

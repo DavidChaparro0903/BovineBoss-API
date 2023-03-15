@@ -1,0 +1,19 @@
+﻿using BovineBoss_API.Models.DB;
+using BovineBoss_API.Models.Dtos;
+
+namespace BovineBoss_API.Services.Contrato
+{
+    public interface IFincaService
+    {
+        Task<List<FincaDto>> GetList();
+
+        Task<FincaDto> GetFinca(int idFinca);
+
+        Task<FincaDto> AddFinca(FincaDto finca);
+
+        Task<bool> UpdateFinca(Finca finca);
+
+        Task<bool> DeleteFinca(Finca Finca);
+
+    }
+}

@@ -19,7 +19,7 @@ public partial class FincaAlimento
 
     public virtual ICollection<HistorialAlimentacion> HistorialAlimentacions { get; } = new List<HistorialAlimentacion>();
 
-    public virtual Alimentos IdAlimentoNavigation { get; set; } = null!;
+    public virtual Alimento IdAlimentoNavigation { get; set; } = null!;
 
-    public virtual Fincas IdFincaNavigation { get; set; } = null!;
+    public virtual Finca IdFincaNavigation { get; set; } = null!;
 }
