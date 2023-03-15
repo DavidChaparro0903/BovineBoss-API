@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace BovineBoss_API.Models.DB;
 
-public partial class Reses
+public partial class Rese
 {
     public int IdRes { get; set; }
 
@@ -25,7 +25,7 @@ public partial class Reses
 
     public virtual ICollection<HistorialPeso> HistorialPesos { get; } = new List<HistorialPeso>();
 
-    public virtual Fincas IdFincaNavigation { get; set; } = null!;
+    public virtual Finca IdFincaNavigation { get; set; } = null!;
 
     public virtual Venta? IdVentaNavigation { get; set; }
 

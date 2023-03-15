@@ -19,5 +19,5 @@ public partial class HistorialAlimentacion
 
     public virtual FincaAlimento FincaAlimento { get; set; } = null!;
 
-    public virtual Reses IdResNavigation { get; set; } = null!;
+    public virtual Rese IdResNavigation { get; set; } = null!;
 }

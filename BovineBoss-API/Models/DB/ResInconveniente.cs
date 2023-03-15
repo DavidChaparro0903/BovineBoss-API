@@ -17,5 +17,5 @@ public partial class ResInconveniente
 
     public virtual Inconveniente IdInconvenienteNavigation { get; set; } = null!;
 
-    public virtual Reses IdResNavigation { get; set; } = null!;
+    public virtual Rese IdResNavigation { get; set; } = null!;
 }
