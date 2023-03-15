@@ -126,7 +126,7 @@ public partial class BovineBossContext : DbContext
 
             entity.Property(e => e.IdFinca).HasColumnName("id_finca");
             entity.Property(e => e.DireccionFinca)
-                .HasMaxLength(50)
+                .HasMaxLength(100)
                 .IsUnicode(false)
                 .HasColumnName("direccion_finca");
             entity.Property(e => e.ExtensionFinca).HasColumnName("extension_finca");
@@ -284,6 +284,8 @@ public partial class BovineBossContext : DbContext
                 .HasMaxLength(50)
                 .IsUnicode(false)
                 .HasColumnName("usuario");
+            //Aca se pone para el unique
+            entity.HasIndex(e => e.Usuario).IsUnique();
             entity.Property(e => e.FechaContratacion)
                 .HasColumnType("date")
                 .HasColumnName("fecha_contratacion");

@@ -36,7 +36,7 @@ namespace BovineBoss_API.Controllers
             return await personaService.GetPersona(id);
         }
 
-
+        [AllowAnonymous]
         [HttpPost ("registerAdmin")]
         public async Task<CreateEmployeeDto> addAdmin(CreateEmployeeDto Admin)
         {

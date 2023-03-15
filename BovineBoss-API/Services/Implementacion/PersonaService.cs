@@ -104,9 +104,10 @@ namespace BovineBoss_API.Services.Implementacion
         public async Task<CreateEmployeeDto> AddAdministrator(CreateEmployeeDto Admin)
         {
             //TODO Agregar autogeneración de usuario
+            Persona persona;
             try
-            { 
-                Persona persona = new Persona()
+            {
+                persona = new Persona()
                 {
                     NombrePersona = Admin.NombrePersona,
                     ApellidoPersona = Admin.ApellidoPersona,
@@ -114,11 +115,11 @@ namespace BovineBoss_API.Services.Implementacion
                     TipoPersona = "A",
                     Salario = Admin.Salario,
                     FechaContratacion = DateTime.ParseExact(DateTime.UtcNow.ToString("MM-dd-yyyy"), "MM-dd-yyyy", CultureInfo.InvariantCulture),
-                    Usuario= Admin.Usuario,
+                    Usuario = Admin.Usuario,
                     Contrasenia = BCrypt.Net.BCrypt.HashPassword(Admin.Contrasenia),
                     TelefonoPersona = Admin.TelefonoPersona
                 };
-
+                Console.WriteLine("------"+persona.IdPersona);
                 dbContext.Personas.Add(persona);
                 await dbContext.SaveChangesAsync();
                 return Admin;
@@ -126,8 +127,9 @@ namespace BovineBoss_API.Services.Implementacion
             catch (Exception ex)
             {
                 throw ex;
-
             }
+         
+
 
         }
 
