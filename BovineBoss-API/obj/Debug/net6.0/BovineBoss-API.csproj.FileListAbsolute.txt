@@ -175,3 +175,4 @@ D:\Desktop\BB_Backend\BB-API\BovineBoss-API\BovineBoss-API\obj\Debug\net6.0\Bovi
 D:\Desktop\BB_Backend\BB-API\BovineBoss-API\BovineBoss-API\obj\Debug\net6.0\BovineBoss-API.genruntimeconfig.cache
 D:\Desktop\BB_Backend\BB-API\BovineBoss-API\BovineBoss-API\obj\Debug\net6.0\ref\BovineBoss-API.dll
 D:\Desktop\BB_Backend\BB-API\BovineBoss-API\BovineBoss-API\bin\Debug\net6.0\Microsoft.AspNetCore.Authentication.JwtBearer.dll
+C:\BovineBoss\BovineBoss-API\BovineBoss-API\bin\Debug\net6.0\Microsoft.AspNetCore.Authentication.JwtBearer.dll
