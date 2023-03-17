@@ -3,10 +3,6 @@ using BovineBoss_API.Models;
 using BovineBoss_API.Services.Contrato;
 using BovineBoss_API.Models.DB;
 using BovineBoss_API.Models.Dtos;
-using System.Collections.Generic;
-using System;
-using Microsoft.AspNetCore.Http;
-using Microsoft.SqlServer.Server;
 using System.Globalization;
 
 namespace BovineBoss_API.Services.Implementacion
@@ -26,10 +22,10 @@ namespace BovineBoss_API.Services.Implementacion
         {
             try
             {
-                List<Persona> listaPersona = new List<Persona>();
-                listaPersona = dbContext.Personas.Where(p => p.TipoPersona == "A").ToList();
+                var listaPersona = dbContext.Personas.Where(p => p.TipoPersona == "A").ToList();
                 List<AdminDto> listaAdminDto = listaPersona.Select(a => new AdminDto
                 {
+                    Id = a.IdPersona,
                     NombrePersona = a.NombrePersona,
                     ApellidoPersona = a.ApellidoPersona,
                     Cedula = a.Cedula,
@@ -54,10 +50,10 @@ namespace BovineBoss_API.Services.Implementacion
         {
             try
             {
-                Persona? persona = new Persona();
-                persona = await dbContext.Personas.Where(e => e.IdPersona == idPersona).FirstOrDefaultAsync();
-                AdminDto admin = new AdminDto
+                var persona = await dbContext.Personas.Where(e => e.IdPersona == idPersona).FirstOrDefaultAsync();
+                AdminDto admin = new()
                 {
+                    Id = persona.IdPersona,
                     NombrePersona = persona.NombrePersona,
                     Cedula = persona.Cedula,
                     ApellidoPersona = persona.ApellidoPersona,
@@ -72,8 +68,6 @@ namespace BovineBoss_API.Services.Implementacion
             catch (Exception ex)
             {
                 throw ex;
-
-
             }
         }
 
@@ -81,9 +75,8 @@ namespace BovineBoss_API.Services.Implementacion
         {
             try
             {
-                Persona? persona = new Persona();
-                persona = await dbContext.Personas.Where(e => e.Usuario == usuario).FirstOrDefaultAsync();
-                LoginPersonaDTO user = new LoginPersonaDTO
+                var persona = await dbContext.Personas.Where(e => e.Usuario == usuario).FirstOrDefaultAsync();
+                LoginPersonaDTO user = new()
                 {
                     IdPersona = persona.IdPersona,
                     RolPersona = persona.TipoPersona,

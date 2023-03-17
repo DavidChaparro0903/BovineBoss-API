@@ -20,7 +20,7 @@ namespace BovineBoss_API.Services.Implementacion
 
             try
             {
-                Finca finca = new Finca() { 
+                Finca finca = new () { 
                 NombreFinca = fincaDto.NombreFinca,
                 DireccionFinca = fincaDto.DireccionFinca,
                 ExtensionFinca = fincaDto.ExtensionFinca
@@ -53,10 +53,10 @@ namespace BovineBoss_API.Services.Implementacion
 
             try
             {
-                Finca? finca = new Finca();
-                finca = await dbContext.Fincas.Where(e => e.IdFinca == idFinca).FirstOrDefaultAsync();
-                FincaDto fincaDto = new FincaDto
+                var finca = await dbContext.Fincas.Where(e => e.IdFinca == idFinca).FirstOrDefaultAsync();
+                FincaDto fincaDto = new ()
                 {
+                    Id = finca.IdFinca,
                     NombreFinca = finca.NombreFinca,
                     DireccionFinca = finca.DireccionFinca,
                     ExtensionFinca = finca.ExtensionFinca
@@ -67,18 +67,16 @@ namespace BovineBoss_API.Services.Implementacion
             catch (Exception ex)
             {
                 throw ex;
-
-
             }
         }
 
         public async Task<List<FincaDto>> GetList()
         {
             try {
-                List<Finca> listaFinca = new List<Finca>();
-                listaFinca = await dbContext.Fincas.ToListAsync();
+                var listaFinca = await dbContext.Fincas.ToListAsync();
                 List<FincaDto> listaFincaDto = listaFinca.Select(
                   f => new FincaDto {
+                      Id = f.IdFinca,
                       NombreFinca = f.NombreFinca,
                       DireccionFinca = f.DireccionFinca,
                       ExtensionFinca = f.ExtensionFinca
@@ -87,7 +85,6 @@ namespace BovineBoss_API.Services.Implementacion
             } catch (Exception e)
             {
                 throw e;
-
             }
 
             }
