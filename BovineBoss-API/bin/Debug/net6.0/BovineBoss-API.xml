@@ -1,0 +1,24 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>BovineBoss-API</name>
+    </assembly>
+    <members>
+        <member name="M:BovineBoss_API.Controllers.AuthController.Login(System.String,System.String)">
+            <author>
+            Diego Ballesteros
+            </author>
+            <summary>
+            Metodo de autenticación de usuario y generación de Token
+            </summary>
+            <returns>
+            Retorna una token con claims idUsuario y Rol
+            </returns>
+            <response code="200">Si la solicitud se ejecutó con éxito</response>
+            <response code="400">Si la solicitud no se ejecuta correctamente</response>
+            <response code="401">Si el usuario no está autenticado</response>
+            <response code="403">Si el usuario no tiene permisos para realizar la solicitud</response>
+            <response code="500">Si ocurre un error en el servidor</response>
+        </member>
+    </members>
+</doc>
