@@ -1,0 +1,280 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "title": "BovineBoss-API, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null",
+    "version": "1.0"
+  },
+  "paths": {
+    "/api/Admin": {
+      "get": {
+        "tags": [
+          "Admin"
+        ],
+        "produces": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/AdminDto"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/Admin/{id}": {
+      "get": {
+        "tags": [
+          "Admin"
+        ],
+        "produces": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "type": "integer",
+            "format": "int32"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "$ref": "#/definitions/AdminDto"
+            }
+          }
+        }
+      }
+    },
+    "/api/Admin/registerAdmin": {
+      "post": {
+        "tags": [
+          "Admin"
+        ],
+        "consumes": [
+          "application/json",
+          "text/json",
+          "application/*+json"
+        ],
+        "produces": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "schema": {
+              "$ref": "#/definitions/CreateEmployeeDto"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "$ref": "#/definitions/CreateEmployeeDto"
+            }
+          }
+        }
+      }
+    },
+    "/api/Auth/login": {
+      "post": {
+        "tags": [
+          "Auth"
+        ],
+        "parameters": [
+          {
+            "in": "query",
+            "name": "usuario",
+            "type": "string"
+          },
+          {
+            "in": "query",
+            "name": "contrasenia",
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
+    "/api/Estate": {
+      "get": {
+        "tags": [
+          "Estate"
+        ],
+        "produces": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/FincaDto"
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "Estate"
+        ],
+        "consumes": [
+          "application/json",
+          "text/json",
+          "application/*+json"
+        ],
+        "produces": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "schema": {
+              "$ref": "#/definitions/FincaDto"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "$ref": "#/definitions/FincaDto"
+            }
+          }
+        }
+      }
+    },
+    "/api/Estate/{id}": {
+      "get": {
+        "tags": [
+          "Estate"
+        ],
+        "produces": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "type": "integer",
+            "format": "int32"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "$ref": "#/definitions/FincaDto"
+            }
+          }
+        }
+      }
+    }
+  },
+  "definitions": {
+    "AdminDto": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "format": "int32",
+          "type": "integer"
+        },
+        "nombrePersona": {
+          "type": "string"
+        },
+        "apellidoPersona": {
+          "type": "string"
+        },
+        "cedula": {
+          "type": "string"
+        },
+        "salario": {
+          "format": "int32",
+          "type": "integer"
+        },
+        "fechaContratacion": {
+          "format": "date-time",
+          "type": "string"
+        },
+        "usuario": {
+          "type": "string"
+        }
+      }
+    },
+    "CreateEmployeeDto": {
+      "type": "object",
+      "properties": {
+        "nombrePersona": {
+          "type": "string"
+        },
+        "apellidoPersona": {
+          "type": "string"
+        },
+        "cedula": {
+          "type": "string"
+        },
+        "telefonoPersona": {
+          "type": "string"
+        },
+        "salario": {
+          "format": "int32",
+          "type": "integer"
+        },
+        "usuario": {
+          "type": "string"
+        },
+        "contrasenia": {
+          "type": "string"
+        }
+      }
+    },
+    "FincaDto": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "format": "int32",
+          "type": "integer"
+        },
+        "nombreFinca": {
+          "type": "string"
+        },
+        "direccionFinca": {
+          "type": "string"
+        },
+        "extensionFinca": {
+          "format": "int32",
+          "type": "integer"
+        }
+      }
+    }
+  }
+}
