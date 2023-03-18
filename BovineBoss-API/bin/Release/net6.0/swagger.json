@@ -10,20 +10,9 @@
         "tags": [
           "Admin"
         ],
-        "produces": [
-          "text/plain",
-          "application/json",
-          "text/json"
-        ],
         "responses": {
           "200": {
-            "description": "Success",
-            "schema": {
-              "type": "array",
-              "items": {
-                "$ref": "#/definitions/AdminDto"
-              }
-            }
+            "description": "Success"
           }
         }
       }
@@ -32,11 +21,6 @@
       "get": {
         "tags": [
           "Admin"
-        ],
-        "produces": [
-          "text/plain",
-          "application/json",
-          "text/json"
         ],
         "parameters": [
           {
@@ -49,10 +33,7 @@
         ],
         "responses": {
           "200": {
-            "description": "Success",
-            "schema": {
-              "$ref": "#/definitions/AdminDto"
-            }
+            "description": "Success"
           }
         }
       }
@@ -67,11 +48,6 @@
           "text/json",
           "application/*+json"
         ],
-        "produces": [
-          "text/plain",
-          "application/json",
-          "text/json"
-        ],
         "parameters": [
           {
             "in": "body",
@@ -83,10 +59,7 @@
         ],
         "responses": {
           "200": {
-            "description": "Success",
-            "schema": {
-              "$ref": "#/definitions/CreateEmployeeDto"
-            }
+            "description": "Success"
           }
         }
       }
@@ -96,16 +69,18 @@
         "tags": [
           "Auth"
         ],
+        "consumes": [
+          "application/json",
+          "text/json",
+          "application/*+json"
+        ],
         "parameters": [
           {
-            "in": "query",
-            "name": "usuario",
-            "type": "string"
-          },
-          {
-            "in": "query",
-            "name": "contrasenia",
-            "type": "string"
+            "in": "body",
+            "name": "body",
+            "schema": {
+              "$ref": "#/definitions/Auth"
+            }
           }
         ],
         "responses": {
@@ -120,20 +95,9 @@
         "tags": [
           "Estate"
         ],
-        "produces": [
-          "text/plain",
-          "application/json",
-          "text/json"
-        ],
         "responses": {
           "200": {
-            "description": "Success",
-            "schema": {
-              "type": "array",
-              "items": {
-                "$ref": "#/definitions/FincaDto"
-              }
-            }
+            "description": "Success"
           }
         }
       },
@@ -146,26 +110,18 @@
           "text/json",
           "application/*+json"
         ],
-        "produces": [
-          "text/plain",
-          "application/json",
-          "text/json"
-        ],
         "parameters": [
           {
             "in": "body",
             "name": "body",
             "schema": {
-              "$ref": "#/definitions/FincaDto"
+              "$ref": "#/definitions/CreateFincaDto"
             }
           }
         ],
         "responses": {
           "200": {
-            "description": "Success",
-            "schema": {
-              "$ref": "#/definitions/FincaDto"
-            }
+            "description": "Success"
           }
         }
       }
@@ -174,11 +130,6 @@
       "get": {
         "tags": [
           "Estate"
-        ],
-        "produces": [
-          "text/plain",
-          "application/json",
-          "text/json"
         ],
         "parameters": [
           {
@@ -191,41 +142,125 @@
         ],
         "responses": {
           "200": {
-            "description": "Success",
+            "description": "Success"
+          }
+        }
+      }
+    },
+    "/api/Estate/ActualizarFinca": {
+      "put": {
+        "tags": [
+          "Estate"
+        ],
+        "consumes": [
+          "application/json",
+          "text/json",
+          "application/*+json"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
             "schema": {
-              "$ref": "#/definitions/FincaDto"
+              "$ref": "#/definitions/Finca"
             }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
           }
         }
       }
     }
   },
   "definitions": {
-    "AdminDto": {
+    "AdministradorFinca": {
       "type": "object",
       "properties": {
-        "id": {
+        "estadoAdministrador": {
+          "type": "boolean"
+        },
+        "idFinca": {
           "format": "int32",
           "type": "integer"
         },
-        "nombrePersona": {
-          "type": "string"
-        },
-        "apellidoPersona": {
-          "type": "string"
-        },
-        "cedula": {
-          "type": "string"
-        },
-        "salario": {
+        "idAdministrador": {
           "format": "int32",
           "type": "integer"
         },
-        "fechaContratacion": {
+        "idAdministradorNavigation": {
+          "$ref": "#/definitions/Persona"
+        },
+        "idFincaNavigation": {
+          "$ref": "#/definitions/Finca"
+        }
+      }
+    },
+    "Adquisicione": {
+      "type": "object",
+      "properties": {
+        "fechaAdquisicion": {
           "format": "date-time",
           "type": "string"
         },
-        "usuario": {
+        "costoCompraRes": {
+          "format": "int32",
+          "type": "integer"
+        },
+        "precioFlete": {
+          "format": "int32",
+          "type": "integer"
+        },
+        "comisionesPagada": {
+          "format": "int32",
+          "type": "integer"
+        },
+        "descripcionAdquisicion": {
+          "type": "string"
+        },
+        "idRes": {
+          "format": "int32",
+          "type": "integer"
+        },
+        "idPropietario": {
+          "format": "int32",
+          "type": "integer"
+        },
+        "idPropietarioNavigation": {
+          "$ref": "#/definitions/Persona"
+        },
+        "idResNavigation": {
+          "$ref": "#/definitions/Rese"
+        }
+      }
+    },
+    "Alimento": {
+      "type": "object",
+      "properties": {
+        "idAlimento": {
+          "format": "int32",
+          "type": "integer"
+        },
+        "tipoAlimento": {
+          "type": "string"
+        },
+        "fincaAlimentos": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/FincaAlimento"
+          },
+          "readOnly": true
+        }
+      }
+    },
+    "Auth": {
+      "type": "object",
+      "properties": {
+        "userName": {
+          "type": "string"
+        },
+        "password": {
           "type": "string"
         }
       }
@@ -257,10 +292,25 @@
         }
       }
     },
-    "FincaDto": {
+    "CreateFincaDto": {
       "type": "object",
       "properties": {
-        "id": {
+        "nombreFinca": {
+          "type": "string"
+        },
+        "direccionFinca": {
+          "type": "string"
+        },
+        "extensionFinca": {
+          "format": "int32",
+          "type": "integer"
+        }
+      }
+    },
+    "Finca": {
+      "type": "object",
+      "properties": {
+        "idFinca": {
           "format": "int32",
           "type": "integer"
         },
@@ -273,6 +323,464 @@
         "extensionFinca": {
           "format": "int32",
           "type": "integer"
+        },
+        "administradorFincas": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/AdministradorFinca"
+          },
+          "readOnly": true
+        },
+        "fincaAlimentos": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/FincaAlimento"
+          },
+          "readOnly": true
+        },
+        "fincaGastos": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/FincaGasto"
+          },
+          "readOnly": true
+        },
+        "reses": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Rese"
+          },
+          "readOnly": true
+        },
+        "trabajadorFincas": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/TrabajadorFinca"
+          },
+          "readOnly": true
+        }
+      }
+    },
+    "FincaAlimento": {
+      "type": "object",
+      "properties": {
+        "fechaCompra": {
+          "format": "date-time",
+          "type": "string"
+        },
+        "nombreAlimento": {
+          "type": "string"
+        },
+        "precioAlimento": {
+          "format": "int32",
+          "type": "integer"
+        },
+        "cantidadComprada": {
+          "format": "int32",
+          "type": "integer"
+        },
+        "idAlimento": {
+          "format": "int32",
+          "type": "integer"
+        },
+        "idFinca": {
+          "format": "int32",
+          "type": "integer"
+        },
+        "historialAlimentacions": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/HistorialAlimentacion"
+          },
+          "readOnly": true
+        },
+        "idAlimentoNavigation": {
+          "$ref": "#/definitions/Alimento"
+        },
+        "idFincaNavigation": {
+          "$ref": "#/definitions/Finca"
+        }
+      }
+    },
+    "FincaGasto": {
+      "type": "object",
+      "properties": {
+        "fechaGasto": {
+          "format": "date-time",
+          "type": "string"
+        },
+        "descripcionGasto": {
+          "type": "string"
+        },
+        "valorGasto": {
+          "format": "int32",
+          "type": "integer"
+        },
+        "idFinca": {
+          "format": "int32",
+          "type": "integer"
+        },
+        "idGasto": {
+          "format": "int32",
+          "type": "integer"
+        },
+        "idFincaNavigation": {
+          "$ref": "#/definitions/Finca"
+        },
+        "idGastoNavigation": {
+          "$ref": "#/definitions/Gasto"
+        }
+      }
+    },
+    "Gasto": {
+      "type": "object",
+      "properties": {
+        "idGasto": {
+          "format": "int32",
+          "type": "integer"
+        },
+        "tipoGasto": {
+          "type": "string"
+        },
+        "fincaGastos": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/FincaGasto"
+          },
+          "readOnly": true
+        }
+      }
+    },
+    "HistorialAlimentacion": {
+      "type": "object",
+      "properties": {
+        "fechaAlimentacion": {
+          "format": "date-time",
+          "type": "string"
+        },
+        "cantidadAlimentacion": {
+          "format": "int32",
+          "type": "integer"
+        },
+        "idRes": {
+          "format": "int32",
+          "type": "integer"
+        },
+        "fechaCompra": {
+          "format": "date-time",
+          "type": "string"
+        },
+        "idAlimento": {
+          "format": "int32",
+          "type": "integer"
+        },
+        "idFinca": {
+          "format": "int32",
+          "type": "integer"
+        },
+        "fincaAlimento": {
+          "$ref": "#/definitions/FincaAlimento"
+        },
+        "idResNavigation": {
+          "$ref": "#/definitions/Rese"
+        }
+      }
+    },
+    "HistorialPeso": {
+      "type": "object",
+      "properties": {
+        "fechaAlimentacion": {
+          "format": "date-time",
+          "type": "string"
+        },
+        "pesoRes": {
+          "format": "int32",
+          "type": "integer"
+        },
+        "idRes": {
+          "format": "int32",
+          "type": "integer"
+        },
+        "idResNavigation": {
+          "$ref": "#/definitions/Rese"
+        }
+      }
+    },
+    "Inconveniente": {
+      "type": "object",
+      "properties": {
+        "idInconveniente": {
+          "format": "int32",
+          "type": "integer"
+        },
+        "nombreInconveniente": {
+          "type": "string"
+        },
+        "resInconvenientes": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/ResInconveniente"
+          },
+          "readOnly": true
+        }
+      }
+    },
+    "Persona": {
+      "type": "object",
+      "properties": {
+        "idPersona": {
+          "format": "int32",
+          "type": "integer"
+        },
+        "nombrePersona": {
+          "type": "string"
+        },
+        "apellidoPersona": {
+          "type": "string"
+        },
+        "cedula": {
+          "type": "string"
+        },
+        "telefonoPersona": {
+          "type": "string"
+        },
+        "tipoPersona": {
+          "type": "string"
+        },
+        "salario": {
+          "format": "int32",
+          "type": "integer"
+        },
+        "fechaContratacion": {
+          "format": "date-time",
+          "type": "string"
+        },
+        "usuario": {
+          "type": "string"
+        },
+        "contrasenia": {
+          "type": "string"
+        },
+        "administradorFincas": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/AdministradorFinca"
+          },
+          "readOnly": true
+        },
+        "adquisiciones": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Adquisicione"
+          },
+          "readOnly": true
+        },
+        "trabajadorFincas": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/TrabajadorFinca"
+          },
+          "readOnly": true
+        },
+        "venta": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Venta"
+          },
+          "readOnly": true
+        }
+      }
+    },
+    "Raza": {
+      "type": "object",
+      "properties": {
+        "idRaza": {
+          "format": "int32",
+          "type": "integer"
+        },
+        "nombreRaza": {
+          "type": "string"
+        },
+        "resRazas": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/ResRaza"
+          },
+          "readOnly": true
+        }
+      }
+    },
+    "ResInconveniente": {
+      "type": "object",
+      "properties": {
+        "fechaInconveniente": {
+          "format": "date-time",
+          "type": "string"
+        },
+        "dineroGastado": {
+          "format": "int32",
+          "type": "integer"
+        },
+        "descripcionInconveniente": {
+          "type": "string"
+        },
+        "idInconveniente": {
+          "format": "int32",
+          "type": "integer"
+        },
+        "idRes": {
+          "format": "int32",
+          "type": "integer"
+        },
+        "idInconvenienteNavigation": {
+          "$ref": "#/definitions/Inconveniente"
+        },
+        "idResNavigation": {
+          "$ref": "#/definitions/Rese"
+        }
+      }
+    },
+    "ResRaza": {
+      "type": "object",
+      "properties": {
+        "porcentajeRaza": {
+          "format": "int32",
+          "type": "integer"
+        },
+        "idRaza": {
+          "format": "int32",
+          "type": "integer"
+        },
+        "idRes": {
+          "format": "int32",
+          "type": "integer"
+        },
+        "idRazaNavigation": {
+          "$ref": "#/definitions/Raza"
+        },
+        "idResNavigation": {
+          "$ref": "#/definitions/Rese"
+        }
+      }
+    },
+    "Rese": {
+      "type": "object",
+      "properties": {
+        "idRes": {
+          "format": "int32",
+          "type": "integer"
+        },
+        "nombreRes": {
+          "type": "string"
+        },
+        "color": {
+          "type": "string"
+        },
+        "fechaNacimiento": {
+          "format": "date-time",
+          "type": "string"
+        },
+        "valorVenta": {
+          "format": "int32",
+          "type": "integer"
+        },
+        "idVenta": {
+          "format": "int32",
+          "type": "integer"
+        },
+        "idFinca": {
+          "format": "int32",
+          "type": "integer"
+        },
+        "adquisiciones": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Adquisicione"
+          },
+          "readOnly": true
+        },
+        "historialAlimentacions": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/HistorialAlimentacion"
+          },
+          "readOnly": true
+        },
+        "historialPesos": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/HistorialPeso"
+          },
+          "readOnly": true
+        },
+        "idFincaNavigation": {
+          "$ref": "#/definitions/Finca"
+        },
+        "idVentaNavigation": {
+          "$ref": "#/definitions/Venta"
+        },
+        "resInconvenientes": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/ResInconveniente"
+          },
+          "readOnly": true
+        },
+        "resRazas": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/ResRaza"
+          },
+          "readOnly": true
+        }
+      }
+    },
+    "TrabajadorFinca": {
+      "type": "object",
+      "properties": {
+        "estadoTrabajador": {
+          "type": "boolean"
+        },
+        "idFinca": {
+          "format": "int32",
+          "type": "integer"
+        },
+        "idTrabajador": {
+          "format": "int32",
+          "type": "integer"
+        },
+        "idFincaNavigation": {
+          "$ref": "#/definitions/Finca"
+        },
+        "idTrabajadorNavigation": {
+          "$ref": "#/definitions/Persona"
+        }
+      }
+    },
+    "Venta": {
+      "type": "object",
+      "properties": {
+        "idVenta": {
+          "format": "int32",
+          "type": "integer"
+        },
+        "fechaVenta": {
+          "format": "date-time",
+          "type": "string"
+        },
+        "idComprador": {
+          "format": "int32",
+          "type": "integer"
+        },
+        "idCompradorNavigation": {
+          "$ref": "#/definitions/Persona"
+        },
+        "reses": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Rese"
+          },
+          "readOnly": true
         }
       }
     }

@@ -4,7 +4,7 @@
         <name>BovineBoss-API</name>
     </assembly>
     <members>
-        <member name="M:BovineBoss_API.Controllers.AuthController.Login(System.String,System.String)">
+        <member name="M:BovineBoss_API.Controllers.AuthController.Login(BovineBoss_API.Models.Dtos.Auth)">
             <author>
             Diego Ballesteros
             </author>
