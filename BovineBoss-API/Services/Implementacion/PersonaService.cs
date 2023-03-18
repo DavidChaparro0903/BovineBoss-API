@@ -31,7 +31,8 @@ namespace BovineBoss_API.Services.Implementacion
                     Cedula = a.Cedula,
                     Salario = a.Salario,
                     FechaContratacion = a.FechaContratacion,
-                    Usuario = a.Usuario
+                    Usuario = a.Usuario,
+                    PhoneNumber = a.TelefonoPersona
                 }).ToList();
            
                 return listaAdminDto;
