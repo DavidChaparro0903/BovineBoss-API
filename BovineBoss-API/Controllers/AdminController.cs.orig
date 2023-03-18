@@ -24,6 +24,7 @@ namespace BovineBoss_API.Controllers
         }
 
         [HttpGet]
+<<<<<<< HEAD
         public async Task<IActionResult> getListAdmin()
         {
             Response r = new();
@@ -36,6 +37,17 @@ namespace BovineBoss_API.Controllers
             }
             r.errors = "No se puede listar fincas";
             return BadRequest(r);
+           
+=======
+        public async Task<Response> getListAdmin()
+        {
+            return new Response() 
+            {
+                data = await personaService.GetListAdmin(),
+                errors ="",
+                message="Lista de usuario",
+            };
+>>>>>>> 73a283f9393499fb26d8f43c1d7ec3fd15fbfe57
         }
 
         [HttpGet("{id}")]
@@ -75,4 +87,3 @@ namespace BovineBoss_API.Controllers
 
     }
 }
-
