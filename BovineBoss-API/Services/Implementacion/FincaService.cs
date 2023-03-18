@@ -57,7 +57,7 @@ namespace BovineBoss_API.Services.Implementacion
                 var finca = await dbContext.Fincas.Where(e => e.IdFinca == idFinca).FirstOrDefaultAsync();
                 FincaDto fincaDto = new ()
                 {
-                    Id = finca.IdFinca,
+                    IdFinca = finca.IdFinca,
                     NombreFinca = finca.NombreFinca,
                     DireccionFinca = finca.DireccionFinca,
                     ExtensionFinca = finca.ExtensionFinca
@@ -77,7 +77,7 @@ namespace BovineBoss_API.Services.Implementacion
                 var listaFinca = await dbContext.Fincas.ToListAsync();
                 List<FincaDto> listaFincaDto = listaFinca.Select(
                   f => new FincaDto {
-                      Id = f.IdFinca,
+                      IdFinca = f.IdFinca,
                       NombreFinca = f.NombreFinca,
                       DireccionFinca = f.DireccionFinca,
                       ExtensionFinca = f.ExtensionFinca
