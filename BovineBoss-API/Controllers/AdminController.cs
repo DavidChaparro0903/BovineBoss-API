@@ -1,7 +1,5 @@
 ﻿using BovineBoss_API.Services.Contrato;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using BovineBoss_API.Models.DB;
 using BovineBoss_API.Models.Dtos;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Cors;
@@ -25,9 +23,14 @@ namespace BovineBoss_API.Controllers
         }
 
         [HttpGet]
-        public async Task<List<AdminDto>> getListAdmin()
+        public async Task<Response> getListAdmin()
         {
-            return await personaService.GetListAdmin();
+            return new Response() 
+            {
+                data = await personaService.GetListAdmin(),
+                errors ="",
+                message="Lista de usuario",
+            };
         }
 
         [HttpGet("{id}")]
