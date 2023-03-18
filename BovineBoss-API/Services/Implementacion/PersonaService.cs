@@ -36,9 +36,9 @@ namespace BovineBoss_API.Services.Implementacion
            
                 return listaAdminDto;
             }
-            catch (Exception ex)
+            catch 
             {
-                throw ex;
+                return null;
 
             }
 
@@ -65,9 +65,9 @@ namespace BovineBoss_API.Services.Implementacion
                 return admin;
 
             }
-            catch (Exception ex)
+            catch 
             {
-                throw ex;
+                return null;
             }
         }
 
@@ -86,9 +86,9 @@ namespace BovineBoss_API.Services.Implementacion
                 return user;
 
             }
-            catch (Exception ex)
+            catch
             {
-                throw ex;
+                return null;
 
 
             }
@@ -112,14 +112,13 @@ namespace BovineBoss_API.Services.Implementacion
                     Contrasenia = BCrypt.Net.BCrypt.HashPassword(Admin.Contrasenia),
                     TelefonoPersona = Admin.TelefonoPersona
                 };
-                Console.WriteLine("------"+persona.IdPersona);
                 dbContext.Personas.Add(persona);
                 await dbContext.SaveChangesAsync();
                 return Admin;
             }
-            catch (Exception ex)
+            catch 
             {
-                throw ex;
+                return null;
             }
          
 

@@ -268,3 +268,6 @@ C:\Users\braya\OneDrive\Escritorio\Trabajo de campo\BovineBossAPI\BovineBossAPI\
 C:\Users\braya\OneDrive\Escritorio\Trabajo de campo\BovineBossAPI\BovineBossAPI\BovineBoss-API\obj\Debug\net6.0\BovineBoss-API.genruntimeconfig.cache
 C:\Users\braya\OneDrive\Escritorio\Trabajo de campo\BovineBossAPI\BovineBossAPI\BovineBoss-API\obj\Debug\net6.0\ref\BovineBoss-API.dll
 C:\Users\braya\OneDrive\Escritorio\Trabajo de campo\BovineBossAPI\BovineBossAPI\BovineBoss-API\bin\Debug\net6.0\global.json
+C:\BovineBoss\BovineBoss-API\BovineBoss-API\bin\Debug\net6.0\global.json
+C:\BovineBoss\BovineBoss-API\BovineBoss-API\bin\Debug\net6.0\BovineBoss-API.xml
+C:\BovineBoss\BovineBoss-API\BovineBoss-API\obj\Debug\net6.0\BovineBoss-API.xml

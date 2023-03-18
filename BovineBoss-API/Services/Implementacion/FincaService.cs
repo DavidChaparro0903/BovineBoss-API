@@ -15,7 +15,7 @@ namespace BovineBoss_API.Services.Implementacion
             this.dbContext = dbContext;
         }
 
-        public async Task<FincaDto> AddFinca(FincaDto fincaDto)
+        public async Task<CreateFincaDto?> AddFinca(CreateFincaDto fincaDto)
         {
 
             try
@@ -29,8 +29,9 @@ namespace BovineBoss_API.Services.Implementacion
                 await dbContext.SaveChangesAsync();
                 return fincaDto;
             }
-            catch (Exception ex) {
-                throw ex;
+            catch {
+
+                return null;
 
             }
 
@@ -42,13 +43,13 @@ namespace BovineBoss_API.Services.Implementacion
                 dbContext.Fincas.Remove(finca);
                 await dbContext.SaveChangesAsync();
                 return true;
-            }catch (Exception ex)
+            }catch 
             {
-                throw ex;
+                return false;
             }
         }
 
-        public async Task<FincaDto> GetFinca(int idFinca)
+        public async Task<FincaDto?> GetFinca(int idFinca)
         {
 
             try
@@ -64,9 +65,9 @@ namespace BovineBoss_API.Services.Implementacion
                 return fincaDto;
 
             }
-            catch (Exception ex)
+            catch 
             {
-                throw ex;
+                return null;
             }
         }
 
@@ -82,9 +83,9 @@ namespace BovineBoss_API.Services.Implementacion
                       ExtensionFinca = f.ExtensionFinca
                   }).ToList();
                 return listaFincaDto;
-            } catch (Exception e)
+            } catch 
             {
-                throw e;
+                return null;
             }
 
             }
@@ -93,13 +94,14 @@ namespace BovineBoss_API.Services.Implementacion
         {
             try
             {
+
                 dbContext.Fincas.Update(finca);
                 await dbContext.SaveChangesAsync();
                 return true;
             }
-            catch (Exception e)
+            catch 
             {
-                throw e;
+                return false;
 
             }
         }
