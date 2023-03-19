@@ -129,6 +129,7 @@ public partial class BovineBossContext : DbContext
                 .HasMaxLength(100)
                 .IsUnicode(false)
                 .HasColumnName("direccion_finca");
+            entity.HasIndex(e => e.DireccionFinca).IsUnique();
             entity.Property(e => e.ExtensionFinca).HasColumnName("extension_finca");
             entity.Property(e => e.NombreFinca)
                 .HasMaxLength(50)
