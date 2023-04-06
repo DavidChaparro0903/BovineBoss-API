@@ -1,6 +1,6 @@
 ﻿namespace BovineBoss_API.Models.Dtos
 {
-    public class ActiveTrabajadorDto
+    public class CreateOwner
     {
         public string NombrePersona { get; set; } = null!;
 
@@ -8,8 +8,6 @@
 
         public string Cedula { get; set; } = null!;
 
-        public string NombreFinca { get; set; } = null!;
 
-        public bool EstadoTrabajador { get; set; }
     }
 }
