@@ -71,6 +71,27 @@ namespace BovineBoss_API.Controllers
         }
 
 
+
+        [HttpPut("ActualizarAdministrador")]
+        public async Task<IActionResult> updateAdmin(ModifyAdminDto admin)
+        {
+            Response r = new();
+            bool var = await personaService.UpdateAdmin(admin);
+            if (var)
+            {
+                r.message = "Modificado correctamente";
+                r.data = var;
+                return Ok(r);
+            }
+            r.errors = "No se pudo modificar";
+            return BadRequest(r);
+        }
+
+
+
+
+
+
         [HttpPut("ActualizarTrabajador")]
         public async Task<IActionResult> updateTrabajador(ModifyTrabajadorAdminDto trabajador)
         {

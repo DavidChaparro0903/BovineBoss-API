@@ -5,6 +5,7 @@ using BovineBoss_API.Models.DB;
 using BovineBoss_API.Models.Dtos;
 using System.Globalization;
 using System.Security.Cryptography;
+using System;
 
 namespace BovineBoss_API.Services.Implementacion
 {
@@ -321,7 +322,6 @@ namespace BovineBoss_API.Services.Implementacion
              *modificar
              */
                 Persona personFound = await GetPersona(trabajador.Id);
-                Console.WriteLine(personFound.NombrePersona);
                 if (personFound != null)
                 {
                     await saveChangesTrabajador(trabajador, personFound);
@@ -412,6 +412,35 @@ namespace BovineBoss_API.Services.Implementacion
         }
 
 
+
+        public async Task<bool> UpdateAdmin(ModifyAdminDto Admin)
+        {
+            try
+            {
+                Persona persona = await GetPersona(Admin.IdPersona);
+                if (persona != null)
+                {
+                    persona.NombrePersona = Admin.NombrePersona;
+                    persona.ApellidoPersona = Admin.ApellidoPersona;
+                    persona.Cedula = Admin.Cedula;
+                    persona.TelefonoPersona = Admin.TelefonoPersona;
+                    persona.Salario = Admin.Salario;
+                    persona.Usuario = Admin.Usuario;
+                    persona.Contrasenia = Admin.Contrasenia;
+                    dbContext.Personas.Update(persona);
+                    await dbContext.SaveChangesAsync();
+                    return true;
+
+                }
+                return false;
+
+            }
+            catch
+            {
+                return false;
+
+            }
+        }
 
 
 

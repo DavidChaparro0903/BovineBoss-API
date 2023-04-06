@@ -18,6 +18,9 @@ namespace BovineBoss_API.Services.Contrato
         Task<bool> UpdateTrabajador(ModifyTrabajadorAdminDto trabajador);
 
 
+        Task<bool> UpdateAdmin(ModifyAdminDto Admin);
+
+
 
     }
 }
