@@ -70,7 +70,7 @@ builder.Services.AddScoped<IFincaService, FincaService>();
 
 builder.Services.AddScoped<ITrabajadorService, PersonaService>();
 
-
+builder.Services.AddScoped<IResService, ResService>();
 
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJwtBearer(
     options =>
