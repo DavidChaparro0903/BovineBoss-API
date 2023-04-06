@@ -7,7 +7,7 @@ using System.Globalization;
 
 namespace BovineBoss_API.Services.Implementacion
 {
-    public class PersonaService : IAdminService
+    public class PersonaService : IAdminService, ITrabajadorService
     {
 
 
@@ -18,12 +18,12 @@ namespace BovineBoss_API.Services.Implementacion
             this.dbContext = dbContext;
         }
 
-        public async Task<List<AdminDto>> GetListAdmin()
+        public async Task<List<EmployeeDto>> GetListAdmin()
         {
             try
             {
                 var listaPersona = dbContext.Personas.Where(p => p.TipoPersona == "A").ToList();
-                List<AdminDto> listaAdminDto = listaPersona.Select(a => new AdminDto
+                List<EmployeeDto> listaAdminDto = listaPersona.Select(a => new EmployeeDto
                 {
                     Id = a.IdPersona,
                     NombrePersona = a.NombrePersona,
@@ -47,12 +47,109 @@ namespace BovineBoss_API.Services.Implementacion
 
         }
 
-        public async Task<AdminDto> GetPersona(int idPersona)
+
+        private  async Task<Persona> AddAdministrator(CreateEmployeeDto Admin)
+        {
+            //TODO Agregar autogeneración de usuario
+            Persona persona;
+            try
+            {
+                persona = new ()
+                {
+                    NombrePersona = Admin.NombrePersona,
+                    ApellidoPersona = Admin.ApellidoPersona,
+                    Cedula = Admin.Cedula,
+                    TipoPersona = "A",
+                    Salario = Admin.Salario,
+                    FechaContratacion = DateTime.ParseExact(DateTime.UtcNow.ToString("MM-dd-yyyy"), "MM-dd-yyyy", CultureInfo.InvariantCulture),
+                    Usuario = Admin.Usuario,
+                    Contrasenia = BCrypt.Net.BCrypt.HashPassword(Admin.Contrasenia),
+                    TelefonoPersona = Admin.TelefonoPersona,
+                };
+                dbContext.Personas.Add(persona);
+                await dbContext.SaveChangesAsync();
+                return persona;
+            }
+            catch 
+            {
+                return null;
+            }
+        }
+
+        private async Task<AdministradorFinca> AddAdminFinca(int idAdmin,int IdFinca)
+        {
+            AdministradorFinca administradorFinca;
+            try
+            {
+                administradorFinca = new()
+                {
+                    EstadoAdministrador = true,
+                    IdFinca = IdFinca,
+                    IdAdministrador = idAdmin,
+                    FechaCambioAdmin = DateTime.ParseExact(DateTime.UtcNow.ToString("MM-dd-yyyy HH:mm:ss"), "MM-dd-yyyy HH:mm:ss", CultureInfo.InvariantCulture),
+                };
+
+                dbContext.AdministradorFincas.Add(administradorFinca);
+                await dbContext.SaveChangesAsync();
+                return administradorFinca;
+
+            }
+            catch { 
+      
+                return null;
+                 
+            }
+
+        }
+
+
+
+        public async Task<ActiveAdminDto> ActiveAdmin(CreateEmployeeDto Admin)
+        {
+
+            try {
+                var exist = dbContext.Fincas.Where(f => f.IdFinca == Admin.IdFinca).FirstOrDefault();
+
+                if (exist != null)
+                {
+                    Persona personaAgreggate = await AddAdministrator(Admin);
+                    AdministradorFinca adminFincaAgregate = await AddAdminFinca(personaAgreggate.IdPersona, Admin.IdFinca);
+
+                    var activeAdminConsult = from a in dbContext.Personas
+                                             join af in dbContext.AdministradorFincas
+                                             on a.IdPersona equals af.IdAdministrador
+                                             join f in dbContext.Fincas
+                                             on af.IdFinca equals f.IdFinca
+                                             where a.IdPersona == adminFincaAgregate.IdAdministrador
+                                             select new ActiveAdminDto
+                                             {
+                                                 NombrePersona = a.NombrePersona,
+                                                 ApellidoPersona = a.ApellidoPersona,
+                                                 Cedula = a.Cedula,
+                                                 NombreFinca = f.NombreFinca,
+                                                 EstadoAdministrador = af.EstadoAdministrador
+                                             };
+
+                    return activeAdminConsult.FirstOrDefault();
+
+                }
+
+                return null;
+            }
+            catch 
+            {
+
+                return null;
+            }
+
+        }
+
+        public async Task<EmployeeDto> GetPersona(int idPersona)
         {
             try
             {
                 var persona = await dbContext.Personas.Where(e => e.IdPersona == idPersona).FirstOrDefaultAsync();
-                AdminDto admin = new()
+                EmployeeDto employee = new()
                 {
                     Id = persona.IdPersona,
                     NombrePersona = persona.NombrePersona,
@@ -63,10 +160,10 @@ namespace BovineBoss_API.Services.Implementacion
                     Usuario = persona.Usuario
                 };
 
-                return admin;
+                return employee;
 
             }
-            catch 
+            catch
             {
                 return null;
             }
@@ -94,36 +191,20 @@ namespace BovineBoss_API.Services.Implementacion
 
             }
         }
-
-        public async Task<CreateEmployeeDto> AddAdministrator(CreateEmployeeDto Admin)
+        public Task<CreateEmployeeDto> AddTrabajador(CreateEmployeeDto trabajador)
         {
-            //TODO Agregar autogeneración de usuario
-            Persona persona;
-            try
-            {
-                persona = new Persona()
-                {
-                    NombrePersona = Admin.NombrePersona,
-                    ApellidoPersona = Admin.ApellidoPersona,
-                    Cedula = Admin.Cedula,
-                    TipoPersona = "A",
-                    Salario = Admin.Salario,
-                    FechaContratacion = DateTime.ParseExact(DateTime.UtcNow.ToString("MM-dd-yyyy"), "MM-dd-yyyy", CultureInfo.InvariantCulture),
-                    Usuario = Admin.Usuario,
-                    Contrasenia = BCrypt.Net.BCrypt.HashPassword(Admin.Contrasenia),
-                    TelefonoPersona = Admin.TelefonoPersona
-                };
-                dbContext.Personas.Add(persona);
-                await dbContext.SaveChangesAsync();
-                return Admin;
-            }
-            catch 
-            {
-                return null;
-            }
-         
+            throw new NotImplementedException();
+        }
 
 
+        public Task<List<EmployeeDto>> GetListTrabajador()
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<ActiveAdminDto> ActiveTrabajador(CreateEmployeeDto trabajador)
+        {
+            throw new NotImplementedException();
         }
 
     }

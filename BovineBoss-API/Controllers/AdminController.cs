@@ -4,6 +4,7 @@ using BovineBoss_API.Models.Dtos;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Cors;
 using BovineBoss_API.Services.Implementacion;
+using BovineBoss_API.Models.DB;
 
 namespace BovineBoss_API.Controllers
 {
@@ -27,7 +28,7 @@ namespace BovineBoss_API.Controllers
         public async Task<IActionResult> getListAdmin()
         {
             Response r = new();
-            List<AdminDto> adminList = await personaService.GetListAdmin();
+            List<EmployeeDto> adminList = await personaService.GetListAdmin();
             if (adminList.Count > 0)
             {
                 r.message = "Se obtiene exitosamente los administradores";
@@ -42,7 +43,7 @@ namespace BovineBoss_API.Controllers
         public async Task<IActionResult> getAdmin(int id)
         {
             Response r = new();
-            AdminDto adminDto = await personaService.GetPersona(id);
+            EmployeeDto adminDto = await personaService.GetPersona(id);
             if (adminDto != null) 
             {
                 r.message = "Se obtiene correctamente";
@@ -58,8 +59,8 @@ namespace BovineBoss_API.Controllers
         public async Task<IActionResult> addAdmin(CreateEmployeeDto Admin)
         {
             Response r = new();
-            CreateEmployeeDto adminAgregate = await personaService.AddAdministrator(Admin);
-            if(adminAgregate != null)
+            ActiveAdminDto adminAgregate = await personaService.ActiveAdmin(Admin);
+            if (adminAgregate != null)
             {
                 r.message = "Agregado correctamente";
                 r.data = adminAgregate;

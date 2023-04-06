@@ -1,6 +1,6 @@
 ﻿namespace BovineBoss_API.Models.Dtos
 {
-    public class AdminDto
+    public class EmployeeDto
     {
         public int Id { get; set; }
         public string NombrePersona { get; set; } = null!;

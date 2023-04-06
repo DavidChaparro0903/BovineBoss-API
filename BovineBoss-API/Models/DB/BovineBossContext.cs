@@ -53,19 +53,17 @@ public partial class BovineBossContext : DbContext
     {
 
     }
-//#warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see http://go.microsoft.com/fwlink/?LinkId=723263.
-//        => optionsBuilder.UseSqlServer("Server=localhost; Database=BovineBoss; User IdFinca = sa; Password=123 ;TrustServerCertificate=True;");
-
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
-        modelBuilder.UseCollation("Modern_Spanish_CI_AS");
-
         modelBuilder.Entity<AdministradorFinca>(entity =>
         {
-            entity.HasKey(e => new { e.IdFinca, e.IdAdministrador });
+            entity.HasKey(e => new { e.FechaCambioAdmin, e.IdFinca, e.IdAdministrador });
 
             entity.ToTable("Administrador_Finca");
 
+            entity.Property(e => e.FechaCambioAdmin)
+                .HasColumnType("datetime")
+                .HasColumnName("fecha_cambio_admin");
             entity.Property(e => e.IdFinca).HasColumnName("id_finca");
             entity.Property(e => e.IdAdministrador).HasColumnName("id_administrador");
             entity.Property(e => e.EstadoAdministrador).HasColumnName("estado_administrador");
@@ -124,12 +122,13 @@ public partial class BovineBossContext : DbContext
         {
             entity.HasKey(e => e.IdFinca);
 
+            entity.HasIndex(e => e.DireccionFinca, "fi_uq_dif").IsUnique();
+
             entity.Property(e => e.IdFinca).HasColumnName("id_finca");
             entity.Property(e => e.DireccionFinca)
                 .HasMaxLength(100)
                 .IsUnicode(false)
                 .HasColumnName("direccion_finca");
-            entity.HasIndex(e => e.DireccionFinca).IsUnique();
             entity.Property(e => e.ExtensionFinca).HasColumnName("extension_finca");
             entity.Property(e => e.NombreFinca)
                 .HasMaxLength(50)
@@ -268,6 +267,8 @@ public partial class BovineBossContext : DbContext
         {
             entity.HasKey(e => e.IdPersona);
 
+            entity.HasIndex(e => e.Usuario, "PER_UQ_USU").IsUnique();
+
             entity.Property(e => e.IdPersona).HasColumnName("id_persona");
             entity.Property(e => e.ApellidoPersona)
                 .HasMaxLength(30)
@@ -278,15 +279,9 @@ public partial class BovineBossContext : DbContext
                 .IsUnicode(false)
                 .HasColumnName("cedula");
             entity.Property(e => e.Contrasenia)
-                .HasMaxLength(50)
+                .HasMaxLength(100)
                 .IsUnicode(false)
                 .HasColumnName("contrasenia");
-            entity.Property(e => e.Usuario)
-                .HasMaxLength(50)
-                .IsUnicode(false)
-                .HasColumnName("usuario");
-            //Aca se pone para el unique
-            entity.HasIndex(e => e.Usuario).IsUnique();
             entity.Property(e => e.FechaContratacion)
                 .HasColumnType("date")
                 .HasColumnName("fecha_contratacion");
@@ -305,6 +300,10 @@ public partial class BovineBossContext : DbContext
                 .HasDefaultValueSql("('T')")
                 .IsFixedLength()
                 .HasColumnName("tipo_persona");
+            entity.Property(e => e.Usuario)
+                .HasMaxLength(50)
+                .IsUnicode(false)
+                .HasColumnName("usuario");
         });
 
         modelBuilder.Entity<Raza>(entity =>
@@ -399,12 +398,15 @@ public partial class BovineBossContext : DbContext
 
         modelBuilder.Entity<TrabajadorFinca>(entity =>
         {
-            entity.HasKey(e => new { e.IdTrabajador, e.IdFinca });
+            entity.HasKey(e => new { e.FechaCambioTrabajador, e.IdFinca, e.IdTrabajador });
 
             entity.ToTable("Trabajador_Finca");
 
-            entity.Property(e => e.IdTrabajador).HasColumnName("id_trabajador");
+            entity.Property(e => e.FechaCambioTrabajador)
+                .HasColumnType("datetime")
+                .HasColumnName("fecha_cambio_trabajador");
             entity.Property(e => e.IdFinca).HasColumnName("id_finca");
+            entity.Property(e => e.IdTrabajador).HasColumnName("id_trabajador");
             entity.Property(e => e.EstadoTrabajador).HasColumnName("estado_trabajador");
 
             entity.HasOne(d => d.IdFincaNavigation).WithMany(p => p.TrabajadorFincas)
