@@ -103,7 +103,6 @@ namespace BovineBoss_API.Services.Implementacion
         }
 
 
-
         public async Task<ActiveAdminDto> ActiveAdmin(CreateEmployeeDto Admin)
         {
 
