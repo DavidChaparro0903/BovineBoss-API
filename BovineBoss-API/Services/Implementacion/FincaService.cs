@@ -49,6 +49,11 @@ namespace BovineBoss_API.Services.Implementacion
             }
         }
 
+        public Task<bool> fincaExits(int idFinca)
+        {
+            throw new NotImplementedException();
+        }
+
         public async Task<FincaDto?> GetFinca(int idFinca)
         {
 

@@ -1,5 +1,7 @@
-﻿using BovineBoss_API.Models.Dtos;
+﻿using BovineBoss_API.Models.DB;
+using BovineBoss_API.Models.Dtos;
 using BovineBoss_API.Services.Contrato;
+using BovineBoss_API.Services.Implementacion;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Http;
@@ -25,7 +27,7 @@ namespace BovineBoss_API.Controllers
 
 
         [HttpPost("registerTrabajador")]
-        public async Task<IActionResult> addAdmin(CreateEmployeeDto trabajador)
+        public async Task<IActionResult> addTrabajador(CreateEmployeeDto trabajador)
         {
             Response r = new();
             ActiveTrabajadorDto trabajadorAgregate = await trabajadorService.ActiveTrabajador(trabajador);
@@ -35,9 +37,25 @@ namespace BovineBoss_API.Controllers
                 r.data = trabajadorAgregate;
                 return Ok(r);
             }
-            r.errors = "No se pudo agregar el administrador";
+            r.errors = "No se pudo agregar el trabajador";
             return BadRequest(r);
         }
+
+        [HttpPut("ActualizarTrabajador")]
+        public async Task<IActionResult> updateTrabajador(ModifyTrabajadorDto trabajador)
+        {
+            Response r = new();
+            bool var = await trabajadorService.UpdateTrabajador(trabajador);
+            if (var)
+            {
+                r.message = "Modificado correctamente";
+                r.data = var;
+                return Ok(r);
+            }
+            r.errors = "No se pudo modificar";
+            return BadRequest(r);
+        }
+
 
 
 
