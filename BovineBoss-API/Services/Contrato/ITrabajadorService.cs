@@ -6,14 +6,7 @@ namespace BovineBoss_API.Services.Contrato
     {
         Task<List<EmployeeDto>> GetListTrabajador();
 
-        Task<EmployeeDto> GetPersona(int idPersona);
-
-        Task<CreateEmployeeDto> AddTrabajador(CreateEmployeeDto trabajador);
-
-        Task<LoginPersonaDTO> GetUser(string usuario);
-
-
-        Task<ActiveAdminDto> ActiveTrabajador(CreateEmployeeDto trabajador);
+        Task<ActiveTrabajadorDto> ActiveTrabajador(CreateEmployeeDto trabajador);
 
 
 

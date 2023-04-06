@@ -68,6 +68,10 @@ builder.Services.AddScoped<IAdminService, PersonaService>();
 
 builder.Services.AddScoped<IFincaService, FincaService>();
 
+builder.Services.AddScoped<ITrabajadorService, PersonaService>();
+
+
+
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJwtBearer(
     options =>
     {

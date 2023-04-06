@@ -190,10 +190,6 @@ namespace BovineBoss_API.Services.Implementacion
 
             }
         }
-        public Task<CreateEmployeeDto> AddTrabajador(CreateEmployeeDto trabajador)
-        {
-            throw new NotImplementedException();
-        }
 
 
         public Task<List<EmployeeDto>> GetListTrabajador()
@@ -201,10 +197,104 @@ namespace BovineBoss_API.Services.Implementacion
             throw new NotImplementedException();
         }
 
-        public Task<ActiveAdminDto> ActiveTrabajador(CreateEmployeeDto trabajador)
+        private async Task<Persona> AddTrabajador(CreateEmployeeDto trabajador)
         {
-            throw new NotImplementedException();
+            Persona persona;
+            try
+            {
+                persona = new()
+                {
+                    NombrePersona = trabajador.NombrePersona,
+                    ApellidoPersona = trabajador.ApellidoPersona,
+                    Cedula = trabajador.Cedula,
+                    TipoPersona = "T",
+                    Salario = trabajador.Salario,
+                    FechaContratacion = DateTime.ParseExact(DateTime.UtcNow.ToString("MM-dd-yyyy"), "MM-dd-yyyy", CultureInfo.InvariantCulture),
+                    Usuario = trabajador.Usuario,
+                    Contrasenia = BCrypt.Net.BCrypt.HashPassword(trabajador.Contrasenia),
+                    TelefonoPersona = trabajador.TelefonoPersona,
+                };
+                dbContext.Personas.Add(persona);
+                await dbContext.SaveChangesAsync();
+                return persona;
+            }
+            catch
+            {
+                return null;
+            }
         }
+
+
+        private async Task<TrabajadorFinca> AddTrabajadorFinca(int idTrabajador, int IdFinca)
+        {
+            TrabajadorFinca trabajadorFinca;
+            try
+            {
+                trabajadorFinca = new()
+                {
+                    EstadoTrabajador = true,
+                    IdFinca = IdFinca,
+                    IdTrabajador = idTrabajador,
+                    FechaCambioTrabajador = DateTime.ParseExact(DateTime.UtcNow.ToString("MM-dd-yyyy HH:mm:ss"), "MM-dd-yyyy HH:mm:ss", CultureInfo.InvariantCulture),
+                };
+
+                dbContext.TrabajadorFincas.Add(trabajadorFinca);
+                await dbContext.SaveChangesAsync();
+                return trabajadorFinca;
+
+            }
+            catch
+            {
+
+                return null;
+
+            }
+
+        }
+
+
+
+
+        public async Task<ActiveTrabajadorDto> ActiveTrabajador(CreateEmployeeDto trabajador)
+        {
+            try
+            {
+                var exist = dbContext.Fincas.Where(f => f.IdFinca == trabajador.IdFinca).FirstOrDefault();
+
+                if (exist != null)
+                {
+                    Persona personaAgreggate = await AddTrabajador(trabajador);
+                    TrabajadorFinca trabajadorFincaAgregate = await AddTrabajadorFinca(personaAgreggate.IdPersona, trabajador.IdFinca);
+
+                    var activeTrabajadorConsult = from a in dbContext.Personas
+                                             join at in dbContext.TrabajadorFincas
+                                             on a.IdPersona equals at.IdTrabajador
+                                             join f in dbContext.Fincas
+                                             on at.IdFinca equals f.IdFinca
+                                             where a.IdPersona == trabajadorFincaAgregate.IdTrabajador
+                                             select new ActiveTrabajadorDto
+                                             {
+                                                 NombrePersona = a.NombrePersona,
+                                                 ApellidoPersona = a.ApellidoPersona,
+                                                 Cedula = a.Cedula,
+                                                 NombreFinca = f.NombreFinca,
+                                                 EstadoTrabajador = at.EstadoTrabajador
+                                             };
+
+                    return activeTrabajadorConsult.FirstOrDefault();
+
+                }
+
+                return null;
+            }
+            catch
+            {
+
+                return null;
+            }
+        }
+
+
 
     }
 
