@@ -1,4 +1,5 @@
-﻿using BovineBoss_API.Models.Dtos;
+﻿using BovineBoss_API.Models.DB;
+using BovineBoss_API.Models.Dtos;
 
 namespace BovineBoss_API.Services.Contrato
 {
@@ -7,6 +8,12 @@ namespace BovineBoss_API.Services.Contrato
         Task<List<EmployeeDto>> GetListTrabajador();
 
         Task<ActiveTrabajadorDto> ActiveTrabajador(CreateEmployeeDto trabajador);
+
+        Task<bool> UpdateTrabajador(ModifyTrabajadorDto trabajador);
+
+
+        Task<Persona> GetPersona(int id);
+
 
 
 

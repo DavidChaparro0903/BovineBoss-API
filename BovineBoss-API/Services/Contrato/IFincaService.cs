@@ -9,6 +9,9 @@ namespace BovineBoss_API.Services.Contrato
 
         Task<FincaDto> GetFinca(int idFinca);
 
+
+        Task<bool> fincaExits(int idFinca);
+
         Task<CreateFincaDto> AddFinca(CreateFincaDto finca);
 
         Task<bool> UpdateFinca(Finca finca);

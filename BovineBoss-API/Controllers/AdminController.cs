@@ -43,7 +43,7 @@ namespace BovineBoss_API.Controllers
         public async Task<IActionResult> getAdmin(int id)
         {
             Response r = new();
-            EmployeeDto adminDto = await personaService.GetPersona(id);
+            EmployeeDto adminDto = await personaService.GetEmployeeDto(id);
             if (adminDto != null) 
             {
                 r.message = "Se obtiene correctamente";
@@ -70,6 +70,21 @@ namespace BovineBoss_API.Controllers
             return BadRequest(r);
         }
 
+
+        [HttpPut("ActualizarTrabajador")]
+        public async Task<IActionResult> updateTrabajador(ModifyTrabajadorAdminDto trabajador)
+        {
+            Response r = new();
+            bool var = await personaService.UpdateTrabajador(trabajador);
+            if (var)
+            {
+                r.message = "Modificado correctamente";
+                r.data = var;
+                return Ok(r);
+            }
+            r.errors = "No se pudo modificar";
+            return BadRequest(r);
+        }
 
 
 

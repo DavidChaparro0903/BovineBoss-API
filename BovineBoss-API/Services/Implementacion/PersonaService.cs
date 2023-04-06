@@ -4,6 +4,7 @@ using BovineBoss_API.Services.Contrato;
 using BovineBoss_API.Models.DB;
 using BovineBoss_API.Models.Dtos;
 using System.Globalization;
+using System.Security.Cryptography;
 
 namespace BovineBoss_API.Services.Implementacion
 {
@@ -143,7 +144,7 @@ namespace BovineBoss_API.Services.Implementacion
 
         }
 
-        public async Task<EmployeeDto> GetPersona(int idPersona)
+        public async Task<EmployeeDto> GetEmployeeDto(int idPersona)
         {
             try
             {
@@ -261,6 +262,7 @@ namespace BovineBoss_API.Services.Implementacion
             {
                 var exist = dbContext.Fincas.Where(f => f.IdFinca == trabajador.IdFinca).FirstOrDefault();
 
+
                 if (exist != null)
                 {
                     Persona personaAgreggate = await AddTrabajador(trabajador);
@@ -295,6 +297,136 @@ namespace BovineBoss_API.Services.Implementacion
         }
 
 
+        public async Task<Persona> GetPersona(int id)
+        {
+
+            return await dbContext.Personas.Where(e => e.IdPersona == id).FirstOrDefaultAsync();
+     
+        }
+
+
+
+        public async Task<Finca> GetFinca(int idNuevaFinca)
+        {
+            return await dbContext.Fincas.Where(f => f.IdFinca == idNuevaFinca).FirstOrDefaultAsync();
+
+        }
+
+        public async Task<bool> UpdateTrabajador(ModifyTrabajadorDto trabajador)
+        {
+
+            try
+            {
+                /*Se observa que el id de la persona exista y se recupera sus otros datos que no se pueden 
+             *modificar
+             */
+                Persona personFound = await GetPersona(trabajador.Id);
+                Console.WriteLine(personFound.NombrePersona);
+                if (personFound != null)
+                {
+                    await saveChangesTrabajador(trabajador, personFound);
+                    return true;
+                }
+                return false;
+
+            }catch (DbUpdateConcurrencyException )
+            {
+                throw;
+
+            }
+
+         }
+
+
+
+
+        public async Task<bool> UpdateTrabajador(ModifyTrabajadorAdminDto trabajador)
+        {
+
+            try
+            {
+                /*Se observa que el id de la persona exista y se recupera sus otros datos que no se pueden 
+             *modificar
+             */
+                Persona personFound = await GetPersona(trabajador.Id);
+                //Finca fincaFound = await GetFinca(trabajador.idFincaNuevo);
+                if (personFound != null)
+                {
+                    await saveChangesTrabajador(trabajador, personFound);
+                  //  await saveChangesTrabajadorFinca(trabajador);
+                    return true;
+                }
+                return false;
+
+            }
+            catch (DbUpdateConcurrencyException)
+            {
+                throw;
+
+            }
+
+        }
+
+
+
+
+
+
+
+        /*
+         Metodo utilizado en el rol trabajador para poder modificarse
+         */
+
+
+        public async Task saveChangesTrabajador(ModifyTrabajadorDto trabajador, Persona personFound)
+        {
+            personFound.NombrePersona = trabajador.NombrePersona;
+            personFound.ApellidoPersona = trabajador.ApellidoPersona;
+            personFound.Cedula = trabajador.Cedula;
+            personFound.TelefonoPersona = trabajador.TelefonoPersona;
+            personFound.Usuario = trabajador.Usuario;
+            personFound.Contrasenia = BCrypt.Net.BCrypt.HashPassword(trabajador.Contrasenia);
+            dbContext.Personas.Update(personFound);
+
+            await dbContext.SaveChangesAsync();
+        }
+
+
+
+        /*
+         Metodo utilizado en el rol administrador para modificar un trabajador
+         */
+
+        public async Task saveChangesTrabajador(ModifyTrabajadorAdminDto trabajador, Persona personFound)
+        {
+            personFound.NombrePersona = trabajador.NombrePersona;
+            personFound.ApellidoPersona = trabajador.ApellidoPersona;
+            personFound.Cedula = trabajador.Cedula;
+            personFound.TelefonoPersona = trabajador.TelefonoPersona;
+            personFound.Usuario = trabajador.Usuario;
+            personFound.Contrasenia = BCrypt.Net.BCrypt.HashPassword(trabajador.Contrasenia);
+            personFound.Salario = trabajador.Salario;
+            dbContext.Personas.Update(personFound);
+
+            await dbContext.SaveChangesAsync();
+        }
+
+
+
+
+
+        //public async Task saveChangesTrabajadorFinca(ModifyTrabajadorAdminDto trabajador)
+        //{
+        //    TrabajadorFinca trabajadorFinca = new()
+        //    {
+        //        IdFinca = trabajador.idFincaNuevo,
+        //        IdTrabajador = trabajador.Id,
+        //        FechaCambioTrabajador = DateTime.ParseExact(DateTime.UtcNow.ToString("MM-dd-yyyy HH:mm:ss"), "MM-dd-yyyy HH:mm:ss", CultureInfo.InvariantCulture),
+        //        EstadoTrabajador = true
+        //    };
+        //    dbContext.Add(trabajadorFinca);
+        //    await dbContext.SaveChangesAsync();
+        //}
 
     }
 
