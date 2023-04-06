@@ -20,7 +20,8 @@ namespace BovineBoss_API.Services.Implementacion
                 {
                     NombreRaza = nuevaRaza.NombreRaza
                 };
-                await dbContext.AddAsync(newRaza);
+                dbContext.Add(newRaza);
+                await dbContext.SaveChangesAsync();
                 return newRaza;
             }
             catch
@@ -37,7 +38,8 @@ namespace BovineBoss_API.Services.Implementacion
                 {
                     NombreInconveniente = incovenienteDTO.NombreInconveniente
                 };
-                await dbContext.AddAsync(inconveniente);
+                dbContext.Add(inconveniente);
+                await dbContext.SaveChangesAsync();
                 return inconveniente;
             }
             catch
