@@ -444,6 +444,123 @@ namespace BovineBoss_API.Services.Implementacion
 
 
 
+
+        /**
+        Observamos que el empleado no este activo en una finca, si esta activo en almenos una
+        retorna false de lo contrario retorna true
+         
+         */
+        public async Task<bool> employeeIsNotActiveInStates(int idEmployee, List<int> listIdState)
+        {
+            foreach (int idState in listIdState)
+            {
+                bool result = await employeeIsActiveInState(idEmployee, idState);
+                if (result)
+                {
+
+                    return false;
+
+                }
+
+            }
+
+            return true;
+
+        }
+
+
+
+        /*
+         Tenemos que comprobar que el trabajador no se pueda agregar a una finca en la que ya se encuentra y esta habilitado
+
+         */
+
+        public async Task<bool> addNewEstate(CreateNewEstateDto createNewEstateDto)
+        {
+
+            bool existIdState = await stateExists(createNewEstateDto.ListIdState);
+            bool employeeIsNotActiveListState = await employeeIsNotActiveInStates(createNewEstateDto.IdEmployee, createNewEstateDto.ListIdState);
+            bool resultIsEmployee = await isEmployee(createNewEstateDto.IdEmployee);
+            if (existIdState && employeeIsNotActiveListState == true && resultIsEmployee)
+            {
+                foreach(int idState  in createNewEstateDto.ListIdState)
+                {
+                    TrabajadorFinca trabajadorFinca = new()
+                    {
+                        IdFinca = idState,
+                        IdTrabajador = createNewEstateDto.IdEmployee,
+                        FechaCambioTrabajador = DateTime.ParseExact(DateTime.UtcNow.ToString("MM-dd-yyyy HH:mm:ss"), "MM-dd-yyyy HH:mm:ss", CultureInfo.InvariantCulture),
+                        EstadoTrabajador = true
+                    };
+                    dbContext.TrabajadorFincas.Add(trabajadorFinca);
+                }
+
+                await dbContext.SaveChangesAsync();
+                return true;
+            }
+            return false;
+        }
+    
+
+        private async Task<bool> stateExists(List<int> listIdState)
+        {
+            foreach(int idState in listIdState)
+            {
+                Finca finca = await GetFinca(idState);
+                if (finca == null)
+                {
+
+                    return false;
+                }
+            }
+            return true;
+
+        }
+
+
+
+        private async Task<bool> employeeIsActiveInState(int idEmployee, int idState)
+        {
+
+
+            var isActive = from p in dbContext.Personas
+                           join t in dbContext.TrabajadorFincas
+                           on p.IdPersona equals t.IdTrabajador
+                           where p.TipoPersona == "T" &&
+                           t.EstadoTrabajador == true &&
+                           t.IdTrabajador == idEmployee &&
+                           t.IdFinca == idState
+                           select new {p.IdPersona, p.NombrePersona, t.EstadoTrabajador,t.IdFinca };
+    
+
+            if (isActive.FirstOrDefault() != null)
+            {
+              
+                return true;
+            }
+            return false;
+           
+
+        }
+
+
+        public async Task<bool> isEmployee(int idEmployee)
+        {
+            var employee = from p in dbContext.Personas
+                           where p.IdPersona == idEmployee
+                             && p.TipoPersona == "T"
+                           select new { p.IdPersona, p.TipoPersona };
+      
+            if (await employee.FirstOrDefaultAsync() != null)
+            {
+                return true;
+            }
+            return false;
+                
+         }
+
+
+
         //public async Task saveChangesTrabajadorFinca(ModifyTrabajadorAdminDto trabajador)
         //{
         //    TrabajadorFinca trabajadorFinca = new()
