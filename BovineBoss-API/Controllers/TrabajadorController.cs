@@ -26,6 +26,13 @@ namespace BovineBoss_API.Controllers
         }
 
 
+
+
+        /*
+         Se registra trabajador y se añade a una finca
+         
+         */
+
         [HttpPost("registerTrabajador")]
         public async Task<IActionResult> addTrabajador(CreateEmployeeDto trabajador)
         {
@@ -55,6 +62,44 @@ namespace BovineBoss_API.Controllers
             r.errors = "No se pudo modificar";
             return BadRequest(r);
         }
+
+
+
+        [HttpPost("AgregarTrabajadorFinca")]
+        public async Task<IActionResult> addStateEmployee(CreateNewEstateDto createNewEstateDto)
+        {
+            Response r = new();
+            bool var = await trabajadorService.addNewEstate(createNewEstateDto);
+            if (var)
+            {
+                r.message = "El trabajador fue agregado a las fincas correspondientes";
+                r.data = var;
+                return Ok(r);
+            }
+            r.errors = "Las fincas no existen o el trabajador ya esta en alguna de las fincas seleccionadas";
+            return BadRequest(r);
+        }
+
+
+
+        [HttpPut("ActualizarTrabajadorAdmin")]
+        public async Task<IActionResult> updateTrabajadorAdmin(ModifyTrabajadorAdminDto trabajador)
+        {
+            Response r = new();
+            bool var = await trabajadorService.UpdateTrabajador(trabajador);
+            if (var)
+            {
+                r.message = "Modificado correctamente";
+                r.data = var;
+                return Ok(r);
+            }
+            r.errors = "No se pudo modificar";
+            return BadRequest(r);
+        }
+
+
+        
+
 
 
 

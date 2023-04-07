@@ -15,13 +15,13 @@ namespace BovineBoss_API.Services.Contrato
 
         Task<ActiveAdminDto> ActiveAdmin(CreateEmployeeDto Admin);
 
-        Task<bool> UpdateTrabajador(ModifyTrabajadorAdminDto trabajador);
+       // Task<bool> UpdateTrabajador(ModifyTrabajadorAdminDto trabajador);
 
 
         Task<bool> UpdateAdmin(ModifyAdminDto Admin);
 
 
-        Task<bool> addNewEstate(CreateNewEstateDto createNewEstateDto);
+       // Task<bool> addNewEstate(CreateNewEstateDto createNewEstateDto);
 
 
 

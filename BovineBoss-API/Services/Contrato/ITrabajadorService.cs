@@ -15,6 +15,11 @@ namespace BovineBoss_API.Services.Contrato
         Task<Persona> GetPersona(int id);
 
 
+        Task<bool> UpdateTrabajador(ModifyTrabajadorAdminDto trabajador);
+
+
+        Task<bool> addNewEstate(CreateNewEstateDto createNewEstateDto);
+
 
 
     }

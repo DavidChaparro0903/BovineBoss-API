@@ -67,6 +67,10 @@ namespace BovineBoss_API.Controllers
             r.errors = "No se puede agregar una finca";
             return BadRequest(r);
         }
+
+
+      
+
         [HttpPut("ActualizarFinca")]
         public async Task<IActionResult> updateFinca(Finca finca)
         {
