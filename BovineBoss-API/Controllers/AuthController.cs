@@ -18,12 +18,14 @@ namespace BovineBoss_API.Controllers
     {
         private readonly IAdminService _personaService;
         private readonly IConfiguration configuration;
+        private readonly IFincaService finca;
 
-        public AuthController(IConfiguration _configuration, IAdminService personaService)
+        public AuthController(IConfiguration _configuration, IAdminService personaService, IFincaService finca)
         {
             //Configuración para acceso a archivo de propiedades 'appsettings.json'
             this.configuration = _configuration;
             _personaService = personaService;
+            this.finca = finca;
         }
         /// <author>
         /// Diego Ballesteros
@@ -61,6 +63,7 @@ namespace BovineBoss_API.Controllers
                 return Unauthorized(r);
             }
             string token = JWTTokenGenerator(user);
+            r.aditionals = await finca.GetListState();
             r.data = token;
             r.message = "token";
             return Ok(r);

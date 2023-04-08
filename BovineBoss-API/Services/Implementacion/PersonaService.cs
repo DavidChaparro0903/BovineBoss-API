@@ -457,9 +457,7 @@ namespace BovineBoss_API.Services.Implementacion
                 bool result = await employeeIsActiveInState(idEmployee, idState);
                 if (result)
                 {
-
                     return false;
-
                 }
 
             }
@@ -477,7 +475,6 @@ namespace BovineBoss_API.Services.Implementacion
 
         public async Task<bool> addNewEstate(CreateNewEstateDto createNewEstateDto)
         {
-
             bool existIdState = await stateExists(createNewEstateDto.ListIdState);
             bool employeeIsNotActiveListState = await employeeIsNotActiveInStates(createNewEstateDto.IdEmployee, createNewEstateDto.ListIdState);
             bool resultIsEmployee = await isEmployee(createNewEstateDto.IdEmployee);
@@ -518,11 +515,8 @@ namespace BovineBoss_API.Services.Implementacion
         }
 
 
-
         private async Task<bool> employeeIsActiveInState(int idEmployee, int idState)
         {
-
-
             var isActive = from p in dbContext.Personas
                            join t in dbContext.TrabajadorFincas
                            on p.IdPersona equals t.IdTrabajador
@@ -558,6 +552,7 @@ namespace BovineBoss_API.Services.Implementacion
             return false;
                 
          }
+
 
 
 

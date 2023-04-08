@@ -76,6 +76,7 @@ namespace BovineBoss_API.Services.Implementacion
             }
         }
 
+
         public async Task<List<FincaDto>> GetList()
         {
             try {
@@ -94,6 +95,16 @@ namespace BovineBoss_API.Services.Implementacion
             }
 
             }
+
+        public async Task<List<StateTokenDto>> GetListState()
+        {
+            var listState = await dbContext.Fincas.ToListAsync();
+            List<StateTokenDto> listResultState = listState.Select(f => new StateTokenDto { 
+                IdFinca = f.IdFinca,
+                NombreFinca = f.NombreFinca
+            }).ToList();
+            return listResultState;
+        }
 
         public async Task<bool> UpdateFinca(Finca finca)
         {
