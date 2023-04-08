@@ -8,5 +8,6 @@ namespace BovineBoss_API.Services.Contrato
         Task<Raza> AddRaza(RazaDTO nuevaRaza);
 
         Task<Inconveniente> AddInconveniente(IncovenienteDTO incovenienteDTO);
+        Task<CreateResDto> AddRes(CreateResDto createResDto);
     }
 }

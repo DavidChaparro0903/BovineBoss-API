@@ -1,6 +1,8 @@
 ﻿using BovineBoss_API.Models.DB;
 using BovineBoss_API.Models.Dtos;
 using BovineBoss_API.Services.Contrato;
+using Microsoft.EntityFrameworkCore;
+using System.Globalization;
 
 namespace BovineBoss_API.Services.Implementacion
 {
@@ -46,6 +48,120 @@ namespace BovineBoss_API.Services.Implementacion
             {
                 return null;
             }
+        }
+
+        public async Task<CreateResDto> AddRes(CreateResDto nuevaResDTO)
+        {
+            if (checkRazas(nuevaResDTO.listRazas))
+                try
+                {
+
+                    Rese newRes = new Rese()
+                    {
+                        IdFinca = nuevaResDTO.idFinca,
+                        NombreRes = nuevaResDTO.NombreRes,
+                        Color = nuevaResDTO.Color,
+                        FechaNacimiento = nuevaResDTO.FechaNacimiento
+                    };
+                    dbContext.Reses.Add(newRes);
+
+                    await dbContext.SaveChangesAsync();
+
+                    int idRes = dbContext.Entry(newRes).Entity.IdRes;
+                    //Una vez se crea la res en la base de datos se usa el id para las entidades debiles
+                    CreateListRazas(nuevaResDTO.listRazas, idRes);
+                    await CreateListOwners(new AdquisicionDTO()
+                    {
+                        owners = nuevaResDTO.listOwner,
+                        idRes = idRes,
+                        CostoCompraRes = nuevaResDTO.CostoCompraRes,
+                        descripcionAdquisicion = nuevaResDTO.DescripcionAdquisicion,
+                        ComisionesPagada = nuevaResDTO.ComisionesPagada,
+                        PrecioFlete = nuevaResDTO.PrecioFlete
+                    });
+
+                    return nuevaResDTO;
+                }catch
+                {
+                    return null;
+                }
+            return null;
+        }
+        private void CreateListRazas(List<CreateResRaza> listRazas, int idRes)
+        {
+            foreach (CreateResRaza resRaza in listRazas)
+            {
+                dbContext.ResRazas.Add(new ResRaza()
+                {
+                    IdRaza = resRaza.IdRaza,
+                    PorcentajeRaza = resRaza.porcentaje,
+                    IdRes = idRes
+                });
+            }
+        }
+
+        private async Task CreateListOwners(AdquisicionDTO adquisicionDTO)
+        {
+
+            foreach(CreateOwner ownerDTO in adquisicionDTO.owners)
+            {
+                //Revisar si el Propietario existe en la BD usando la Cedula como criterio
+                int idPropietario;
+                bool ownerExists = await dbContext.Personas.AnyAsync(p => p.Cedula == ownerDTO.Cedula);
+                //En caso de que no exista, agregar el propietario a la 
+                if (!ownerExists)
+                {
+                    Persona owner = new Persona()
+                    {
+                        NombrePersona = ownerDTO.NombrePersona,
+                        ApellidoPersona = ownerDTO.ApellidoPersona,
+                        Cedula = ownerDTO.Cedula,
+                        TipoPersona = "P"
+                    };
+                    dbContext.Personas.Add(owner);
+                    await dbContext.SaveChangesAsync();
+                    idPropietario = dbContext.Entry(owner).Entity.IdPersona;
+                }
+                else
+                {
+                    //En caso de que exista, configurar la variable idPropietario 
+                    Persona owner = await dbContext.Personas.SingleAsync(p => p.Cedula == ownerDTO.Cedula);
+                    idPropietario = owner.IdPersona;
+
+                }
+                
+
+                //Con el propietario agregado a la BD, se relaciona en la entidad Adquisicion
+                Adquisicione adquisicion = new Adquisicione()
+                {
+                    IdPropietario = idPropietario,
+                    IdRes = adquisicionDTO.idRes,
+                    CostoCompraRes = adquisicionDTO.CostoCompraRes,
+                    DescripcionAdquisicion = adquisicionDTO.descripcionAdquisicion,
+                    ComisionesPagada = adquisicionDTO.ComisionesPagada,
+                    PrecioFlete = adquisicionDTO.PrecioFlete,
+                    FechaAdquisicion = DateTime.ParseExact(DateTime.UtcNow.ToString("MM-dd-yyyy HH:mm:ss"), "MM-dd-yyyy HH:mm:ss", CultureInfo.InvariantCulture)
+                };
+                await dbContext.Adquisiciones.AddAsync(adquisicion);
+                await dbContext.SaveChangesAsync();
+            }
+        }
+
+        private bool checkRazas(List<CreateResRaza> razas)
+        {
+            //Revisa que la lista de razas exista en la base de 
+            foreach (CreateResRaza raza in razas)
+            {
+                try
+                {
+                    dbContext.Razas.Where(r => r.IdRaza == raza.IdRaza);
+                }
+                catch
+                {
+                    return false;
+                }
+            }
+            return true;
         }
     }
 }

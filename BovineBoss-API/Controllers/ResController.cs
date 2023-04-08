@@ -53,5 +53,23 @@ namespace BovineBoss_API.Controllers
                 return BadRequest(r);
             }
         }
+
+        [HttpPost("registerRes")]
+        public async Task<IActionResult> AddRes(CreateResDto createResDto)
+        {
+            Response r = new();
+            CreateResDto newRes = await resService.AddRes(createResDto);
+            if(newRes != null)
+            {
+                r.message = "Agregado Correctamente";
+                r.data = newRes;
+                return Ok(r);
+            }
+            else
+            {
+                r.errors = "Hubo un problema agregando la res a la base de datos";
+                return BadRequest(r);
+            }
+        }
     }
 }

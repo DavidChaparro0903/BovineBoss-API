@@ -8,6 +8,5 @@
 
         public string Cedula { get; set; } = null!;
 
-
     }
 }
