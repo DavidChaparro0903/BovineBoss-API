@@ -50,9 +50,36 @@ namespace BovineBoss_API.Services.Implementacion
             }
         }
 
+
+        public async Task<bool> UpdateInconveniente(ModifyInconvenienteDto inconvenienteDto)
+        {
+            try
+            {
+                /*Se observa que el id de la persona exista y se recupera sus otros datos que no se pueden 
+             *modificar
+             */
+                Inconveniente inconveniente = await dbContext.Inconvenientes.FirstOrDefaultAsync(i => i.IdInconveniente == inconvenienteDto.IdInconveniente);
+                inconveniente.NombreInconveniente = inconvenienteDto.NombreNuevoInconveniente;
+                if (inconveniente != null)
+                {
+                    dbContext.Inconvenientes.Update(inconveniente);
+                    await dbContext.SaveChangesAsync();
+                    return true;
+                }
+                return false;
+
+            }
+            catch 
+            {
+                return false;
+
+            }
+
+        }
+
         public async Task<CreateResDto> AddRes(CreateResDto nuevaResDTO)
         {
-            if (checkRazas(nuevaResDTO.listRazas))
+            if (checkRazas(nuevaResDTO.listRazas)) 
                 try
                 {
 
@@ -98,6 +125,7 @@ namespace BovineBoss_API.Services.Implementacion
                     IdRes = idRes
                 });
             }
+
         }
 
         private async Task CreateListOwners(AdquisicionDTO adquisicionDTO)
@@ -107,7 +135,7 @@ namespace BovineBoss_API.Services.Implementacion
             {
                 //Revisar si el Propietario existe en la BD usando la Cedula como criterio
                 int idPropietario;
-                bool ownerExists = await dbContext.Personas.AnyAsync(p => p.Cedula == ownerDTO.Cedula);
+                bool ownerExists = await dbContext.Personas.AnyAsync(p => p.Cedula == ownerDTO.Cedula && p.TipoPersona == "P");
                 //En caso de que no exista, agregar el propietario a la 
                 if (!ownerExists)
                 {
@@ -125,6 +153,8 @@ namespace BovineBoss_API.Services.Implementacion
                 else
                 {
                     //En caso de que exista, configurar la variable idPropietario 
+                    // Observar la parte de los roles y mirar si se puede manejar varios roles, y agregarlos a la base de datos
+                    // o la otra es volver a crear el mismo registro en la base de datos pero con otro rol
                     Persona owner = await dbContext.Personas.SingleAsync(p => p.Cedula == ownerDTO.Cedula);
                     idPropietario = owner.IdPersona;
 

@@ -256,6 +256,8 @@ public partial class BovineBossContext : DbContext
         {
             entity.HasKey(e => e.IdInconveniente);
 
+            entity.HasIndex(e => e.NombreInconveniente, "inc_uq_noi").IsUnique();
+
             entity.Property(e => e.IdInconveniente).HasColumnName("id_inconveniente");
             entity.Property(e => e.NombreInconveniente)
                 .HasMaxLength(50)

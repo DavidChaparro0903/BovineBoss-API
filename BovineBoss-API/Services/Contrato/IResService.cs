@@ -9,5 +9,7 @@ namespace BovineBoss_API.Services.Contrato
 
         Task<Inconveniente> AddInconveniente(IncovenienteDTO incovenienteDTO);
         Task<CreateResDto> AddRes(CreateResDto createResDto);
+
+        Task<bool> UpdateInconveniente(ModifyInconvenienteDto inconvenienteDto);
     }
 }
