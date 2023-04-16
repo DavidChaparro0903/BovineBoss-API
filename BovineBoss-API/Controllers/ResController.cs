@@ -1,6 +1,7 @@
 ﻿using BovineBoss_API.Models.DB;
 using BovineBoss_API.Models.Dtos;
 using BovineBoss_API.Services.Contrato;
+using BovineBoss_API.Services.Implementacion;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
@@ -52,6 +53,21 @@ namespace BovineBoss_API.Controllers
                 r.errors = "Hubo un problema agregando el inconveniente a la base de datos";
                 return BadRequest(r);
             }
+        }
+
+        [HttpPut("modifyInconveniente")]
+        public async Task<IActionResult> UpdateInconveniente(ModifyInconvenienteDto inconvenienteDto)
+        {
+            Response r = new();
+            bool var = await resService.UpdateInconveniente(inconvenienteDto);
+            if (var)
+            {
+                r.message = "Modificado correctamente";
+                r.data = var;
+                return Ok(r);
+            }
+            r.errors = "No se pudo modificar";
+            return BadRequest(r);
         }
 
         [HttpPost("registerRes")]

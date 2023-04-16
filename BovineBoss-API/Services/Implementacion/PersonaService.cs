@@ -322,7 +322,7 @@ namespace BovineBoss_API.Services.Implementacion
              *modificar
              */
                 Persona personFound = await GetPersona(trabajador.Id);
-                if (personFound != null)
+                if (personFound != null && personFound.TipoPersona == "T")
                 {
                     await saveChangesTrabajador(trabajador, personFound);
                     return true;
@@ -418,7 +418,7 @@ namespace BovineBoss_API.Services.Implementacion
             try
             {
                 Persona persona = await GetPersona(Admin.IdPersona);
-                if (persona != null)
+                if (persona != null && persona.TipoPersona == "A")
                 {
                     persona.NombrePersona = Admin.NombrePersona;
                     persona.ApellidoPersona = Admin.ApellidoPersona;
@@ -426,7 +426,7 @@ namespace BovineBoss_API.Services.Implementacion
                     persona.TelefonoPersona = Admin.TelefonoPersona;
                     persona.Salario = Admin.Salario;
                     persona.Usuario = Admin.Usuario;
-                    persona.Contrasenia = Admin.Contrasenia;
+                    persona.Contrasenia = BCrypt.Net.BCrypt.HashPassword(Admin.Contrasenia);
                     dbContext.Personas.Update(persona);
                     await dbContext.SaveChangesAsync();
                     return true;
