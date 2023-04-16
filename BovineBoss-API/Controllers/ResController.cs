@@ -71,5 +71,22 @@ namespace BovineBoss_API.Controllers
                 return BadRequest(r);
             }
         }
+        [HttpPut("actualizarRes")]
+        public async Task<IActionResult> updateRes(ModifyResDTO updatedResDTO)
+        {
+            Response r = new();
+            ModifyResDTO updatedRes = await resService.UpdateRes(updatedResDTO);
+            if(updatedRes != null)
+            {
+                r.message = "Actualizada Correctamente";
+                r.data = updatedRes;
+                return Ok(r);
+            }
+            else
+            {
+                r.errors = "La res a actualizar no se ha encontrado en la Base de Datos";
+                return BadRequest(r);
+            }
+        }
     }
 }
