@@ -63,7 +63,7 @@ namespace BovineBoss_API.Controllers
                 return Unauthorized(r);
             }
             string token = JWTTokenGenerator(user);
-            r.aditionals = await finca.GetListState();
+            r.aditionals = finca.GetListStateByIdUser(user.IdPersona).Result.ToArray().Length > 0? await finca.GetListStateByIdUser(user.IdPersona) : await finca.GetListState();
             r.data = token;
             r.message = "token";
             return Ok(r);

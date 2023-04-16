@@ -4015,19 +4015,19 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\david\\.nuget\\packages\\": {}
+    "C:\\Users\\braya\\.nuget\\packages\\": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\BovineBoss\\BovineBoss-API\\BovineBoss-API\\BovineBoss-API.csproj",
+      "projectUniqueName": "C:\\Users\\braya\\Source\\Repos\\BovineBoss-API\\BovineBoss-API\\BovineBoss-API.csproj",
       "projectName": "BovineBoss-API",
-      "projectPath": "C:\\BovineBoss\\BovineBoss-API\\BovineBoss-API\\BovineBoss-API.csproj",
-      "packagesPath": "C:\\Users\\david\\.nuget\\packages\\",
-      "outputPath": "C:\\BovineBoss\\BovineBoss-API\\BovineBoss-API\\obj\\",
+      "projectPath": "C:\\Users\\braya\\Source\\Repos\\BovineBoss-API\\BovineBoss-API\\BovineBoss-API.csproj",
+      "packagesPath": "C:\\Users\\braya\\.nuget\\packages\\",
+      "outputPath": "C:\\Users\\braya\\Source\\Repos\\BovineBoss-API\\BovineBoss-API\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
-        "C:\\Users\\david\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Users\\braya\\AppData\\Roaming\\NuGet\\NuGet.Config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [
@@ -4098,5 +4098,13 @@
         "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.202\\RuntimeIdentifierGraph.json"
       }
     }
-  }
+  },
+  "logs": [
+    {
+      "code": "Undefined",
+      "level": "Warning",
+      "warningLevel": 1,
+      "message": "Problema al leer el archivo de caché C:\\Users\\braya\\Source\\Repos\\BovineBoss-API\\BovineBoss-API\\obj\\project.nuget.cache : Invalid property identifier character: <. Path 'version', line 3, position 0."
+    }
+  ]
 }

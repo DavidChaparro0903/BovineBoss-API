@@ -13,8 +13,8 @@
         public string? TelefonoPersona { get; set; }
 
         public string? Usuario { get; set; }
+        public int? Salario { get; set; }
 
-        public string? Contrasenia { get; set; } = null!;
 
     }
 }

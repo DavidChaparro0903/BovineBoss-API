@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using System;
 
 namespace BovineBoss_API.Controllers
 {
@@ -84,6 +85,20 @@ namespace BovineBoss_API.Controllers
             }
             r.errors = "No se pudo modificar";
             return BadRequest(r);
+        }
+        [HttpGet("GetUserEstates")]
+        public async Task<IActionResult> getUserEstates([FromQuery] int userId)
+        {
+            Response r = new();
+            try
+            {
+                r.data = await fincaService.GetListStateByIdUser(userId);
+                return Ok(r);
+            } catch 
+            {
+                r.errors = "No se encontraron fincas al usuario";
+                return BadRequest(r);
+            }
         }
 
 

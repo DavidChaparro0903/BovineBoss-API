@@ -1,10 +1,6 @@
 {
   "version": 2,
-<<<<<<< HEAD
-  "dgSpecHash": "Wn6h9Sn8gzjlooy3la4BT2T/6HJEH1gQB2834DRgrdE733PyON2NBU3SyHQz0iuY6vFg+3aGYxjNdcwPkcVubw==",
-=======
   "dgSpecHash": "l6QaeeyDDUToeh/idk248pGhx3oGJK02ASeT8lv30k7amjQ0djXFWAjTPkH5kJCTTXXwUAptPCp8Hlgw83WSQQ==",
->>>>>>> b96ed5898a54430f357911b29bba72e263be714b
   "success": true,
   "projectFilePath": "C:\\Users\\braya\\Source\\Repos\\BovineBoss-API\\BovineBoss-API\\BovineBoss-API.csproj",
   "expectedPackageFiles": [
@@ -85,5 +81,12 @@
     "C:\\Users\\braya\\.nuget\\packages\\system.threading.tasks.extensions\\4.5.4\\system.threading.tasks.extensions.4.5.4.nupkg.sha512",
     "C:\\Users\\braya\\.nuget\\packages\\system.windows.extensions\\5.0.0\\system.windows.extensions.5.0.0.nupkg.sha512"
   ],
-  "logs": []
+  "logs": [
+    {
+      "code": "Undefined",
+      "level": "Warning",
+      "warningLevel": 1,
+      "message": "Problema al leer el archivo de caché C:\\Users\\braya\\Source\\Repos\\BovineBoss-API\\BovineBoss-API\\obj\\project.nuget.cache : Invalid property identifier character: <. Path 'version', line 3, position 0."
+    }
+  ]
 }

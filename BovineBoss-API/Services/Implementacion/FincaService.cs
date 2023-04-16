@@ -106,6 +106,30 @@ namespace BovineBoss_API.Services.Implementacion
             return listResultState;
         }
 
+        public async Task<List<StateTokenDto>> GetListStateByIdUser(int userId)
+        {
+            List<StateTokenDto> estates = new();
+            var user = dbContext.Personas.Where(x=> x.IdPersona == userId).First();
+            if (user.TipoPersona == "A")
+            {
+                var lista = dbContext.AdministradorFincas.Where(x => x.IdAdministrador == user.IdPersona).ToList();
+                estates = lista.Select(x => new StateTokenDto { 
+                IdFinca = x.IdFinca,
+                NombreFinca = dbContext.Fincas.Where(y => y.IdFinca == x.IdFinca).First().NombreFinca
+                }).ToList();
+            } 
+            else
+            {
+                var lista = dbContext.TrabajadorFincas.Where(x => x.IdTrabajador == user.IdPersona).ToList();
+                estates = lista.Select(x => new StateTokenDto
+                {
+                    IdFinca = x.IdFinca,
+                    NombreFinca = dbContext.Fincas.Where(y => y.IdFinca == x.IdFinca).First().NombreFinca
+                }).ToList();
+            }
+            return estates;
+        }
+
         public async Task<bool> UpdateFinca(Finca finca)
         {
             try

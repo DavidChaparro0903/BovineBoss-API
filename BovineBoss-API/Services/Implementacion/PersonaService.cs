@@ -44,9 +44,30 @@ namespace BovineBoss_API.Services.Implementacion
                 return null;
 
             }
+        }
+        public async Task<List<EmployeeDto>> GetListWorker(int estateId)
+        {
+            try
+            {
+                var estateWorkerList = dbContext.TrabajadorFincas.Where(w=> w.IdFinca == estateId);
+                var listaPersona = estateWorkerList.Select(p=> new EmployeeDto()
+                {
+                    Id = p.IdTrabajadorNavigation.IdPersona,
+                    NombrePersona = p.IdTrabajadorNavigation.NombrePersona,
+                    ApellidoPersona = p.IdTrabajadorNavigation.ApellidoPersona,
+                    Cedula = p.IdTrabajadorNavigation.Cedula,
+                    Salario = p.IdTrabajadorNavigation.Salario,
+                    FechaContratacion = p.IdTrabajadorNavigation.FechaContratacion,
+                    Usuario = p.IdTrabajadorNavigation.Usuario,
+                    PhoneNumber = p.IdTrabajadorNavigation.TelefonoPersona
+                }).ToList();
+                return listaPersona;
+            }
+            catch
+            {
+                return null;
 
-
-
+            }
         }
 
 
@@ -191,12 +212,6 @@ namespace BovineBoss_API.Services.Implementacion
 
 
             }
-        }
-
-
-        public Task<List<EmployeeDto>> GetListTrabajador()
-        {
-            throw new NotImplementedException();
         }
 
         private async Task<Persona> AddTrabajador(CreateEmployeeDto trabajador)
@@ -385,9 +400,8 @@ namespace BovineBoss_API.Services.Implementacion
             personFound.Cedula = trabajador.Cedula;
             personFound.TelefonoPersona = trabajador.TelefonoPersona;
             personFound.Usuario = trabajador.Usuario;
-            personFound.Contrasenia = BCrypt.Net.BCrypt.HashPassword(trabajador.Contrasenia);
+            personFound.Salario = trabajador.Salario;
             dbContext.Personas.Update(personFound);
-
             await dbContext.SaveChangesAsync();
         }
 

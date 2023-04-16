@@ -11,5 +11,8 @@ namespace BovineBoss_API.Services.Contrato
         Task<CreateResDto> AddRes(CreateResDto createResDto);
 
         Task<bool> UpdateInconveniente(ModifyInconvenienteDto inconvenienteDto);
+        Task<IEnumerable<Raza>> GetRazas();
+        Task<IEnumerable<Rese>> GetBulls(int stateId);
+        Task<IEnumerable<ResInconveniente>> GetBullInconvenients(int bullId);
     }
 }

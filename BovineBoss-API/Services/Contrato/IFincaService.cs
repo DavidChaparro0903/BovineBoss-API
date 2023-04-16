@@ -19,6 +19,7 @@ namespace BovineBoss_API.Services.Contrato
         Task<bool> DeleteFinca(Finca Finca);
 
         Task<List<StateTokenDto>> GetListState();
+        Task<List<StateTokenDto>> GetListStateByIdUser(int userId);
 
     }
 }

@@ -24,10 +24,6 @@ namespace BovineBoss_API.Controllers
         {
             this.trabajadorService = personaService;
         }
-
-
-
-
         /*
          Se registra trabajador y se añade a una finca
          
@@ -97,12 +93,20 @@ namespace BovineBoss_API.Controllers
             return BadRequest(r);
         }
 
-
-        
-
-
-
-
+        [HttpGet("GetWorkers")]
+        public async Task<IActionResult> GetWorkerListList(int estateId)
+        {
+            Response r = new();
+            var workerList = await trabajadorService.GetListWorker(estateId);
+            if (workerList.Count > 0)
+            {
+                r.message = "Se obtiene exitosamente los trabajadores";
+                r.data = workerList;
+                return Ok(r);
+            }
+            r.errors = "No se pudo listar los trabajadores";
+            return BadRequest(r);
+        }
 
     }
 }

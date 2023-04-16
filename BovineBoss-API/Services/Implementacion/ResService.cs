@@ -14,6 +14,10 @@ namespace BovineBoss_API.Services.Implementacion
         {
             this.dbContext = dbContext;
         }
+        public async Task<IEnumerable<Raza>> GetRazas()
+        {
+            return await dbContext.Razas.ToListAsync();
+        }
         public async Task<Raza> AddRaza(RazaDTO nuevaRaza)
         {
             try
@@ -49,7 +53,6 @@ namespace BovineBoss_API.Services.Implementacion
                 return null;
             }
         }
-
 
         public async Task<bool> UpdateInconveniente(ModifyInconvenienteDto inconvenienteDto)
         {
@@ -193,5 +196,14 @@ namespace BovineBoss_API.Services.Implementacion
             }
             return true;
         }
+
+        public async Task<IEnumerable<Rese>> GetBulls(int stateId)
+        {
+            return await dbContext.Reses.Where(x=> x.IdFinca==stateId).ToListAsync();
+        }
+
+        public async Task<IEnumerable<ResInconveniente>> GetBullInconvenients(int bullId)
+        => await dbContext.ResInconvenientes.Where(ri=> ri.IdRes == bullId).ToArrayAsync();
+        
     }
 }

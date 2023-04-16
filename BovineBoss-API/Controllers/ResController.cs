@@ -87,5 +87,53 @@ namespace BovineBoss_API.Controllers
                 return BadRequest(r);
             }
         }
+        [HttpGet("getRaza")]
+        public async Task<IActionResult> GetRazas()=> Ok(new Response()
+            {
+                data = await resService.GetRazas(),
+                message = "Listado de razas"
+            });
+        [HttpGet("getBulls")]
+        public async Task<IActionResult> GetBulls(int stateId)
+        {
+            try
+            {
+                var r = await resService.GetBulls(stateId);
+                return Ok(new Response()
+                {
+                    data = r,
+                    message = "Listado de reses"
+                });
+            } 
+            catch 
+            {
+                return BadRequest(new Response()
+                {
+                    errors = "No se pudieron listar las reses"
+                });
+            }
+            
+        }
+        [HttpGet("getBullInconveniets")]
+        public async Task<IActionResult> GetBullInconvenients(int bullId)
+        {
+            try
+            {
+                var r = await resService.GetBullInconvenients(bullId);
+                return Ok(new Response()
+                {
+                    data = r,
+                    message = "Listado de reses"
+                });
+            }
+            catch
+            {
+                return BadRequest(new Response()
+                {
+                    errors = "No se pudieron listar las reses"
+                });
+            }
+
+        }
     }
 }

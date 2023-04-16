@@ -5,7 +5,7 @@ namespace BovineBoss_API.Services.Contrato
 {
     public interface ITrabajadorService
     {
-        Task<List<EmployeeDto>> GetListTrabajador();
+        Task<List<EmployeeDto>> GetListWorker(int estateId);
 
         Task<ActiveTrabajadorDto> ActiveTrabajador(CreateEmployeeDto trabajador);
 
@@ -19,8 +19,6 @@ namespace BovineBoss_API.Services.Contrato
 
 
         Task<bool> addNewEstate(CreateNewEstateDto createNewEstateDto);
-
-
 
     }
 }
