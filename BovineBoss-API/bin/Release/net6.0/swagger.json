@@ -1007,9 +1007,6 @@
         },
         "usuario": {
           "type": "string"
-        },
-        "contrasenia": {
-          "type": "string"
         }
       }
     },
