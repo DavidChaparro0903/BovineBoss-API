@@ -440,7 +440,6 @@ namespace BovineBoss_API.Services.Implementacion
                     persona.TelefonoPersona = Admin.TelefonoPersona;
                     persona.Salario = Admin.Salario;
                     persona.Usuario = Admin.Usuario;
-                    persona.Contrasenia = BCrypt.Net.BCrypt.HashPassword(Admin.Contrasenia);
                     dbContext.Personas.Update(persona);
                     await dbContext.SaveChangesAsync();
                     return true;
