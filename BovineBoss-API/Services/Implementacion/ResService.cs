@@ -197,6 +197,62 @@ namespace BovineBoss_API.Services.Implementacion
             return true;
         }
 
+        public async Task<ModifyResDTO> UpdateRes(ModifyResDTO updatedResDto)
+        {
+            //Lllama a la base de datos, buscando a la res por su ID
+            var existingRes = await dbContext.Reses.FindAsync(updatedResDto.IdRes);
+
+            //Revisa que la res exista
+            if (existingRes == null)
+            {   
+                //Si no existe, retornar nulo y manejar excepción en Controlador
+                return null;
+            }
+
+            existingRes.IdFinca = updatedResDto.idFinca;
+            existingRes.NombreRes = updatedResDto.NombreRes;
+            existingRes.Color = updatedResDto.Color;
+            existingRes.FechaNacimiento = updatedResDto.FechaNacimiento;
+
+            dbContext.ResRazas.RemoveRange(dbContext.ResRazas.Where(rr => rr.IdRes == existingRes.IdRes));
+            CreateListRazas(updatedResDto.listRazas, updatedResDto.IdRes);
+
+
+            dbContext.Adquisiciones.RemoveRange(dbContext.Adquisiciones.Where(ad => ad.IdRes == existingRes.IdRes));
+            //Si la cedula ingresada ya existe en la BD no se hará nada, en caso de no existir se creara un nuevo propietario para la res
+            List<CreateOwner> newOwners = new List<CreateOwner>();
+            foreach (CreateOwner owner in updatedResDto.listOwner)
+            {
+                var existingOwner = dbContext.Personas.Where(p => p.Cedula == owner.Cedula).FirstOrDefault();
+                Console.Write("----------------------------- " + existingOwner);
+                if(existingOwner == null)
+                {
+                    newOwners.Add(owner);
+                    Persona newOwner = new Persona()
+                    {
+                        NombrePersona = owner.NombrePersona,
+                        ApellidoPersona = owner.ApellidoPersona,
+                        Cedula = owner.Cedula,
+                        TipoPersona = "P"
+                    };
+                    await dbContext.Personas.AddAsync(newOwner);
+                }
+            }
+            await CreateListOwners(new AdquisicionDTO()
+            {
+                owners = newOwners,
+                idRes = updatedResDto.IdRes,
+                CostoCompraRes = updatedResDto.costoCompraRes,
+                descripcionAdquisicion = updatedResDto.DescripcionAdquisicion,
+                ComisionesPagada = updatedResDto.ComisionesPagada,
+                PrecioFlete = updatedResDto.PrecioFlete
+            });
+
+            await dbContext.SaveChangesAsync();
+
+            return updatedResDto;
+        }
+
         public async Task<IEnumerable<Rese>> GetBulls(int stateId)
         {
             return await dbContext.Reses.Where(x=> x.IdFinca==stateId).ToListAsync();
