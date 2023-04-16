@@ -1,7 +1,8 @@
 {
   "ExpandedNodes": [
-    ""
+    "",
+    "\\BovineBoss-API"
   ],
-  "SelectedNode": "\\BovineBoss-API.sln",
+  "SelectedNode": "\\BovineBoss-API\\appsettings.json",
   "PreviewInSolutionExplorer": false
 }

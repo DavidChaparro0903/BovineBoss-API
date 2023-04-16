@@ -64,6 +64,32 @@
         }
       }
     },
+    "/api/Admin/ActualizarAdministrador": {
+      "put": {
+        "tags": [
+          "Admin"
+        ],
+        "consumes": [
+          "application/json",
+          "text/json",
+          "application/*+json"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "schema": {
+              "$ref": "#/definitions/ModifyAdminDto"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
     "/api/Auth/login": {
       "post": {
         "tags": [
@@ -172,6 +198,332 @@
           }
         }
       }
+    },
+    "/api/Estate/GetUserEstates": {
+      "get": {
+        "tags": [
+          "Estate"
+        ],
+        "parameters": [
+          {
+            "in": "query",
+            "name": "userId",
+            "type": "integer",
+            "format": "int32"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
+    "/api/Res/addRaza": {
+      "post": {
+        "tags": [
+          "Res"
+        ],
+        "consumes": [
+          "application/json",
+          "text/json",
+          "application/*+json"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "schema": {
+              "$ref": "#/definitions/RazaDTO"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
+    "/api/Res/addInconveniente": {
+      "post": {
+        "tags": [
+          "Res"
+        ],
+        "consumes": [
+          "application/json",
+          "text/json",
+          "application/*+json"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "schema": {
+              "$ref": "#/definitions/IncovenienteDTO"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
+    "/api/Res/modifyInconveniente": {
+      "put": {
+        "tags": [
+          "Res"
+        ],
+        "consumes": [
+          "application/json",
+          "text/json",
+          "application/*+json"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "schema": {
+              "$ref": "#/definitions/ModifyInconvenienteDto"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
+    "/api/Res/registerRes": {
+      "post": {
+        "tags": [
+          "Res"
+        ],
+        "consumes": [
+          "application/json",
+          "text/json",
+          "application/*+json"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "schema": {
+              "$ref": "#/definitions/CreateResDto"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
+    "/api/Res/actualizarRes": {
+      "put": {
+        "tags": [
+          "Res"
+        ],
+        "consumes": [
+          "application/json",
+          "text/json",
+          "application/*+json"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "schema": {
+              "$ref": "#/definitions/ModifyResDTO"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
+    "/api/Res/getRaza": {
+      "get": {
+        "tags": [
+          "Res"
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
+    "/api/Res/getBulls": {
+      "get": {
+        "tags": [
+          "Res"
+        ],
+        "parameters": [
+          {
+            "in": "query",
+            "name": "stateId",
+            "type": "integer",
+            "format": "int32"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
+    "/api/Res/getBullInconveniets": {
+      "get": {
+        "tags": [
+          "Res"
+        ],
+        "parameters": [
+          {
+            "in": "query",
+            "name": "bullId",
+            "type": "integer",
+            "format": "int32"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
+    "/api/Trabajador/registerTrabajador": {
+      "post": {
+        "tags": [
+          "Trabajador"
+        ],
+        "consumes": [
+          "application/json",
+          "text/json",
+          "application/*+json"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "schema": {
+              "$ref": "#/definitions/CreateEmployeeDto"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
+    "/api/Trabajador/ActualizarTrabajador": {
+      "put": {
+        "tags": [
+          "Trabajador"
+        ],
+        "consumes": [
+          "application/json",
+          "text/json",
+          "application/*+json"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "schema": {
+              "$ref": "#/definitions/ModifyTrabajadorDto"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
+    "/api/Trabajador/AgregarTrabajadorFinca": {
+      "post": {
+        "tags": [
+          "Trabajador"
+        ],
+        "consumes": [
+          "application/json",
+          "text/json",
+          "application/*+json"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "schema": {
+              "$ref": "#/definitions/CreateNewEstateDto"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
+    "/api/Trabajador/ActualizarTrabajadorAdmin": {
+      "put": {
+        "tags": [
+          "Trabajador"
+        ],
+        "consumes": [
+          "application/json",
+          "text/json",
+          "application/*+json"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "schema": {
+              "$ref": "#/definitions/ModifyTrabajadorAdminDto"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
+    "/api/Trabajador/GetWorkers": {
+      "get": {
+        "tags": [
+          "Trabajador"
+        ],
+        "parameters": [
+          {
+            "in": "query",
+            "name": "estateId",
+            "type": "integer",
+            "format": "int32"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
     }
   },
   "definitions": {
@@ -188,6 +540,10 @@
         "idAdministrador": {
           "format": "int32",
           "type": "integer"
+        },
+        "fechaCambioAdmin": {
+          "format": "date-time",
+          "type": "string"
         },
         "idAdministradorNavigation": {
           "$ref": "#/definitions/Persona"
@@ -289,6 +645,10 @@
         },
         "contrasenia": {
           "type": "string"
+        },
+        "idFinca": {
+          "format": "int32",
+          "type": "integer"
         }
       }
     },
@@ -302,6 +662,95 @@
           "type": "string"
         },
         "extensionFinca": {
+          "format": "int32",
+          "type": "integer"
+        }
+      }
+    },
+    "CreateNewEstateDto": {
+      "type": "object",
+      "properties": {
+        "idEmployee": {
+          "format": "int32",
+          "type": "integer"
+        },
+        "listIdState": {
+          "type": "array",
+          "items": {
+            "format": "int32",
+            "type": "integer"
+          }
+        }
+      }
+    },
+    "CreateOwner": {
+      "type": "object",
+      "properties": {
+        "nombrePersona": {
+          "type": "string"
+        },
+        "apellidoPersona": {
+          "type": "string"
+        },
+        "cedula": {
+          "type": "string"
+        }
+      }
+    },
+    "CreateResDto": {
+      "type": "object",
+      "properties": {
+        "nombreRes": {
+          "type": "string"
+        },
+        "color": {
+          "type": "string"
+        },
+        "fechaNacimiento": {
+          "format": "date-time",
+          "type": "string"
+        },
+        "idFinca": {
+          "format": "int32",
+          "type": "integer"
+        },
+        "listRazas": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/CreateResRaza"
+          }
+        },
+        "listOwner": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/CreateOwner"
+          }
+        },
+        "costoCompraRes": {
+          "format": "int32",
+          "type": "integer"
+        },
+        "precioFlete": {
+          "format": "int32",
+          "type": "integer"
+        },
+        "comisionesPagada": {
+          "format": "int32",
+          "type": "integer"
+        },
+        "descripcionAdquisicion": {
+          "type": "string"
+        }
+      }
+    },
+    "CreateResRaza": {
+      "type": "object",
+      "properties": {
+        "idRaza": {
+          "format": "int32",
+          "type": "integer"
+        },
+        "porcentaje": {
           "format": "int32",
           "type": "integer"
         }
@@ -525,6 +974,166 @@
         }
       }
     },
+    "IncovenienteDTO": {
+      "type": "object",
+      "properties": {
+        "nombreInconveniente": {
+          "type": "string"
+        }
+      }
+    },
+    "ModifyAdminDto": {
+      "type": "object",
+      "properties": {
+        "idPersona": {
+          "format": "int32",
+          "type": "integer"
+        },
+        "nombrePersona": {
+          "type": "string"
+        },
+        "apellidoPersona": {
+          "type": "string"
+        },
+        "cedula": {
+          "type": "string"
+        },
+        "telefonoPersona": {
+          "type": "string"
+        },
+        "salario": {
+          "format": "int32",
+          "type": "integer"
+        },
+        "usuario": {
+          "type": "string"
+        },
+        "contrasenia": {
+          "type": "string"
+        }
+      }
+    },
+    "ModifyInconvenienteDto": {
+      "type": "object",
+      "properties": {
+        "idInconveniente": {
+          "format": "int32",
+          "type": "integer"
+        },
+        "nombreNuevoInconveniente": {
+          "type": "string"
+        }
+      }
+    },
+    "ModifyResDTO": {
+      "type": "object",
+      "properties": {
+        "idRes": {
+          "format": "int32",
+          "type": "integer"
+        },
+        "idFinca": {
+          "format": "int32",
+          "type": "integer"
+        },
+        "nombreRes": {
+          "type": "string"
+        },
+        "color": {
+          "type": "string"
+        },
+        "fechaNacimiento": {
+          "format": "date-time",
+          "type": "string"
+        },
+        "listRazas": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/CreateResRaza"
+          }
+        },
+        "listOwner": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/CreateOwner"
+          }
+        },
+        "costoCompraRes": {
+          "format": "int32",
+          "type": "integer"
+        },
+        "descripcionAdquisicion": {
+          "type": "string"
+        },
+        "comisionesPagada": {
+          "format": "int32",
+          "type": "integer"
+        },
+        "precioFlete": {
+          "format": "int32",
+          "type": "integer"
+        }
+      }
+    },
+    "ModifyTrabajadorAdminDto": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "format": "int32",
+          "type": "integer"
+        },
+        "nombrePersona": {
+          "type": "string"
+        },
+        "apellidoPersona": {
+          "type": "string"
+        },
+        "cedula": {
+          "type": "string"
+        },
+        "telefonoPersona": {
+          "type": "string"
+        },
+        "usuario": {
+          "type": "string"
+        },
+        "contrasenia": {
+          "type": "string"
+        },
+        "salario": {
+          "format": "int32",
+          "type": "integer"
+        }
+      }
+    },
+    "ModifyTrabajadorDto": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "format": "int32",
+          "type": "integer"
+        },
+        "nombrePersona": {
+          "type": "string"
+        },
+        "apellidoPersona": {
+          "type": "string"
+        },
+        "cedula": {
+          "type": "string"
+        },
+        "telefonoPersona": {
+          "type": "string"
+        },
+        "usuario": {
+          "type": "string"
+        },
+        "salario": {
+          "format": "int32",
+          "type": "integer"
+        }
+      }
+    },
     "Persona": {
       "type": "object",
       "properties": {
@@ -607,6 +1216,14 @@
             "$ref": "#/definitions/ResRaza"
           },
           "readOnly": true
+        }
+      }
+    },
+    "RazaDTO": {
+      "type": "object",
+      "properties": {
+        "nombreRaza": {
+          "type": "string"
         }
       }
     },
@@ -748,6 +1365,10 @@
         "idTrabajador": {
           "format": "int32",
           "type": "integer"
+        },
+        "fechaCambioTrabajador": {
+          "format": "date-time",
+          "type": "string"
         },
         "idFincaNavigation": {
           "$ref": "#/definitions/Finca"

@@ -20,5 +20,10 @@
             <response code="403">Si el usuario no tiene permisos para realizar la solicitud</response>
             <response code="500">Si ocurre un error en el servidor</response>
         </member>
+        <member name="M:BovineBoss_API.Services.Implementacion.PersonaService.employeeIsNotActiveInStates(System.Int32,System.Collections.Generic.List{System.Int32})">
+                    Observamos que el empleado no este activo en una finca, si esta activo en almenos una
+                    retorna false de lo contrario retorna true
+                     
+        </member>
     </members>
 </doc>
