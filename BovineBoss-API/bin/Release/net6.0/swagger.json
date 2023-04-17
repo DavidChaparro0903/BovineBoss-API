@@ -381,6 +381,26 @@
         }
       }
     },
+    "/api/Res/getFullBulls": {
+      "get": {
+        "tags": [
+          "Res"
+        ],
+        "parameters": [
+          {
+            "in": "query",
+            "name": "stateId",
+            "type": "integer",
+            "format": "int32"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
     "/api/Res/getBullInconveniets": {
       "get": {
         "tags": [
