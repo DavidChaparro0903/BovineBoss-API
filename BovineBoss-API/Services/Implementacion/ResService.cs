@@ -260,6 +260,46 @@ namespace BovineBoss_API.Services.Implementacion
 
         public async Task<IEnumerable<ResInconveniente>> GetBullInconvenients(int bullId)
         => await dbContext.ResInconvenientes.Where(ri=> ri.IdRes == bullId).ToArrayAsync();
-        
+
+        public async Task<List<CompleteDataBull>> GetDataBullComplete()
+        {
+            var valor = from r in dbContext.Reses
+                        join f in dbContext.Fincas
+                        on r.IdFinca equals f.IdFinca
+                        join rr in dbContext.ResRazas
+                        on r.IdRes equals rr.IdRes
+                        join a in dbContext.Adquisiciones
+                        on r.IdRes equals a.IdRes
+                        join p in dbContext.Personas
+                        on a.IdPropietario equals p.IdPersona
+                        join ri in dbContext.ResInconvenientes
+                        on r.IdRes equals ri.IdRes
+                        join i in dbContext.Inconvenientes
+                        on ri.IdInconveniente equals i.IdInconveniente
+                        join ra in dbContext.Razas
+                        on rr.IdRaza equals ra.IdRaza
+                        select new CompleteDataBull
+                        {
+                            IdRes = r.IdRes,
+                            NombreRes = r.NombreRes,
+                            Color = r.Color,
+                            FechaNacimiento = r.FechaNacimiento,
+                            IdFinca = f.IdFinca,
+                            NombreFinca = f.NombreFinca,
+                            IdPropietario = p.IdPersona,
+                            NombreCompletoPropietario = p.NombrePersona + " " + p.ApellidoPersona,
+                            Cedula = p.Cedula,
+                            IdRaza = ra.IdRaza,
+                            NombreRaza = ra.NombreRaza,
+                            IdInconveniente = i.IdInconveniente,
+                            NombreInconveniente = i.NombreInconveniente
+                        };
+            return await valor.ToListAsync();
+
+
+
+
+        }
+
     }
 }
