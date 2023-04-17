@@ -15,5 +15,6 @@ namespace BovineBoss_API.Services.Contrato
         Task<IEnumerable<Rese>> GetBulls(int stateId);
         Task<IEnumerable<ResInconveniente>> GetBullInconvenients(int bullId);
         Task<IEnumerable<FullBullDto>> GetFullBull(int stateId);
+        Task<IEnumerable<Inconveniente>> GetDrawBacks();
     }
 }

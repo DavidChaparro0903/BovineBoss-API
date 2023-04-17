@@ -110,6 +110,12 @@ namespace BovineBoss_API.Controllers
                 data = await resService.GetRazas(),
                 message = "Listado de razas"
             });
+        [HttpGet("getDrawBacks")]
+        public async Task<IActionResult> GetDrawBacks() => Ok(new Response()
+        {
+            data = await resService.GetDrawBacks(),
+            message = "Listado de razas"
+        });
         [HttpGet("getBulls")]
         public async Task<IActionResult> GetBulls(int stateId)
         {

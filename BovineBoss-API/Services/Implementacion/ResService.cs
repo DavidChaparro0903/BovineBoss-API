@@ -280,6 +280,8 @@ namespace BovineBoss_API.Services.Implementacion
                 DescripcionAdquisicion = p.Adquisiciones.FirstOrDefault().DescripcionAdquisicion,
                 PrecioFlete = p.Adquisiciones.FirstOrDefault().PrecioFlete
             }).AsNoTracking().ToListAsync();
-        } 
+        }
+
+        public async Task<IEnumerable<Inconveniente>> GetDrawBacks() => dbContext.Inconvenientes.AsEnumerable();
     }
 }
