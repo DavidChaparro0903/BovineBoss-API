@@ -11,7 +11,7 @@ namespace BovineBoss_API.Models.Dtos
 
         public DateTime FechaNacimiento { get; set; }
 
-        public List<ResRaza> listRazas { get; set; }
+        public List<RazaResDTO> listRazas { get; set; }
 
         public List<Persona> listOwner { get; set; }
 

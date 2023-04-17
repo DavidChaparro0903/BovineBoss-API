@@ -269,7 +269,11 @@ namespace BovineBoss_API.Services.Implementacion
                 NombreRes = p.NombreRes,
                 Color = p.Color,
                 FechaNacimiento = p.FechaNacimiento,
-                listRazas = p.ResRazas.ToList(),
+                listRazas = p.ResRazas.Select(o=> new RazaResDTO() {
+                    idRaza = o.IdRaza,
+                    PorcentajeRaza= o.PorcentajeRaza,
+                    NombreRaza = o.IdRazaNavigation.NombreRaza
+                } ).ToList(),
                 listOwner = p.Adquisiciones.Select(o => o.IdPropietarioNavigation).ToList(),
                 ComisionesPagada = p.Adquisiciones.FirstOrDefault().ComisionesPagada,
                 CostoCompraRes = p.Adquisiciones.FirstOrDefault().CostoCompraRes,
