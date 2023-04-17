@@ -266,6 +266,7 @@ namespace BovineBoss_API.Services.Implementacion
             return await dbContext.Reses.Where(r => r.IdFinca == stateId).Select(p => new FullBullDto()
             {
                 id = p.IdRes,
+                idFinca = p.IdFinca,
                 NombreRes = p.NombreRes,
                 Color = p.Color,
                 FechaNacimiento = p.FechaNacimiento,

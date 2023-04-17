@@ -5,6 +5,7 @@ namespace BovineBoss_API.Models.Dtos
     public class FullBullDto
     {
         public int id { get; set; }
+        public int idFinca { get; set; }
         public string NombreRes { get; set; } = null!;
 
         public string Color { get; set; } = null!;

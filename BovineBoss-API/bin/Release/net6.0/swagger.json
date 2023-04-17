@@ -361,6 +361,18 @@
         }
       }
     },
+    "/api/Res/getDrawBacks": {
+      "get": {
+        "tags": [
+          "Res"
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
     "/api/Res/getBulls": {
       "get": {
         "tags": [
