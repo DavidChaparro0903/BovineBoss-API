@@ -224,7 +224,6 @@ namespace BovineBoss_API.Services.Implementacion
             foreach (CreateOwner owner in updatedResDto.listOwner)
             {
                 var existingOwner = dbContext.Personas.Where(p => p.Cedula == owner.Cedula).FirstOrDefault();
-                Console.Write("----------------------------- " + existingOwner);
                 if(existingOwner == null)
                 {
                     newOwners.Add(owner);
@@ -260,6 +259,23 @@ namespace BovineBoss_API.Services.Implementacion
 
         public async Task<IEnumerable<ResInconveniente>> GetBullInconvenients(int bullId)
         => await dbContext.ResInconvenientes.Where(ri=> ri.IdRes == bullId).ToArrayAsync();
-        
+/// <inheritdoc/>
+
+        public async Task<IEnumerable<FullBullDto>> GetFullBull(int stateId) {
+
+            return await dbContext.Reses.Where(r => r.IdFinca == stateId).Select(p => new FullBullDto()
+            {
+                id = p.IdRes,
+                NombreRes = p.NombreRes,
+                Color = p.Color,
+                FechaNacimiento = p.FechaNacimiento,
+                listRazas = p.ResRazas.ToList(),
+                listOwner = p.Adquisiciones.Select(o => o.IdPropietarioNavigation).ToList(),
+                ComisionesPagada = p.Adquisiciones.FirstOrDefault().ComisionesPagada,
+                CostoCompraRes = p.Adquisiciones.FirstOrDefault().CostoCompraRes,
+                DescripcionAdquisicion = p.Adquisiciones.FirstOrDefault().DescripcionAdquisicion,
+                PrecioFlete = p.Adquisiciones.FirstOrDefault().PrecioFlete
+            }).AsNoTracking().ToListAsync();
+        } 
     }
 }

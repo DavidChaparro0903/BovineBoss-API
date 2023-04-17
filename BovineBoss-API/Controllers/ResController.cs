@@ -131,6 +131,27 @@ namespace BovineBoss_API.Controllers
             }
             
         }
+        [HttpGet("getFullBulls")]
+        public async Task<IActionResult> GetfULLBulls(int stateId)
+        {
+            try
+            {
+                var r = await resService.GetFullBull(stateId);
+                return Ok(new Response()
+                {
+                    data = r,
+                    message = "Listado de reses"
+                });
+            }
+            catch
+            {
+                return BadRequest(new Response()
+                {
+                    errors = "No se pudieron listar las reses"
+                });
+            }
+
+        }
         [HttpGet("getBullInconveniets")]
         public async Task<IActionResult> GetBullInconvenients(int bullId)
         {
