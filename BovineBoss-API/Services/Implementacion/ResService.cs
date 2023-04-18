@@ -160,7 +160,13 @@ namespace BovineBoss_API.Services.Implementacion
                     // o la otra es volver a crear el mismo registro en la base de datos pero con otro rol
                     Persona owner = await dbContext.Personas.SingleAsync(p => p.Cedula == ownerDTO.Cedula);
                     idPropietario = owner.IdPersona;
-
+                    
+                    //var existingAdquisicion = await dbContext.Adquisiciones.SingleAsync(ad => ad.IdRes == adquisicionDTO.idRes && ad.IdPropietario == idPropietario);
+                    //existingAdquisicion.PrecioFlete = adquisicionDTO.PrecioFlete;
+                    //existingAdquisicion.CostoCompraRes = adquisicionDTO.CostoCompraRes;
+                    //existingAdquisicion.ComisionesPagada = adquisicionDTO.ComisionesPagada;
+                    //existingAdquisicion.DescripcionAdquisicion = adquisicionDTO.descripcionAdquisicion;
+                    //dbContext.Update(existingAdquisicion);
                 }
                 //Con el propietario agregado a la BD, se relaciona en la entidad Adquisicion
                 Adquisicione adquisicion = new Adquisicione()
