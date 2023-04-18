@@ -556,6 +556,18 @@
           }
         }
       }
+    },
+    "/api/Trabajador/GetOwners": {
+      "get": {
+        "tags": [
+          "Trabajador"
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
     }
   },
   "definitions": {
