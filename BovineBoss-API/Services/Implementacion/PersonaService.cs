@@ -566,6 +566,27 @@ namespace BovineBoss_API.Services.Implementacion
                 
          }
 
+        public Task<IEnumerable<OwnerDTO>> GetOwners()
+        {
+            try
+            {
+                var estateWorkerList = dbContext.Personas.Where(w => w.TipoPersona== "P");
+                var listaPersona = estateWorkerList.Select(p => new OwnerDTO()
+                {
+                    Id = p.IdPersona,
+                    NombrePersona = p.NombrePersona,
+                    ApellidoPersona = p.ApellidoPersona,
+                    Cedula = p.Cedula
+                }).AsEnumerable();
+                return Task.FromResult(listaPersona);
+            }
+            catch
+            {
+                return null;
+
+            }
+        }
+
 
 
 

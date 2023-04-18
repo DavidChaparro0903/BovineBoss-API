@@ -158,7 +158,7 @@ namespace BovineBoss_API.Services.Implementacion
                     //En caso de que exista, configurar la variable idPropietario 
                     // Observar la parte de los roles y mirar si se puede manejar varios roles, y agregarlos a la base de datos
                     // o la otra es volver a crear el mismo registro en la base de datos pero con otro rol
-                    Persona owner = await dbContext.Personas.SingleAsync(p => p.Cedula == ownerDTO.Cedula);
+                    Persona owner = await dbContext.Personas.Where(p => p.Cedula == ownerDTO.Cedula).FirstAsync();
                     idPropietario = owner.IdPersona;
                     
                     //var existingAdquisicion = await dbContext.Adquisiciones.SingleAsync(ad => ad.IdRes == adquisicionDTO.idRes && ad.IdPropietario == idPropietario);
