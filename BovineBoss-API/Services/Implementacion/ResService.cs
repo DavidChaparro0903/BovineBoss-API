@@ -162,8 +162,6 @@ namespace BovineBoss_API.Services.Implementacion
                     idPropietario = owner.IdPersona;
 
                 }
-                
-
                 //Con el propietario agregado a la BD, se relaciona en la entidad Adquisicion
                 Adquisicione adquisicion = new Adquisicione()
                 {
@@ -218,15 +216,14 @@ namespace BovineBoss_API.Services.Implementacion
             CreateListRazas(updatedResDto.listRazas, updatedResDto.IdRes);
 
 
+            //Elimina la adquisición de la base de datos
             dbContext.Adquisiciones.RemoveRange(dbContext.Adquisiciones.Where(ad => ad.IdRes == existingRes.IdRes));
             //Si la cedula ingresada ya existe en la BD no se hará nada, en caso de no existir se creara un nuevo propietario para la res
-            List<CreateOwner> newOwners = new List<CreateOwner>();
             foreach (CreateOwner owner in updatedResDto.listOwner)
             {
                 var existingOwner = dbContext.Personas.Where(p => p.Cedula == owner.Cedula).FirstOrDefault();
-                if(existingOwner == null)
+                if (existingOwner == null)
                 {
-                    newOwners.Add(owner);
                     Persona newOwner = new Persona()
                     {
                         NombrePersona = owner.NombrePersona,
@@ -239,7 +236,7 @@ namespace BovineBoss_API.Services.Implementacion
             }
             await CreateListOwners(new AdquisicionDTO()
             {
-                owners = newOwners,
+                owners = updatedResDto.listOwner,
                 idRes = updatedResDto.IdRes,
                 CostoCompraRes = updatedResDto.costoCompraRes,
                 descripcionAdquisicion = updatedResDto.DescripcionAdquisicion,
