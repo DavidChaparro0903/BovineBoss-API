@@ -6,6 +6,7 @@ namespace BovineBoss_API.Services.Contrato
     public interface ITrabajadorService
     {
         Task<List<EmployeeDto>> GetListWorker(int estateId);
+        Task<IEnumerable<OwnerDTO>> GetOwners();
 
         Task<ActiveTrabajadorDto> ActiveTrabajador(CreateEmployeeDto trabajador);
 

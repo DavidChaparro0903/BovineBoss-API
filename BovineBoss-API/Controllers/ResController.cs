@@ -110,6 +110,12 @@ namespace BovineBoss_API.Controllers
                 data = await resService.GetRazas(),
                 message = "Listado de razas"
             });
+        [HttpGet("getDrawBacks")]
+        public async Task<IActionResult> GetDrawBacks() => Ok(new Response()
+        {
+            data = await resService.GetDrawBacks(),
+            message = "Listado de razas"
+        });
         [HttpGet("getBulls")]
         public async Task<IActionResult> GetBulls(int stateId)
         {
@@ -131,14 +137,12 @@ namespace BovineBoss_API.Controllers
             }
             
         }
-
-
-        [HttpGet("GetBullComplete")]
-        public async Task<IActionResult> getCompleteDataBull()
+        [HttpGet("getFullBulls")]
+        public async Task<IActionResult> GetfULLBulls(int stateId)
         {
             try
             {
-                var r = await resService.GetDataBullComplete();
+                var r = await resService.GetFullBull(stateId);
                 return Ok(new Response()
                 {
                     data = r,
@@ -154,8 +158,6 @@ namespace BovineBoss_API.Controllers
             }
 
         }
-
-
         [HttpGet("getBullInconveniets")]
         public async Task<IActionResult> GetBullInconvenients(int bullId)
         {

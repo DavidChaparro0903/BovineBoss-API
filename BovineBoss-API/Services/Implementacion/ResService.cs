@@ -158,12 +158,16 @@ namespace BovineBoss_API.Services.Implementacion
                     //En caso de que exista, configurar la variable idPropietario 
                     // Observar la parte de los roles y mirar si se puede manejar varios roles, y agregarlos a la base de datos
                     // o la otra es volver a crear el mismo registro en la base de datos pero con otro rol
-                    Persona owner = await dbContext.Personas.SingleAsync(p => p.Cedula == ownerDTO.Cedula);
+                    Persona owner = await dbContext.Personas.Where(p => p.Cedula == ownerDTO.Cedula).FirstAsync();
                     idPropietario = owner.IdPersona;
-
+                    
+                    //var existingAdquisicion = await dbContext.Adquisiciones.SingleAsync(ad => ad.IdRes == adquisicionDTO.idRes && ad.IdPropietario == idPropietario);
+                    //existingAdquisicion.PrecioFlete = adquisicionDTO.PrecioFlete;
+                    //existingAdquisicion.CostoCompraRes = adquisicionDTO.CostoCompraRes;
+                    //existingAdquisicion.ComisionesPagada = adquisicionDTO.ComisionesPagada;
+                    //existingAdquisicion.DescripcionAdquisicion = adquisicionDTO.descripcionAdquisicion;
+                    //dbContext.Update(existingAdquisicion);
                 }
-                
-
                 //Con el propietario agregado a la BD, se relaciona en la entidad Adquisicion
                 Adquisicione adquisicion = new Adquisicione()
                 {
@@ -218,16 +222,14 @@ namespace BovineBoss_API.Services.Implementacion
             CreateListRazas(updatedResDto.listRazas, updatedResDto.IdRes);
 
 
+            //Elimina la adquisición de la base de datos
             dbContext.Adquisiciones.RemoveRange(dbContext.Adquisiciones.Where(ad => ad.IdRes == existingRes.IdRes));
             //Si la cedula ingresada ya existe en la BD no se hará nada, en caso de no existir se creara un nuevo propietario para la res
-            List<CreateOwner> newOwners = new List<CreateOwner>();
             foreach (CreateOwner owner in updatedResDto.listOwner)
             {
                 var existingOwner = dbContext.Personas.Where(p => p.Cedula == owner.Cedula).FirstOrDefault();
-                Console.Write("----------------------------- " + existingOwner);
-                if(existingOwner == null)
+                if (existingOwner == null)
                 {
-                    newOwners.Add(owner);
                     Persona newOwner = new Persona()
                     {
                         NombrePersona = owner.NombrePersona,
@@ -240,7 +242,7 @@ namespace BovineBoss_API.Services.Implementacion
             }
             await CreateListOwners(new AdquisicionDTO()
             {
-                owners = newOwners,
+                owners = updatedResDto.listOwner,
                 idRes = updatedResDto.IdRes,
                 CostoCompraRes = updatedResDto.costoCompraRes,
                 descripcionAdquisicion = updatedResDto.DescripcionAdquisicion,
@@ -260,46 +262,30 @@ namespace BovineBoss_API.Services.Implementacion
 
         public async Task<IEnumerable<ResInconveniente>> GetBullInconvenients(int bullId)
         => await dbContext.ResInconvenientes.Where(ri=> ri.IdRes == bullId).ToArrayAsync();
+/// <inheritdoc/>
 
-        public async Task<List<CompleteDataBull>> GetDataBullComplete()
-        {
-            var valor = from r in dbContext.Reses
-                        join f in dbContext.Fincas
-                        on r.IdFinca equals f.IdFinca
-                        join rr in dbContext.ResRazas
-                        on r.IdRes equals rr.IdRes
-                        join a in dbContext.Adquisiciones
-                        on r.IdRes equals a.IdRes
-                        join p in dbContext.Personas
-                        on a.IdPropietario equals p.IdPersona
-                        join ri in dbContext.ResInconvenientes
-                        on r.IdRes equals ri.IdRes
-                        join i in dbContext.Inconvenientes
-                        on ri.IdInconveniente equals i.IdInconveniente
-                        join ra in dbContext.Razas
-                        on rr.IdRaza equals ra.IdRaza
-                        select new CompleteDataBull
-                        {
-                            IdRes = r.IdRes,
-                            NombreRes = r.NombreRes,
-                            Color = r.Color,
-                            FechaNacimiento = r.FechaNacimiento,
-                            IdFinca = f.IdFinca,
-                            NombreFinca = f.NombreFinca,
-                            IdPropietario = p.IdPersona,
-                            NombreCompletoPropietario = p.NombrePersona + " " + p.ApellidoPersona,
-                            Cedula = p.Cedula,
-                            IdRaza = ra.IdRaza,
-                            NombreRaza = ra.NombreRaza,
-                            IdInconveniente = i.IdInconveniente,
-                            NombreInconveniente = i.NombreInconveniente
-                        };
-            return await valor.ToListAsync();
+        public async Task<IEnumerable<FullBullDto>> GetFullBull(int stateId) {
 
-
-
-
+            return await dbContext.Reses.Where(r => r.IdFinca == stateId).Select(p => new FullBullDto()
+            {
+                id = p.IdRes,
+                idFinca = p.IdFinca,
+                NombreRes = p.NombreRes,
+                Color = p.Color,
+                FechaNacimiento = p.FechaNacimiento,
+                listRazas = p.ResRazas.Select(o=> new RazaResDTO() {
+                    idRaza = o.IdRaza,
+                    PorcentajeRaza= o.PorcentajeRaza,
+                    NombreRaza = o.IdRazaNavigation.NombreRaza
+                } ).ToList(),
+                listOwner = p.Adquisiciones.Select(o => o.IdPropietarioNavigation).ToList(),
+                ComisionesPagada = p.Adquisiciones.FirstOrDefault().ComisionesPagada,
+                CostoCompraRes = p.Adquisiciones.FirstOrDefault().CostoCompraRes,
+                DescripcionAdquisicion = p.Adquisiciones.FirstOrDefault().DescripcionAdquisicion,
+                PrecioFlete = p.Adquisiciones.FirstOrDefault().PrecioFlete
+            }).AsNoTracking().ToListAsync();
         }
 
+        public async Task<IEnumerable<Inconveniente>> GetDrawBacks() => dbContext.Inconvenientes.AsEnumerable();
     }
 }

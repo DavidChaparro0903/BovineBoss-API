@@ -107,6 +107,20 @@ namespace BovineBoss_API.Controllers
             r.errors = "No se pudo listar los trabajadores";
             return BadRequest(r);
         }
+        [HttpGet("GetOwners")]
+        public async Task<IActionResult> GetOwners()
+        {
+            Response r = new();
+            var workerList = await trabajadorService.GetOwners();
+            if (workerList.Any())
+            {
+                r.message = "Se obtiene exitosamente los trabajadores";
+                r.data = workerList;
+                return Ok(r);
+            }
+            r.errors = "No se pudo listar los trabajadores";
+            return BadRequest(r);
+        }
 
     }
 }

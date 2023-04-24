@@ -25,5 +25,8 @@
                     retorna false de lo contrario retorna true
                      
         </member>
+        <member name="M:BovineBoss_API.Services.Implementacion.ResService.GetFullBull(System.Int32)">
+            <inheritdoc/>
+        </member>
     </members>
 </doc>

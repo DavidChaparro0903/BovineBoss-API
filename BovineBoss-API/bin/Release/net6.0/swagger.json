@@ -361,7 +361,39 @@
         }
       }
     },
+    "/api/Res/getDrawBacks": {
+      "get": {
+        "tags": [
+          "Res"
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
     "/api/Res/getBulls": {
+      "get": {
+        "tags": [
+          "Res"
+        ],
+        "parameters": [
+          {
+            "in": "query",
+            "name": "stateId",
+            "type": "integer",
+            "format": "int32"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
+    "/api/Res/getFullBulls": {
       "get": {
         "tags": [
           "Res"
@@ -517,6 +549,18 @@
             "type": "integer",
             "format": "int32"
           }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
+    "/api/Trabajador/GetOwners": {
+      "get": {
+        "tags": [
+          "Trabajador"
         ],
         "responses": {
           "200": {
