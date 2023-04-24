@@ -11,7 +11,9 @@ public partial class TrabajadorFinca
 
     public int IdTrabajador { get; set; }
 
-    public virtual Fincas IdFincaNavigation { get; set; } = null!;
+    public DateTime FechaCambioTrabajador { get; set; }
+
+    public virtual Finca IdFincaNavigation { get; set; } = null!;
 
     public virtual Persona IdTrabajadorNavigation { get; set; } = null!;
 }

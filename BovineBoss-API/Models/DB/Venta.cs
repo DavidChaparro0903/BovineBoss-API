@@ -13,5 +13,5 @@ public partial class Venta
 
     public virtual Persona IdCompradorNavigation { get; set; } = null!;
 
-    public virtual ICollection<Reses> Reses { get; } = new List<Reses>();
+    public virtual ICollection<Rese> Reses { get; } = new List<Rese>();
 }

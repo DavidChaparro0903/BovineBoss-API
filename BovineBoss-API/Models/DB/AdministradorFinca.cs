@@ -11,7 +11,9 @@ public partial class AdministradorFinca
 
     public int IdAdministrador { get; set; }
 
+    public DateTime FechaCambioAdmin { get; set; }
+
     public virtual Persona IdAdministradorNavigation { get; set; } = null!;
 
-    public virtual Fincas IdFincaNavigation { get; set; } = null!;
+    public virtual Finca IdFincaNavigation { get; set; } = null!;
 }
