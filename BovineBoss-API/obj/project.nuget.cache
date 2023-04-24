@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "IrAw51nodldvTULk8V4rNSg1NNpV0PJoto40Z3vSCdWAMLmjGaWnniqrL6MKEphmOQ4q/aPhKD1oFc47BeD3RQ==",
+  "dgSpecHash": "l6QaeeyDDUToeh/idk248pGhx3oGJK02ASeT8lv30k7amjQ0djXFWAjTPkH5kJCTTXXwUAptPCp8Hlgw83WSQQ==",
   "success": true,
-  "projectFilePath": "C:\\Users\\braya\\OneDrive\\Escritorio\\Trabajo de campo\\BovineBossAPI\\BovineBossAPI\\BovineBoss-API\\BovineBoss-API.csproj",
+  "projectFilePath": "C:\\Users\\braya\\Source\\Repos\\BovineBoss-API\\BovineBoss-API\\BovineBoss-API.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\braya\\.nuget\\packages\\azure.core\\1.24.0\\azure.core.1.24.0.nupkg.sha512",
     "C:\\Users\\braya\\.nuget\\packages\\azure.identity\\1.6.0\\azure.identity.1.6.0.nupkg.sha512",
@@ -81,5 +81,12 @@
     "C:\\Users\\braya\\.nuget\\packages\\system.threading.tasks.extensions\\4.5.4\\system.threading.tasks.extensions.4.5.4.nupkg.sha512",
     "C:\\Users\\braya\\.nuget\\packages\\system.windows.extensions\\5.0.0\\system.windows.extensions.5.0.0.nupkg.sha512"
   ],
-  "logs": []
+  "logs": [
+    {
+      "code": "Undefined",
+      "level": "Warning",
+      "warningLevel": 1,
+      "message": "Problema al leer el archivo de caché C:\\Users\\braya\\Source\\Repos\\BovineBoss-API\\BovineBoss-API\\obj\\project.nuget.cache : Invalid property identifier character: <. Path 'version', line 3, position 0."
+    }
+  ]
 }

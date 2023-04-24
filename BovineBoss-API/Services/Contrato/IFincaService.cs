@@ -9,11 +9,17 @@ namespace BovineBoss_API.Services.Contrato
 
         Task<FincaDto> GetFinca(int idFinca);
 
-        Task<FincaDto> AddFinca(FincaDto finca);
+
+        Task<bool> fincaExits(int idFinca);
+
+        Task<CreateFincaDto> AddFinca(CreateFincaDto finca);
 
         Task<bool> UpdateFinca(Finca finca);
 
         Task<bool> DeleteFinca(Finca Finca);
+
+        Task<List<StateTokenDto>> GetListState();
+        Task<List<StateTokenDto>> GetListStateByIdUser(int userId);
 
     }
 }

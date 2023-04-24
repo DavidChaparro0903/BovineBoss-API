@@ -9,7 +9,7 @@ public partial class Finca
 
     public string NombreFinca { get; set; } = null!;
 
-    public string DireccionFinca { get; set; } = null!;
+    public string? DireccionFinca { get; set; }
 
     public int ExtensionFinca { get; set; }
 

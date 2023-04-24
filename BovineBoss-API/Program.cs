@@ -4,22 +4,19 @@ using BovineBoss_API.Services.Contrato;
 using BovineBoss_API.Services.Implementacion;
 using System.Reflection;
 using Microsoft.OpenApi.Models;
-using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
-using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.Net.Http.Headers;
+using System.Text.Json.Serialization;
 
 var builder = WebApplication.CreateBuilder(args);
 
+string cors = "CorsConfig";
 // Add services to the container.
 
-builder.Services.AddControllers();
+builder.Services.AddControllersWithViews();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
-
-builder.Services.AddEndpointsApiExplorer();
-
-string cors = "CorsConfig";
 
 builder.Services.AddCors(options =>
 {
@@ -29,16 +26,7 @@ builder.Services.AddCors(options =>
     });
 });
 
-builder.Services.AddDbContext<BovineBossContext>(options => {
-    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"));
-});
-
-//Aca se trabaja la inyeccion de dependencias, de la relacion entre la interfaz y la implementacion
-//Para inyectar estos servicios
-builder.Services.AddScoped<IAdminService, PersonaService>();
-
-builder.Services.AddScoped<IFincaService, FincaService>();
-
+builder.Services.AddEndpointsApiExplorer();
 
 builder.Services.AddSwaggerGen(c =>
 {
@@ -67,7 +55,22 @@ builder.Services.AddSwaggerGen(c =>
                 }
             });
     c.SchemaFilter<EnumSchemaFilter>();
+    var xmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name!}.xml";
+    var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
+    c.IncludeXmlComments(xmlPath, includeControllerXmlComments: true);
 });
+
+builder.Services.AddDbContext<BovineBossContext>(options => {
+    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"));
+});
+
+builder.Services.AddScoped<IAdminService, PersonaService>();
+
+builder.Services.AddScoped<IFincaService, FincaService>();
+
+builder.Services.AddScoped<ITrabajadorService, PersonaService>();
+
+builder.Services.AddScoped<IResService, ResService>();
 
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJwtBearer(
     options =>
@@ -83,25 +86,44 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJw
         };
     }
     );
+//builder.Services.AddControllers().AddJsonOptions(x =>
+//                x.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles);
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline
-
-app.UseSwagger();
-
-app.UseSwaggerUI();
+if (app.Environment.IsDevelopment())
+{
+    app.UseSwagger();
+    app.UseSwaggerUI(c =>
+    {
+        c.SwaggerEndpoint("v1/swagger.json", "BovineBossAPI");
+    });
+}
 
 app.UseHttpsRedirection();
 
 app.UseRouting();
 
+app.UseCors(cors);
+
+app.Use(async (httpContext, next) =>
+{
+    var apiMode = httpContext.Request.Path.StartsWithSegments("/api");
+    if (apiMode)
+    {
+        httpContext.Request.Headers[HeaderNames.XRequestedWith] = "XMLHttpRequest";
+    }
+    await next();
+});
+
 app.UseAuthentication();
 
 app.UseAuthorization();
 
-app.UseCors(cors);
-
 app.UseEndpoints(endpoints => { endpoints.MapControllers().RequireCors(cors); });
+
+
 
 app.MapControllers();
 

@@ -15,12 +15,12 @@ namespace BovineBoss_API.Services.Implementacion
             this.dbContext = dbContext;
         }
 
-        public async Task<FincaDto> AddFinca(FincaDto fincaDto)
+        public async Task<CreateFincaDto?> AddFinca(CreateFincaDto fincaDto)
         {
 
             try
             {
-                Finca finca = new Finca() { 
+                Finca finca = new () { 
                 NombreFinca = fincaDto.NombreFinca,
                 DireccionFinca = fincaDto.DireccionFinca,
                 ExtensionFinca = fincaDto.ExtensionFinca
@@ -29,8 +29,9 @@ namespace BovineBoss_API.Services.Implementacion
                 await dbContext.SaveChangesAsync();
                 return fincaDto;
             }
-            catch (Exception ex) {
-                throw ex;
+            catch {
+
+                return null;
 
             }
 
@@ -42,21 +43,26 @@ namespace BovineBoss_API.Services.Implementacion
                 dbContext.Fincas.Remove(finca);
                 await dbContext.SaveChangesAsync();
                 return true;
-            }catch (Exception ex)
+            }catch 
             {
-                throw ex;
+                return false;
             }
         }
 
-        public async Task<FincaDto> GetFinca(int idFinca)
+        public Task<bool> fincaExits(int idFinca)
+        {
+            throw new NotImplementedException();
+        }
+
+        public async Task<FincaDto?> GetFinca(int idFinca)
         {
 
             try
             {
-                Finca? finca = new Finca();
-                finca = await dbContext.Fincas.Where(e => e.IdFinca == idFinca).FirstOrDefaultAsync();
-                FincaDto fincaDto = new FincaDto
+                var finca = await dbContext.Fincas.Where(e => e.IdFinca == idFinca).FirstOrDefaultAsync();
+                FincaDto fincaDto = new ()
                 {
+                    IdFinca = finca.IdFinca,
                     NombreFinca = finca.NombreFinca,
                     DireccionFinca = finca.DireccionFinca,
                     ExtensionFinca = finca.ExtensionFinca
@@ -64,45 +70,78 @@ namespace BovineBoss_API.Services.Implementacion
                 return fincaDto;
 
             }
-            catch (Exception ex)
+            catch 
             {
-                throw ex;
-
-
+                return null;
             }
         }
+
 
         public async Task<List<FincaDto>> GetList()
         {
             try {
-                List<Finca> listaFinca = new List<Finca>();
-                listaFinca = await dbContext.Fincas.ToListAsync();
+                var listaFinca = await dbContext.Fincas.ToListAsync();
                 List<FincaDto> listaFincaDto = listaFinca.Select(
                   f => new FincaDto {
+                      IdFinca = f.IdFinca,
                       NombreFinca = f.NombreFinca,
                       DireccionFinca = f.DireccionFinca,
                       ExtensionFinca = f.ExtensionFinca
                   }).ToList();
                 return listaFincaDto;
-            } catch (Exception e)
+            } catch 
             {
-                throw e;
-
+                return null;
             }
 
             }
+
+        public async Task<List<StateTokenDto>> GetListState()
+        {
+            var listState = await dbContext.Fincas.ToListAsync();
+            List<StateTokenDto> listResultState = listState.Select(f => new StateTokenDto { 
+                IdFinca = f.IdFinca,
+                NombreFinca = f.NombreFinca
+            }).ToList();
+            return listResultState;
+        }
+
+        public async Task<List<StateTokenDto>> GetListStateByIdUser(int userId)
+        {
+            List<StateTokenDto> estates = new();
+            var user = dbContext.Personas.Where(x=> x.IdPersona == userId).First();
+            if (user.TipoPersona == "A")
+            {
+                var lista = dbContext.AdministradorFincas.Where(x => x.IdAdministrador == user.IdPersona).ToList();
+                estates = lista.Select(x => new StateTokenDto { 
+                IdFinca = x.IdFinca,
+                NombreFinca = dbContext.Fincas.Where(y => y.IdFinca == x.IdFinca).First().NombreFinca
+                }).ToList();
+            } 
+            else
+            {
+                var lista = dbContext.TrabajadorFincas.Where(x => x.IdTrabajador == user.IdPersona).ToList();
+                estates = lista.Select(x => new StateTokenDto
+                {
+                    IdFinca = x.IdFinca,
+                    NombreFinca = dbContext.Fincas.Where(y => y.IdFinca == x.IdFinca).First().NombreFinca
+                }).ToList();
+            }
+            return estates;
+        }
 
         public async Task<bool> UpdateFinca(Finca finca)
         {
             try
             {
+
                 dbContext.Fincas.Update(finca);
                 await dbContext.SaveChangesAsync();
                 return true;
             }
-            catch (Exception e)
+            catch 
             {
-                throw e;
+                return false;
 
             }
         }
