@@ -17,5 +17,9 @@
         public string? Contrasenia { get; set; }
 
 
+        // Un empleado siempre va necesitar una finca
+        public int IdFinca { get; set; }
+
+
     }
 }

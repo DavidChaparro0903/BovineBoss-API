@@ -1,5 +1,4 @@
 ﻿using Azure.Core;
-using BovineBoss_API.Models.DB;
 using BovineBoss_API.Models.Dtos;
 using BovineBoss_API.Services.Contrato;
 using Microsoft.AspNetCore.Cors;
@@ -19,12 +18,14 @@ namespace BovineBoss_API.Controllers
     {
         private readonly IAdminService _personaService;
         private readonly IConfiguration configuration;
+        private readonly IFincaService finca;
 
-        public AuthController(IConfiguration _configuration, IAdminService personaService)
+        public AuthController(IConfiguration _configuration, IAdminService personaService, IFincaService finca)
         {
             //Configuración para acceso a archivo de propiedades 'appsettings.json'
             this.configuration = _configuration;
             _personaService = personaService;
+            this.finca = finca;
         }
         /// <author>
         /// Diego Ballesteros
@@ -41,27 +42,28 @@ namespace BovineBoss_API.Controllers
         /// <response code="403">Si el usuario no tiene permisos para realizar la solicitud</response>
         /// <response code="500">Si ocurre un error en el servidor</response>
         [HttpPost("login")]
-        public async Task<IActionResult> Login(String usuario, String contrasenia)
+        public async Task<IActionResult> Login(Auth auth)
         {
             Response r = new Response();
-            if (string.IsNullOrEmpty(usuario) || string.IsNullOrEmpty(contrasenia))
+            if (string.IsNullOrEmpty(auth.UserName) || string.IsNullOrEmpty(auth.Password))
             {
                 r.errors = "Campos Usuario y contraseña no deben ir vacios";
                 return BadRequest(r);
             }
-            var queryResult = await _personaService.GetUser(usuario);
+            var queryResult = await _personaService.GetUser(auth.UserName);
             if (queryResult == null)
             {
                 r.errors = "Nombre de usuario o contraseña incorrectos";
                 return Unauthorized(r);
             }
             LoginPersonaDTO user = queryResult;
-            if (!BCrypt.Net.BCrypt.Verify(contrasenia, user.Contrasenia))
+            if (!BCrypt.Net.BCrypt.Verify(auth.Password, user.Contrasenia))
             {
                 r.errors = "Nombre de usuario o contraseña incorrectos";
                 return Unauthorized(r);
             }
             string token = JWTTokenGenerator(user);
+            r.aditionals = finca.GetListStateByIdUser(user.IdPersona).Result.ToArray().Length > 0? await finca.GetListStateByIdUser(user.IdPersona) : await finca.GetListState();
             r.data = token;
             r.message = "token";
             return Ok(r);

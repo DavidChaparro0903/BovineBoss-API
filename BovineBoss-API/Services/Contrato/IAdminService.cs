@@ -6,13 +6,22 @@ namespace BovineBoss_API.Services.Contrato
     public interface IAdminService
     {
 
-        Task<List<AdminDto>> GetListAdmin();
+        Task<List<EmployeeDto>> GetListAdmin();
 
-        Task<AdminDto> GetPersona(int idPersona);
-
-        Task<CreateEmployeeDto> AddAdministrator(CreateEmployeeDto Admin);
+        Task<EmployeeDto> GetEmployeeDto(int idPersona);
 
         Task<LoginPersonaDTO> GetUser(string usuario);
+
+
+        Task<ActiveAdminDto> ActiveAdmin(CreateEmployeeDto Admin);
+
+       // Task<bool> UpdateTrabajador(ModifyTrabajadorAdminDto trabajador);
+
+
+        Task<bool> UpdateAdmin(ModifyAdminDto Admin);
+
+
+       // Task<bool> addNewEstate(CreateNewEstateDto createNewEstateDto);
 
 
 
