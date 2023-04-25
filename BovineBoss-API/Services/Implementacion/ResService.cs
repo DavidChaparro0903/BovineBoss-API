@@ -287,5 +287,31 @@ namespace BovineBoss_API.Services.Implementacion
         }
 
         public async Task<IEnumerable<Inconveniente>> GetDrawBacks() => dbContext.Inconvenientes.AsEnumerable();
+
+        public async Task<bool> AddResInconvenientes(AddResInconvenientesDto addResInconvenientesDto)
+        {
+            try
+            {
+                ResInconveniente resInconveniente = new()
+                {
+
+                    IdInconveniente = addResInconvenientesDto.IdInconveniente,
+                    IdRes = addResInconvenientesDto.IdRes,
+                    FechaInconveniente = addResInconvenientesDto.FechaInconveniente,
+                    DineroGastado = addResInconvenientesDto.DineroGastado,
+                    DescripcionInconveniente = addResInconvenientesDto.DescripcionInconveniente
+                };
+
+                dbContext.ResInconvenientes.Add(resInconveniente);
+                await dbContext.SaveChangesAsync();
+                return true;
+
+            }
+            catch
+            {
+                return false;
+            }
+        }
+
     }
 }

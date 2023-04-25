@@ -179,5 +179,42 @@ namespace BovineBoss_API.Controllers
             }
 
         }
+
+
+        [HttpPost("AddResInconvenientes")]
+
+        public async Task<IActionResult> AddResInconvenientes(AddResInconvenientesDto addResInconvenientesDto)
+        {
+            try
+            {
+                bool isAdd = await resService.AddResInconvenientes(addResInconvenientesDto);
+                if (isAdd)
+                {
+                    return Ok(new Response()
+                    {
+                        data = isAdd,
+                        message = "Reses Agregado"
+
+                    });
+
+                }
+               return BadRequest(new Response()
+                {
+                    errors = "No se pudieron añadir los inconvenientes a la res"
+                });
+              
+            }
+            catch
+            {
+                return BadRequest(new Response()
+                {
+                    errors = "No se pudieron añadir los inconvenientes a la res"
+                });
+
+            }
+        }
+
+
+
     }
 }
