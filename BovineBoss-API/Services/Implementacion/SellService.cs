@@ -18,15 +18,17 @@ namespace BovineBoss_API.Services.Implementacion
         {
             //Revisa si la res existe en la BD y que no haya sido vendida
             //Revisa que el comprador exista en la BD y que sea una persona de tipo comprador
-            if (!await resesAreValid(dto.ResesVendidas) || !buyerIsValid(dto.IdComprador))
+            
+            if (!await resesAreValid(dto.ResesVendidas))
             {
                 return null;
             }
+            int IdComprador = validateBuyer(dto.Comprador);
             //Una vez revisado, se crea la entidad Venta y se agrega a la BD
             Venta sale = new Venta()
             {
                 FechaVenta = DateTime.ParseExact(DateTime.UtcNow.ToString("MM-dd-yyyy"), "MM-dd-yyyy", CultureInfo.InvariantCulture),
-                IdComprador = dto.IdComprador
+                IdComprador = IdComprador
             };
             _context.Ventas.Add(sale);
             _context.SaveChanges();
@@ -45,23 +47,27 @@ namespace BovineBoss_API.Services.Implementacion
             return dto;
         }
 
-        private bool buyerIsValid(int IdComprador)
+        private int validateBuyer(BuyerDTO compradorDTO)
         {
             //Metodo que revisa la existencia del comprador en la BD, si no existe lo agrega
             //si existe, pero no es rol comprador "C", retorna false
             try
             {
-                Persona p = _context.Personas.Where(p => p.IdPersona == IdComprador).FirstOrDefault();
-                if(p.TipoPersona != "C")
-                {
-                    return false;
-                }
+                Persona p = _context.Personas.Where(p => p.Cedula == compradorDTO.Cedula).FirstOrDefault();
+                return p.IdPersona;
             }
             catch
             {
-                return false;
+                Persona comprador = new Persona()
+                {
+                    NombrePersona = compradorDTO.NombreComprador,
+                    ApellidoPersona = compradorDTO.ApellidoComprador,
+                    Cedula = compradorDTO.Cedula,
+                    TipoPersona = "C"
+                };
+                _context.Personas.Add(comprador);
+                return _context.Entry(comprador).Entity.IdPersona;
             }
-            return true;
         }
 
         private async Task<bool> resesAreValid(List<SellResDto> resesVendidas)
@@ -70,8 +76,6 @@ namespace BovineBoss_API.Services.Implementacion
 
             foreach(SellResDto resVendida in resesVendidas)
             {
-                Console.WriteLine($"\n\n\n------Accediendo a contexto {_context} ------\n\n\n");
-
                 try
                 {
                     var res = await _context.Reses.Where(r => r.IdRes == resVendida.IdRes).FirstOrDefaultAsync();
