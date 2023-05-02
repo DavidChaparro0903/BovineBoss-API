@@ -99,6 +99,48 @@ namespace BovineBoss_API.Controllers
             r.errors = "No se pudo modificar alimentos";
             return BadRequest(r);
         }
+        [HttpGet("FoodByState")]
+        public async Task<IActionResult> ListFoodByState(int idFinca)
+        {
+            Response r = new();
+            try
+            {
+                var result = await foodService.GetFoodByEstate(idFinca);
+
+                r.message = "Listado de Alimentos vinculados a una finca";
+                r.data = result;
+                return Ok(r);
+            }catch
+            {
+                r.errors = "Hubo un problema accediendo al listado de alimentos";
+                return BadRequest(r);
+            }
+        }
+
+        [HttpPost("RegisterConsumption")]
+        public async Task<IActionResult> AddConsumo(ConsumoDTO consumo)
+        {
+            Response r = new();
+            String result = await foodService.AddFoodConsumo(consumo);
+            if (result.Equals("Agregado"))
+            {
+                r.message = "Consumo agregado exitosamente";
+                r.data = result;
+                return Ok(r);
+            }else if(result.Equals("Cantidad Invalida"))
+            {
+                r.errors = "La cantidad ingresada supera a la presente";
+                return BadRequest(r);
+            }else if (result.Equals("NoCows"))
+            {
+                r.errors = "La finca ingresada no cuenta con reses";
+                return BadRequest(r);
+            }
+            else {
+                r.errors ="Error agregando a BD";
+                return BadRequest(r);
+            }
+        }
 
         [HttpGet("{id}")]
 

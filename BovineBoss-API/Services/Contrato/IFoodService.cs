@@ -16,7 +16,8 @@ using BovineBoss_API.Models.Dtos;
         Task<bool> ModifyFoodState(FoodStateDto foodStateDto);
 
         Task<FoodDto> GetFood(int idFood);
-
+        Task<List<FoodStateDto>> GetFoodByEstate(int IdFinca);
+        Task<String> AddFoodConsumo(ConsumoDTO consumoDTO);
 }
 
 
