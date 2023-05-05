@@ -23,15 +23,16 @@ namespace BovineBoss_API.Services.Implementacion
             {
                 return null;
             }
-            int IdComprador = validateBuyer(dto.Comprador);
+            int IdComprador = await validateBuyer(dto.Comprador);
+            Console.WriteLine(IdComprador);
             //Una vez revisado, se crea la entidad Venta y se agrega a la BD
             Venta sale = new Venta()
             {
                 FechaVenta = DateTime.ParseExact(DateTime.UtcNow.ToString("MM-dd-yyyy"), "MM-dd-yyyy", CultureInfo.InvariantCulture),
                 IdComprador = IdComprador
             };
-            _context.Ventas.Add(sale);
-            _context.SaveChanges();
+            await _context.Ventas.AddAsync(sale);
+            await _context.SaveChangesAsync();
 
             //Se recupera el Id generado para esta venta
             int IdVenta = _context.Entry(sale).Entity.IdVenta;
@@ -43,17 +44,18 @@ namespace BovineBoss_API.Services.Implementacion
                 res.IdVenta = IdVenta;
                 res.ValorVenta = sellRes.Precio;
             }
-            _context.SaveChanges();
+            await _context.SaveChangesAsync();
             return dto;
         }
 
-        private int validateBuyer(BuyerDTO compradorDTO)
+        private async Task<int> validateBuyer(BuyerDTO compradorDTO)
         {
             //Metodo que revisa la existencia del comprador en la BD, si no existe lo agrega
             //si existe, pero no es rol comprador "C", retorna false
             try
             {
-                Persona p = _context.Personas.Where(p => p.Cedula == compradorDTO.Cedula).FirstOrDefault();
+                Persona p = await _context.Personas.Where(p => p.Cedula == compradorDTO.Cedula).FirstAsync();
+                Console.WriteLine(p.IdPersona);
                 return p.IdPersona;
             }
             catch
@@ -65,7 +67,8 @@ namespace BovineBoss_API.Services.Implementacion
                     Cedula = compradorDTO.Cedula,
                     TipoPersona = "C"
                 };
-                _context.Personas.Add(comprador);
+                await _context.Personas.AddAsync(comprador);
+                await _context.SaveChangesAsync();
                 return _context.Entry(comprador).Entity.IdPersona;
             }
         }
