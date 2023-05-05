@@ -84,7 +84,7 @@ public partial class BovineBossContext : DbContext
             entity.HasKey(e => new { e.FechaAdquisicion, e.IdRes, e.IdPropietario });
 
             entity.Property(e => e.FechaAdquisicion)
-                .HasColumnType("date")
+                .HasColumnType("datetime")
                 .HasColumnName("fecha_adquisicion");
             entity.Property(e => e.IdRes).HasColumnName("id_res");
             entity.Property(e => e.IdPropietario).HasColumnName("id_propietario");
@@ -143,7 +143,7 @@ public partial class BovineBossContext : DbContext
             entity.ToTable("Finca_Alimento");
 
             entity.Property(e => e.FechaCompra)
-                .HasColumnType("date")
+                .HasColumnType("datetime")
                 .HasColumnName("fecha_compra");
             entity.Property(e => e.IdFinca).HasColumnName("id_finca");
             entity.Property(e => e.IdAlimento).HasColumnName("id_alimento");
@@ -172,7 +172,7 @@ public partial class BovineBossContext : DbContext
             entity.ToTable("Finca_Gastos");
 
             entity.Property(e => e.FechaGasto)
-                .HasColumnType("date")
+                .HasColumnType("datetime")
                 .HasColumnName("fecha_gasto");
             entity.Property(e => e.IdFinca).HasColumnName("id_finca");
             entity.Property(e => e.IdGasto).HasColumnName("id_gasto");
@@ -213,11 +213,11 @@ public partial class BovineBossContext : DbContext
             entity.ToTable("Historial_Alimentacion");
 
             entity.Property(e => e.FechaAlimentacion)
-                .HasColumnType("date")
+                .HasColumnType("datetime")
                 .HasColumnName("fecha_alimentacion");
             entity.Property(e => e.IdRes).HasColumnName("id_res");
             entity.Property(e => e.FechaCompra)
-                .HasColumnType("date")
+                .HasColumnType("datetime")
                 .HasColumnName("fecha_compra");
             entity.Property(e => e.IdAlimento).HasColumnName("id_alimento");
             entity.Property(e => e.IdFinca).HasColumnName("id_finca");
@@ -231,7 +231,7 @@ public partial class BovineBossContext : DbContext
             entity.HasOne(d => d.FincaAlimento).WithMany(p => p.HistorialAlimentacions)
                 .HasForeignKey(d => new { d.FechaCompra, d.IdFinca, d.IdAlimento })
                 .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK_Historial_Alimentacion_Finca_Alimento");
+                .HasConstraintName("FK_Historial_Alimentacion_Finca");
         });
 
         modelBuilder.Entity<HistorialPeso>(entity =>

@@ -70,11 +70,13 @@ namespace BovineBoss_API.Services.Implementacion
             if(nReses <= 0)
             {
                 return "NoCows";
-            } 
+            }
             try
             {
 
                 //Se recupera la entidad para modificar la cantidad de alimento de acuerdo al consumo
+                Console.WriteLine(consumo.idFinca);
+                Console.WriteLine(consumo.idAlimento);
                 FincaAlimento registroConsumo = await
                     dbContext
                     .FincaAlimentos

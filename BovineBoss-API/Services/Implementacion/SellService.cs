@@ -141,5 +141,47 @@ namespace BovineBoss_API.Services.Implementacion
                 return false;
             }
         }
+
+        public async Task<List<VentasDto>> GetListVentasFincas(int idFinca)
+        {
+            return await _context.Reses.Where(r => r.IdFinca == idFinca && r.IdVenta != null).Select(p => new VentasDto()
+            {
+
+                IdVenta = p.IdVenta,
+                FechaVenta = p.IdVentaNavigation.FechaVenta,
+                IdPersona = p.IdVentaNavigation.IdComprador,
+                NombreCompleto = p.IdVentaNavigation.IdCompradorNavigation.NombrePersona + " " + p.IdVentaNavigation.IdCompradorNavigation.ApellidoPersona,
+                ValorVenta = p.ValorVenta,
+                ListBull = p.IdVentaNavigation.Reses.Select(r => new BullVentasDto()
+                {
+                    IdRes = r.IdRes,
+                    NombreRes = r.NombreRes
+
+                }).ToList()
+            }).ToListAsync();
+        }
+
+        /**
+           return await dbContext.Reses.Where(r => r.IdFinca == stateId).Select(p => new FullBullDto()
+           {
+               id = p.IdRes,
+               idFinca = p.IdFinca,
+               NombreRes = p.NombreRes,
+               Color = p.Color,
+               FechaNacimiento = p.FechaNacimiento,
+               listRazas = p.ResRazas.Select(o => new RazaResDTO()
+               {
+                   idRaza = o.IdRaza,
+                   PorcentajeRaza = o.PorcentajeRaza,
+                   NombreRaza = o.IdRazaNavigation.NombreRaza
+               }).ToList(),
+               listOwner = p.Adquisiciones.Select(o => o.IdPropietarioNavigation).ToList(),
+               ComisionesPagada = p.Adquisiciones.FirstOrDefault().ComisionesPagada,
+               CostoCompraRes = p.Adquisiciones.FirstOrDefault().CostoCompraRes,
+               DescripcionAdquisicion = p.Adquisiciones.FirstOrDefault().DescripcionAdquisicion,
+               PrecioFlete = p.Adquisiciones.FirstOrDefault().PrecioFlete
+           }).AsNoTracking().ToListAsync();
+            **/
+  
     }
 }
