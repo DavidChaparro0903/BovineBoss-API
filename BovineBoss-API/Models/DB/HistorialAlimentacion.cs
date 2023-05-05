@@ -7,7 +7,7 @@ public partial class HistorialAlimentacion
 {
     public DateTime FechaAlimentacion { get; set; }
 
-    public int CantidadAlimentacion { get; set; }
+    public float CantidadAlimentacion { get; set; }
 
     public int IdRes { get; set; }
 

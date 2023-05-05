@@ -60,9 +60,85 @@ namespace BovineBoss_API.Services.Implementacion
             }
 
         }
+        public async Task<String> AddFoodConsumo(ConsumoDTO consumo)
+        {
+            //Recupera lista de reses relacionadas a la finca donde se realiza el consumo
+            List<Rese> reses = await dbContext.Reses.Where(r => r.IdFinca == consumo.idFinca).ToListAsync();
+            int nReses = reses.Count;
 
+            //Si no hay reses, comunicar error
+            if(nReses <= 0)
+            {
+                return "NoCows";
+            } 
+            try
+            {
 
+                //Se recupera la entidad para modificar la cantidad de alimento de acuerdo al consumo
+                FincaAlimento registroConsumo = await
+                    dbContext
+                    .FincaAlimentos
+                    .Where(fa =>
+                        fa.IdFinca == consumo.idFinca &&
+                        fa.IdAlimento == consumo.idAlimento).FirstAsync();
+                float ConsumoPorRes = consumo.Cantidad / nReses;
+                foreach (Rese res in reses)
+                {
+                    await dbContext.HistorialAlimentacions.AddAsync(new HistorialAlimentacion()
+                    {
+                        IdAlimento = consumo.idAlimento,
+                        IdFinca = consumo.idFinca,
+                        IdRes = res.IdRes,
+                        FechaAlimentacion = consumo.Fecha,
+                        CantidadAlimentacion = ConsumoPorRes,
+                        FechaCompra = registroConsumo.FechaCompra
+                    });
+                }
+                await dbContext.SaveChangesAsync();
+                if (registroConsumo.CantidadComprada < consumo.Cantidad)
+                {
+                    return "Cantidad Invalida";
+                }
+                if (registroConsumo != null)
+                {
+                    registroConsumo.CantidadComprada -= consumo.Cantidad;
+                    dbContext.FincaAlimentos.Update(registroConsumo);
+                }
+                await dbContext.SaveChangesAsync();
+                return "Agregado";
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                return "ErrorBD";
+            }
+        }
 
+        public async Task<List<FoodStateDto>> GetFoodByEstate(int IdFinca)
+        {
+            try
+            {
+                List<FoodStateDto> foodStates =  new List<FoodStateDto>();
+                List<FincaAlimento> foodByState = await dbContext.FincaAlimentos.Where(a => a.IdFinca == IdFinca).ToListAsync();
+                foreach(FincaAlimento food in foodByState)
+                {
+                    foodStates.Add(new FoodStateDto()
+                    {
+                        IdAlimento = food.IdAlimento,
+                        NombreAlimento = food.NombreAlimento,
+                        PrecioAlimento = food.PrecioAlimento,
+                        FechaCompra = food.FechaCompra,
+                        CantidadComprada = food.CantidadComprada,
+                        IdFinca = food.IdFinca
+                    });
+                }
+                return foodStates;
+            }
+            catch
+            {
+                return null;
+            }
+        }
 
         public async Task<bool> AddFoodToState(FoodStateDto foodStateDto)
         {

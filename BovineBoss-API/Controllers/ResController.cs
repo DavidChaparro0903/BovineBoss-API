@@ -179,7 +179,26 @@ namespace BovineBoss_API.Controllers
             }
 
         }
-
+        [HttpGet("GetNotSold")]
+        public async Task<IActionResult> GetListNotSold(int stateId)
+        {
+            try
+            {
+                var r = await resService.GetBullsNotSold(stateId);
+                return Ok(new Response()
+                {
+                    data = r,
+                    message = "Listado de reses que no han sido vendidas"
+                });
+            }
+            catch
+            {
+                return BadRequest(new Response()
+                {
+                    errors = "No se pudieron listar las reses"
+                });
+            }
+        }
 
         [HttpPost("AddResInconvenientes")]
 

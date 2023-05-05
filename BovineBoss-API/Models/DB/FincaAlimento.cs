@@ -11,7 +11,7 @@ public partial class FincaAlimento
 
     public int PrecioAlimento { get; set; }
 
-    public int CantidadComprada { get; set; }
+    public double CantidadComprada { get; set; }
 
     public int IdAlimento { get; set; }
 

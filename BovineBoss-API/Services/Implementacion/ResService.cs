@@ -18,6 +18,28 @@ namespace BovineBoss_API.Services.Implementacion
         {
             return await dbContext.Razas.ToListAsync();
         }
+        public async Task<IEnumerable<FullBullDto>> GetBullsNotSold(int stateId)
+        {
+            return await dbContext.Reses.Where(r => r.IdFinca == stateId && r.IdVenta == null).Select(p => new FullBullDto()
+            {
+                id = p.IdRes,
+                idFinca = p.IdFinca,
+                NombreRes = p.NombreRes,
+                Color = p.Color,
+                FechaNacimiento = p.FechaNacimiento,
+                listRazas = p.ResRazas.Select(o => new RazaResDTO()
+                {
+                    idRaza = o.IdRaza,
+                    PorcentajeRaza = o.PorcentajeRaza,
+                    NombreRaza = o.IdRazaNavigation.NombreRaza
+                }).ToList(),
+                listOwner = p.Adquisiciones.Select(o => o.IdPropietarioNavigation).ToList(),
+                ComisionesPagada = p.Adquisiciones.FirstOrDefault().ComisionesPagada,
+                CostoCompraRes = p.Adquisiciones.FirstOrDefault().CostoCompraRes,
+                DescripcionAdquisicion = p.Adquisiciones.FirstOrDefault().DescripcionAdquisicion,
+                PrecioFlete = p.Adquisiciones.FirstOrDefault().PrecioFlete
+            }).AsNoTracking().ToListAsync();
+        }
         public async Task<Raza> AddRaza(RazaDTO nuevaRaza)
         {
             try
@@ -58,7 +80,7 @@ namespace BovineBoss_API.Services.Implementacion
         {
             try
             {
-                /*Se observa que el id de la persona exista y se recupera sus otros datos que no se pueden 
+             /*Se observa que el id de la persona exista y se recupera sus otros datos que no se pueden 
              *modificar
              */
                 Inconveniente inconveniente = await dbContext.Inconvenientes.FirstOrDefaultAsync(i => i.IdInconveniente == inconvenienteDto.IdInconveniente);
