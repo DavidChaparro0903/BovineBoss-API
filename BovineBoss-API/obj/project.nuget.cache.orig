@@ -81,6 +81,10 @@
     "C:\\Users\\david\\.nuget\\packages\\system.threading.tasks.extensions\\4.5.4\\system.threading.tasks.extensions.4.5.4.nupkg.sha512",
     "C:\\Users\\david\\.nuget\\packages\\system.windows.extensions\\5.0.0\\system.windows.extensions.5.0.0.nupkg.sha512"
   ],
+<<<<<<< HEAD
+  "logs": []
+}
+=======
   "logs": [
     {
       "code": "Undefined",
@@ -90,3 +94,4 @@
     }
   ]
 }
+>>>>>>> develop2

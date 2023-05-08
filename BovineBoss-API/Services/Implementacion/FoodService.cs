@@ -70,11 +70,13 @@ namespace BovineBoss_API.Services.Implementacion
             if(nReses <= 0)
             {
                 return "NoCows";
-            } 
+            }
             try
             {
 
                 //Se recupera la entidad para modificar la cantidad de alimento de acuerdo al consumo
+                Console.WriteLine(consumo.idFinca);
+                Console.WriteLine(consumo.idAlimento);
                 FincaAlimento registroConsumo = await
                     dbContext
                     .FincaAlimentos
@@ -191,9 +193,27 @@ namespace BovineBoss_API.Services.Implementacion
             }
         }
 
-        public Task<bool> ModifyFoodState(FoodStateDto foodStateDto)
+        public async Task<bool> ModifyFoodState(FoodStateDto foodStateDto)
         {
-            throw new NotImplementedException();
+            try
+            {
+                FincaAlimento finca = await dbContext.FincaAlimentos.Where(a => a.IdAlimento == foodStateDto.IdAlimento && a.IdFinca == foodStateDto.IdFinca && a.FechaCompra == foodStateDto.FechaCompra).FirstOrDefaultAsync();
+                if (finca != null)
+                {
+                    finca.NombreAlimento = foodStateDto.NombreAlimento;
+                    finca.PrecioAlimento = foodStateDto.PrecioAlimento;
+                    finca.CantidadComprada = finca.CantidadComprada;
+                    dbContext.FincaAlimentos.Update(finca);
+                    await dbContext.SaveChangesAsync();
+                    return true;
+                }
+                return false;
+            }
+            catch
+            {
+
+                return false;
+            }
         }
 
         public async Task<FoodDto> GetFood(int idFood)

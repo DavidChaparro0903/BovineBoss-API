@@ -161,5 +161,23 @@ namespace BovineBoss_API.Controllers
 
 
 
+        [HttpPut("ModifyFincaAlimento")]
+        public async Task<IActionResult> ModifyFincaAlimento(FoodStateDto foodStateDto)
+        {
+            Response r = new();
+            bool food = await foodService.ModifyFoodState(foodStateDto);
+            if (food)
+            {
+                r.message = "Se modifico correctamente la finca alimento";
+                r.data = food;
+                return Ok(r);
+            }
+            r.errors = "No se pudo modificar correctamente la finca alimento";
+            return BadRequest(r);
+        }
+
+
+
+
     }
 }

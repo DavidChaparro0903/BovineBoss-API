@@ -1,4 +1,5 @@
-﻿using BovineBoss_API.Models.Dtos;
+﻿using BovineBoss_API.Models.DB;
+using BovineBoss_API.Models.Dtos;
 using BovineBoss_API.Services.Contrato;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Cors;
@@ -66,5 +67,29 @@ namespace BovineBoss_API.Controllers
                 return BadRequest(r);
             }
         }
+
+
+        [HttpGet("GetListVentasFincas")]
+        public async Task<IActionResult> ListVentasFincas(int idFinca)
+        {
+            Response r = new();
+            List<VentasDto> listVentasDto = await sellService.GetListVentasFincas(idFinca);
+            if (listVentasDto != null)
+            {
+                r.message = "Se lista correctamente las ventas de la finca";
+                r.data = listVentasDto;
+                return Ok(r);
+
+            }
+            r.errors = "Hubo un problema listando las ventas en esa finca";
+            return BadRequest(r);
+
+
+
+        }
+
+
+
+
     }
 }
