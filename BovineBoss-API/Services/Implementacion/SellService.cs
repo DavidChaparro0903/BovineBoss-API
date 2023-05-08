@@ -99,14 +99,14 @@ namespace BovineBoss_API.Services.Implementacion
                 try
                 {
                     var reses = await _context.Reses.Where(r => r.IdVenta == v.IdVenta).ToListAsync();
-                    List<object> listReses = new List<object>();
+                    List<SellResDto> listReses = new List<SellResDto>();
                     foreach (Rese res in reses)
                     {
-                        listReses.Add(new
+                        listReses.Add(new SellResDto()
                         {
-                            res.IdRes,
-                            res.NombreRes,
-                            res.ValorVenta
+                            IdRes = res.IdRes,
+                            Nombre = res.NombreRes,
+                            Precio = res.ValorVenta
                         });
                     }
                     SellDTO dto = new SellDTO()
@@ -122,22 +122,24 @@ namespace BovineBoss_API.Services.Implementacion
             return list;
         }
 
-        public async Task<bool> ModifySell(SellDTO sellDTO)
+        public async Task<bool> ModifySell(SellChangeDTO sellDTO)
         {
             try
             {
                 Venta venta = await _context.Ventas.Where(a => a.IdVenta == sellDTO.IdVenta).FirstOrDefaultAsync();
-
+                List<Rese> toModify = await _context.Reses.Where(r => r.IdVenta == sellDTO.IdVenta).ToListAsync();
+                foreach(Rese res in toModify)
+                {
+                    res.ValorVenta = sellDTO.ValorVenta;
+                }
                 if (venta != null)
                 {
-                    venta.FechaVenta= sellDTO.FechaVenta;
+                    venta.FechaVenta = sellDTO.FechaVenta;
                     _context.Ventas.Update(venta);
                     await _context.SaveChangesAsync();
                     return true;
                 }
                 return false;
-
-
             }
             catch
             {

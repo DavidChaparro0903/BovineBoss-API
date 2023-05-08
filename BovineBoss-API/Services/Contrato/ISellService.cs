@@ -6,8 +6,7 @@ namespace BovineBoss_API.Services.Contrato
     {
         Task<CreateSellDto> registerSell(CreateSellDto createSell);
         Task<List<SellDTO>> getListVentas();
-        Task<bool> ModifySell(SellDTO sellDTO);
+        Task<bool> ModifySell(SellChangeDTO sellDTO);
         Task<List<VentasDto>> GetListVentasFincas(int idFinca);
-        
     }
 }

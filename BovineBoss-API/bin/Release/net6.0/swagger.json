@@ -219,6 +219,189 @@
         }
       }
     },
+    "/api/Food": {
+      "get": {
+        "tags": [
+          "Food"
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
+    "/api/Food/registerFood": {
+      "post": {
+        "tags": [
+          "Food"
+        ],
+        "consumes": [
+          "application/json",
+          "text/json",
+          "application/*+json"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "schema": {
+              "$ref": "#/definitions/CreateFoodDto"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
+    "/api/Food/AddFoodState": {
+      "post": {
+        "tags": [
+          "Food"
+        ],
+        "consumes": [
+          "application/json",
+          "text/json",
+          "application/*+json"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "schema": {
+              "$ref": "#/definitions/FoodStateDto"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
+    "/api/Food/UpdateFood": {
+      "put": {
+        "tags": [
+          "Food"
+        ],
+        "consumes": [
+          "application/json",
+          "text/json",
+          "application/*+json"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "schema": {
+              "$ref": "#/definitions/FoodDto"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
+    "/api/Food/FoodByState": {
+      "get": {
+        "tags": [
+          "Food"
+        ],
+        "parameters": [
+          {
+            "in": "query",
+            "name": "idFinca",
+            "type": "integer",
+            "format": "int32"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
+    "/api/Food/RegisterConsumption": {
+      "post": {
+        "tags": [
+          "Food"
+        ],
+        "consumes": [
+          "application/json",
+          "text/json",
+          "application/*+json"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "schema": {
+              "$ref": "#/definitions/ConsumoDTO"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
+    "/api/Food/{id}": {
+      "get": {
+        "tags": [
+          "Food"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "type": "integer",
+            "format": "int32"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
+    "/api/Food/ModifyFincaAlimento": {
+      "put": {
+        "tags": [
+          "Food"
+        ],
+        "consumes": [
+          "application/json",
+          "text/json",
+          "application/*+json"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "schema": {
+              "$ref": "#/definitions/FoodStateDto"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
     "/api/Res/addRaza": {
       "post": {
         "tags": [
@@ -433,6 +616,136 @@
         }
       }
     },
+    "/api/Res/GetNotSold": {
+      "get": {
+        "tags": [
+          "Res"
+        ],
+        "parameters": [
+          {
+            "in": "query",
+            "name": "stateId",
+            "type": "integer",
+            "format": "int32"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
+    "/api/Res/AddResInconvenientes": {
+      "post": {
+        "tags": [
+          "Res"
+        ],
+        "consumes": [
+          "application/json",
+          "text/json",
+          "application/*+json"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "schema": {
+              "$ref": "#/definitions/AddResInconvenientesDto"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
+    "/api/Sell/registerSale": {
+      "post": {
+        "tags": [
+          "Sell"
+        ],
+        "consumes": [
+          "application/json",
+          "text/json",
+          "application/*+json"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "schema": {
+              "$ref": "#/definitions/CreateSellDto"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
+    "/api/Sell/getSales": {
+      "get": {
+        "tags": [
+          "Sell"
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
+    "/api/Sell/changeSale": {
+      "put": {
+        "tags": [
+          "Sell"
+        ],
+        "consumes": [
+          "application/json",
+          "text/json",
+          "application/*+json"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "schema": {
+              "$ref": "#/definitions/SellChangeDTO"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
+    "/api/Sell/GetListVentasFincas": {
+      "get": {
+        "tags": [
+          "Sell"
+        ],
+        "parameters": [
+          {
+            "in": "query",
+            "name": "idFinca",
+            "type": "integer",
+            "format": "int32"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
     "/api/Trabajador/registerTrabajador": {
       "post": {
         "tags": [
@@ -571,6 +884,30 @@
     }
   },
   "definitions": {
+    "AddResInconvenientesDto": {
+      "type": "object",
+      "properties": {
+        "idRes": {
+          "format": "int32",
+          "type": "integer"
+        },
+        "idInconveniente": {
+          "format": "int32",
+          "type": "integer"
+        },
+        "fechaInconveniente": {
+          "format": "date-time",
+          "type": "string"
+        },
+        "dineroGastado": {
+          "format": "int32",
+          "type": "integer"
+        },
+        "descripcionInconveniente": {
+          "type": "string"
+        }
+      }
+    },
     "AdministradorFinca": {
       "type": "object",
       "properties": {
@@ -665,6 +1002,41 @@
         }
       }
     },
+    "BuyerDTO": {
+      "type": "object",
+      "properties": {
+        "nombreComprador": {
+          "type": "string"
+        },
+        "apellidoComprador": {
+          "type": "string"
+        },
+        "cedula": {
+          "type": "string"
+        }
+      }
+    },
+    "ConsumoDTO": {
+      "type": "object",
+      "properties": {
+        "idAlimento": {
+          "format": "int32",
+          "type": "integer"
+        },
+        "idFinca": {
+          "format": "int32",
+          "type": "integer"
+        },
+        "cantidad": {
+          "format": "float",
+          "type": "number"
+        },
+        "fecha": {
+          "format": "date-time",
+          "type": "string"
+        }
+      }
+    },
     "CreateEmployeeDto": {
       "type": "object",
       "properties": {
@@ -708,6 +1080,14 @@
         "extensionFinca": {
           "format": "int32",
           "type": "integer"
+        }
+      }
+    },
+    "CreateFoodDto": {
+      "type": "object",
+      "properties": {
+        "tipoAlimento": {
+          "type": "string"
         }
       }
     },
@@ -800,6 +1180,20 @@
         }
       }
     },
+    "CreateSellDto": {
+      "type": "object",
+      "properties": {
+        "comprador": {
+          "$ref": "#/definitions/BuyerDTO"
+        },
+        "resesVendidas": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/SellResDto"
+          }
+        }
+      }
+    },
     "Finca": {
       "type": "object",
       "properties": {
@@ -869,8 +1263,8 @@
           "type": "integer"
         },
         "cantidadComprada": {
-          "format": "int32",
-          "type": "integer"
+          "format": "double",
+          "type": "number"
         },
         "idAlimento": {
           "format": "int32",
@@ -925,6 +1319,46 @@
         }
       }
     },
+    "FoodDto": {
+      "type": "object",
+      "properties": {
+        "idAlimento": {
+          "format": "int32",
+          "type": "integer"
+        },
+        "tipoAlimento": {
+          "type": "string"
+        }
+      }
+    },
+    "FoodStateDto": {
+      "type": "object",
+      "properties": {
+        "idAlimento": {
+          "format": "int32",
+          "type": "integer"
+        },
+        "idFinca": {
+          "format": "int32",
+          "type": "integer"
+        },
+        "fechaCompra": {
+          "format": "date-time",
+          "type": "string"
+        },
+        "nombreAlimento": {
+          "type": "string"
+        },
+        "precioAlimento": {
+          "format": "int32",
+          "type": "integer"
+        },
+        "cantidadComprada": {
+          "format": "double",
+          "type": "number"
+        }
+      }
+    },
     "Gasto": {
       "type": "object",
       "properties": {
@@ -952,8 +1386,8 @@
           "type": "string"
         },
         "cantidadAlimentacion": {
-          "format": "int32",
-          "type": "integer"
+          "format": "float",
+          "type": "number"
         },
         "idRes": {
           "format": "int32",
@@ -1390,6 +1824,39 @@
             "$ref": "#/definitions/ResRaza"
           },
           "readOnly": true
+        }
+      }
+    },
+    "SellChangeDTO": {
+      "type": "object",
+      "properties": {
+        "idVenta": {
+          "format": "int32",
+          "type": "integer"
+        },
+        "valorVenta": {
+          "format": "int32",
+          "type": "integer"
+        },
+        "fechaVenta": {
+          "format": "date-time",
+          "type": "string"
+        }
+      }
+    },
+    "SellResDto": {
+      "type": "object",
+      "properties": {
+        "idRes": {
+          "format": "int32",
+          "type": "integer"
+        },
+        "nombre": {
+          "type": "string"
+        },
+        "precio": {
+          "format": "int32",
+          "type": "integer"
         }
       }
     },

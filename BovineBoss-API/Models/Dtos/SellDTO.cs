@@ -4,6 +4,6 @@
     {
         public int IdVenta { get; set; }
         public DateTime FechaVenta { get; set; }
-        public List<object> Reses { get; set; }
+        public List<SellResDto> Reses { get; set; }
     }
 }

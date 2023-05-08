@@ -51,7 +51,7 @@ namespace BovineBoss_API.Controllers
         }
 
         [HttpPut("changeSale")]
-        public async Task<IActionResult> modifySale(SellDTO sellDTO)
+        public async Task<IActionResult> modifySale(SellChangeDTO sellDTO)
         {
             Response r = new();
             try
