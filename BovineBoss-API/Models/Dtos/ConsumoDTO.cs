@@ -6,6 +6,7 @@ namespace BovineBoss_API.Models.Dtos
     {
         public int idAlimento { get; set; }
         public int idFinca { get; set; }
+        public string NombreAlimento { get; set; }
         public float Cantidad { get; set; }
         public DateTime Fecha { get; set; }
     }

@@ -82,7 +82,8 @@ namespace BovineBoss_API.Services.Implementacion
                     .FincaAlimentos
                     .Where(fa =>
                         fa.IdFinca == consumo.idFinca &&
-                        fa.IdAlimento == consumo.idAlimento).FirstAsync();
+                        fa.IdAlimento == consumo.idAlimento &&
+                        fa.NombreAlimento == consumo.NombreAlimento).FirstAsync();
                 float ConsumoPorRes = consumo.Cantidad / nReses;
                 foreach (Rese res in reses)
                 {
