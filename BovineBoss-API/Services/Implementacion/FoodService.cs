@@ -203,7 +203,7 @@ namespace BovineBoss_API.Services.Implementacion
                 {
                     finca.NombreAlimento = foodStateDto.NombreAlimento;
                     finca.PrecioAlimento = foodStateDto.PrecioAlimento;
-                    finca.CantidadComprada = finca.CantidadComprada;
+                    finca.CantidadComprada = foodStateDto.CantidadComprada;
                     dbContext.FincaAlimentos.Update(finca);
                     await dbContext.SaveChangesAsync();
                     return true;
