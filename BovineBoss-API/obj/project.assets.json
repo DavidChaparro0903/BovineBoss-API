@@ -4015,19 +4015,19 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\braya\\.nuget\\packages\\": {}
+    "C:\\Users\\david\\.nuget\\packages\\": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\braya\\Source\\Repos\\BovineBoss-API\\BovineBoss-API\\BovineBoss-API.csproj",
+      "projectUniqueName": "C:\\BovineBoss\\BovineBoss-API\\BovineBoss-API\\BovineBoss-API.csproj",
       "projectName": "BovineBoss-API",
-      "projectPath": "C:\\Users\\braya\\Source\\Repos\\BovineBoss-API\\BovineBoss-API\\BovineBoss-API.csproj",
-      "packagesPath": "C:\\Users\\braya\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\braya\\Source\\Repos\\BovineBoss-API\\BovineBoss-API\\obj\\",
+      "projectPath": "C:\\BovineBoss\\BovineBoss-API\\BovineBoss-API\\BovineBoss-API.csproj",
+      "packagesPath": "C:\\Users\\david\\.nuget\\packages\\",
+      "outputPath": "C:\\BovineBoss\\BovineBoss-API\\BovineBoss-API\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
-        "C:\\Users\\braya\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Users\\david\\AppData\\Roaming\\NuGet\\NuGet.Config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [
@@ -4095,7 +4095,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.203\\RuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.202\\RuntimeIdentifierGraph.json"
       }
     }
   }
