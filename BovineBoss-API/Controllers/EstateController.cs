@@ -101,6 +101,22 @@ namespace BovineBoss_API.Controllers
             }
         }
 
-
+        [HttpGet("getReporteGastos")]
+        public async Task<IActionResult> getReporteGastos(int idFinca)
+        {
+            Response r = new();
+            try
+            {
+                CostsReportDTO data = await fincaService.GetCostsReport(idFinca);
+                r.data = data;
+                return Ok(r);
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                r.errors = "Hubo un error generando el reporte";
+                return BadRequest(r);
+            }
+        }
     }
 }

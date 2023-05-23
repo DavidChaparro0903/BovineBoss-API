@@ -146,6 +146,81 @@ namespace BovineBoss_API.Services.Implementacion
             }
         }
 
+        public async Task<CostsReportDTO> GetCostsReport(int idFinca)
+        {
+            var finca_gastos = await dbContext.FincaGastos.Where(fg => fg.IdFinca == idFinca).OrderBy(fg => fg.FechaGasto).ToListAsync();
+            var finca_alimento = await dbContext.FincaAlimentos.Where(fa => fa.IdFinca == idFinca).OrderBy(fa => fa.FechaCompra).ToListAsync();
+            var res_inconvenientes = await dbContext.ResInconvenientes
+                .Join(dbContext.Reses,
+                    resInconveniente => resInconveniente.IdRes,
+                    res => res.IdRes,
+                    (resInconveniente, res) => new { ResInconveniente = resInconveniente, Res = res })
+                .Where(joinResult => joinResult.Res.IdFinca == idFinca)
+                .Select(joinResult => joinResult.ResInconveniente)
+                .OrderBy(ri => ri.FechaInconveniente)
+                .ToListAsync();
 
+            Dictionary<DateOnly, int> tempValues = new Dictionary<DateOnly, int>();
+            CostsReportDTO result = new CostsReportDTO();
+            DateOnly currentDate = DateOnly.FromDateTime(finca_gastos[0].FechaGasto);
+
+            tempValues[currentDate] = 0;
+
+            foreach (FincaGasto gasto in finca_gastos)
+            {
+                if (DateOnly.FromDateTime(gasto.FechaGasto) <= currentDate)
+                {
+                    tempValues[currentDate] += gasto.ValorGasto;
+                }
+                else
+                {
+                    currentDate = DateOnly.FromDateTime(gasto.FechaGasto);
+                    tempValues[currentDate] = gasto.ValorGasto;
+                }
+            }
+            currentDate = DateOnly.FromDateTime(finca_alimento[0].FechaCompra);
+
+            foreach (FincaAlimento fa in finca_alimento)
+            {
+                if (!tempValues.ContainsKey(currentDate))
+                    tempValues[currentDate] = 0;
+                if (DateOnly.FromDateTime(fa.FechaCompra) <= currentDate)
+                {
+                    tempValues[currentDate] += fa.PrecioAlimento;
+                }
+                else
+                {
+                    currentDate = DateOnly.FromDateTime(fa.FechaCompra);
+                    tempValues[currentDate] = fa.PrecioAlimento;
+                }
+            }
+            currentDate = DateOnly.FromDateTime(res_inconvenientes[0].FechaInconveniente);
+
+            foreach (ResInconveniente ri in res_inconvenientes)
+            {
+                if (!tempValues.ContainsKey(currentDate))
+                    tempValues[currentDate] = 0;
+                if(DateOnly.FromDateTime(ri.FechaInconveniente) <= currentDate)
+                {
+                    tempValues[currentDate] += ri.DineroGastado;
+                }
+                else
+                {
+                    currentDate = DateOnly.FromDateTime(ri.FechaInconveniente);
+                    tempValues[currentDate] = ri.DineroGastado;
+                }
+            }
+
+            result.fechas = new DateOnly[tempValues.Count];
+            result.valores = new int[tempValues.Count];
+            int index = 0;
+            foreach (KeyValuePair<DateOnly, int> kvp in tempValues)
+            {
+                result.fechas[index] = kvp.Key;
+                result.valores[index] = kvp.Value;
+                index++;
+            }
+            return result;
+        }
     }
 }

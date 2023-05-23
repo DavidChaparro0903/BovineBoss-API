@@ -20,6 +20,7 @@ namespace BovineBoss_API.Services.Contrato
 
         Task<List<StateTokenDto>> GetListState();
         Task<List<StateTokenDto>> GetListStateByIdUser(int userId);
+        Task<CostsReportDTO> GetCostsReport(int idFinca);
 
     }
 }
