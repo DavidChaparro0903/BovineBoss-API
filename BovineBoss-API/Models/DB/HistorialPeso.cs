@@ -5,7 +5,7 @@ namespace BovineBoss_API.Models.DB;
 
 public partial class HistorialPeso
 {
-    public DateTime FechaAlimentacion { get; set; }
+    public DateTime FechaActualizacion { get; set; }
 
     public int PesoRes { get; set; }
 

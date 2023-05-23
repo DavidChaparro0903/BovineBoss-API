@@ -76,6 +76,8 @@ builder.Services.AddScoped<IFoodService, FoodService>();
 
 builder.Services.AddScoped<ISellService, SellService>();
 
+builder.Services.AddScoped<ICostService, CostService>();
+
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJwtBearer(
     options =>
     {

@@ -197,13 +197,13 @@ public partial class BovineBossContext : DbContext
         {
             entity.HasKey(e => e.IdGasto);
 
-            entity.Property(e => e.IdGasto)
-                .ValueGeneratedNever()
-                .HasColumnName("id_gasto");
+            entity.Property(e => e.IdGasto).HasColumnName("id_gasto");
+
             entity.Property(e => e.TipoGasto)
                 .HasMaxLength(50)
                 .IsUnicode(false)
                 .HasColumnName("tipo_gasto");
+            entity.HasIndex(e => e.TipoGasto, "UQ_TIP_GAS").IsUnique();
         });
 
         modelBuilder.Entity<HistorialAlimentacion>(entity =>
@@ -236,13 +236,14 @@ public partial class BovineBossContext : DbContext
 
         modelBuilder.Entity<HistorialPeso>(entity =>
         {
-            entity.HasKey(e => new { e.FechaAlimentacion, e.IdRes });
+            entity.HasKey(e => new { e.FechaActualizacion, e.IdRes });
 
             entity.ToTable("Historial_Peso");
 
-            entity.Property(e => e.FechaAlimentacion)
-                .HasColumnType("date")
-                .HasColumnName("fecha_alimentacion");
+            entity.Property(e => e.FechaActualizacion)
+            //Cambiando valor de historial de peso a datetime y nombre a fecha alimentacion
+                .HasColumnType("datetime")
+                .HasColumnName("fecha_actualizacion");
             entity.Property(e => e.IdRes).HasColumnName("id_res");
             entity.Property(e => e.PesoRes).HasColumnName("peso_res");
 

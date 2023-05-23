@@ -21,5 +21,9 @@ namespace BovineBoss_API.Services.Contrato
         Task<IEnumerable<Inconveniente>> GetDrawBacks();
 
         Task<IEnumerable<FullBullDto>> GetBullsNotSold(int stateId);
+
+        Task<bool> AddWeightBull(WeightHistoryBullDto weight);
+
+
     }
 }

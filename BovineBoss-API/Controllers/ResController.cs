@@ -234,6 +234,38 @@ namespace BovineBoss_API.Controllers
         }
 
 
+        [HttpPost("AddWeightBull")]
+
+        public async Task<IActionResult> AddWeightBull(WeightHistoryBullDto weight)
+        {
+            try
+            {
+
+                bool isAdd = await resService.AddWeightBull(weight);
+                if (isAdd)
+                {
+                    return Ok(new Response()
+                    {
+                        data = isAdd,
+                        message = "Valor al historial de peso Agregado"
+
+                    });
+
+                }
+                return BadRequest(new Response()
+                {
+                    errors = "No se pudieron añadir al historial del peso de la res"
+                });
+            }
+            catch
+            {
+                return BadRequest(new Response()
+                {
+                    errors = "No se pudieron añadir datos al historial de peso de la res"
+                }) ;
+            }
+        }
+
 
     }
 }

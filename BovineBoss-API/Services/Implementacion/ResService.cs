@@ -335,5 +335,31 @@ namespace BovineBoss_API.Services.Implementacion
             }
         }
 
+        public async Task<bool> AddWeightBull(WeightHistoryBullDto weight)
+        {
+            try
+            {
+
+                HistorialPeso historialPeso = new()
+                {
+
+                    IdRes = weight.IdRes,
+                    PesoRes = weight.PesoRes,
+                    FechaActualizacion = DateTime.ParseExact(DateTime.UtcNow.ToString("MM-dd-yyyy HH:mm:ss"), "MM-dd-yyyy HH:mm:ss", CultureInfo.InvariantCulture)
+                };
+
+                dbContext.HistorialPesos.Add(historialPeso);
+                await dbContext.SaveChangesAsync();
+                return true;
+
+            }
+            catch
+            {
+                return false;
+
+            }
+        }
+    
+    
     }
 }
