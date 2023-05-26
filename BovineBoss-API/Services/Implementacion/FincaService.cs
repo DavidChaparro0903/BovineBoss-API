@@ -222,5 +222,45 @@ namespace BovineBoss_API.Services.Implementacion
             }
             return result;
         }
+
+        public async Task<EarningsReportDTO> GetEarningsReport(int idFinca)
+        {
+            var ventas_reses = await dbContext.Ventas
+                .Join(
+                    dbContext.Reses.Where(res => res.IdFinca == idFinca && res.ValorVenta != null),
+                    venta => venta.IdVenta,
+                    res => res.IdVenta,
+                    (venta, res) => new { Venta = venta, Res = res }
+                 ).OrderBy(value=>value.Venta.FechaVenta)
+                 .ToListAsync();
+            SortedDictionary<DateOnly, int> tempValues = new SortedDictionary<DateOnly, int>();
+            EarningsReportDTO result = new EarningsReportDTO();
+            
+            DateOnly currentDate = DateOnly.FromDateTime(ventas_reses[0].Venta.FechaVenta);
+            tempValues[currentDate] = 0;
+
+            foreach(var value in ventas_reses)
+            {
+                if (DateOnly.FromDateTime(value.Venta.FechaVenta) <= currentDate)
+                {
+                    tempValues[currentDate] += value.Res.ValorVenta ?? 0;
+                }
+                else
+                {
+                    currentDate = DateOnly.FromDateTime(value.Venta.FechaVenta);
+                    tempValues[currentDate] = value.Res.ValorVenta ?? 0;
+                }
+            }
+            result.fechas = new DateOnly[tempValues.Count];
+            result.valores = new int[tempValues.Count];
+            int index = 0;
+            foreach (KeyValuePair<DateOnly, int> kvp in tempValues)
+            {
+                result.fechas[index] = kvp.Key;
+                result.valores[index] = kvp.Value;
+                index++;
+            }
+            return result;
+        }
     }
 }

@@ -118,5 +118,23 @@ namespace BovineBoss_API.Controllers
                 return BadRequest(r);
             }
         }
+
+        [HttpGet("getReporteGanancias")]
+        public async Task<IActionResult> getEarningsReport(int idFinca)
+        {
+            Response r = new();
+            try
+            {
+                EarningsReportDTO data = await fincaService.GetEarningsReport(idFinca);
+                r.data = data;
+                return Ok(r);
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                r.errors = "Hubo un error generando el reporte";
+                return BadRequest(r);
+            }
+        }
     }
 }
