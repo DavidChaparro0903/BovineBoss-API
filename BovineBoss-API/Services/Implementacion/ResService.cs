@@ -37,7 +37,8 @@ namespace BovineBoss_API.Services.Implementacion
                 ComisionesPagada = p.Adquisiciones.FirstOrDefault().ComisionesPagada,
                 CostoCompraRes = p.Adquisiciones.FirstOrDefault().CostoCompraRes,
                 DescripcionAdquisicion = p.Adquisiciones.FirstOrDefault().DescripcionAdquisicion,
-                PrecioFlete = p.Adquisiciones.FirstOrDefault().PrecioFlete
+                PrecioFlete = p.Adquisiciones.FirstOrDefault().PrecioFlete,
+                DrawBacks = p.ResInconvenientes.ToList()
             }).AsNoTracking().ToListAsync();
         }
         public async Task<Raza> AddRaza(RazaDTO nuevaRaza)
@@ -304,7 +305,8 @@ namespace BovineBoss_API.Services.Implementacion
                 ComisionesPagada = p.Adquisiciones.FirstOrDefault().ComisionesPagada,
                 CostoCompraRes = p.Adquisiciones.FirstOrDefault().CostoCompraRes,
                 DescripcionAdquisicion = p.Adquisiciones.FirstOrDefault().DescripcionAdquisicion,
-                PrecioFlete = p.Adquisiciones.FirstOrDefault().PrecioFlete
+                PrecioFlete = p.Adquisiciones.FirstOrDefault().PrecioFlete,
+                DrawBacks = p.ResInconvenientes.ToList()
             }).AsNoTracking().ToListAsync();
         }
 
