@@ -10,5 +10,7 @@
 
         public int ValorGasto { get; set; }
 
+        public DateTime FechaGasto { get; set; }
+
     }
 }

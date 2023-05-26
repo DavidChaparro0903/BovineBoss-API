@@ -109,10 +109,29 @@ namespace BovineBoss_API.Controllers
             return BadRequest(r);
         }
 
-
-
-
-
-
+        [HttpGet("GetCostsByState")]
+        public async Task<IActionResult> GetCostsByState(int idFinca)
+        {
+            Response r = new();
+            try
+            {
+                List<CostByStateDTO> result = await costService.GetCostsByState(idFinca);
+                if (result.Count > 0)
+                {
+                    r.message = "Listado de costos por finca";
+                    r.data = result;
+                    return Ok(r);
+                }
+                else
+                {
+                    r.message = "La finca no tiene gastos asociados";
+                    return Ok(r);
+                }
+            }catch (Exception ex)
+            {
+                r.errors = ex.ToString();
+                return BadRequest(r);
+            }
+        }
     }
 }

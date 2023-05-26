@@ -89,7 +89,7 @@ namespace BovineBoss_API.Services.Implementacion
                     IdFinca = costStateDto.IdFinca,
                     IdGasto = costStateDto.IdGasto,
                     ValorGasto = costStateDto.ValorGasto,
-                    FechaGasto = DateTime.ParseExact(DateTime.UtcNow.ToString("MM-dd-yyyy HH:mm:ss"), "MM-dd-yyyy HH:mm:ss", CultureInfo.InvariantCulture),
+                    FechaGasto = costStateDto.FechaGasto,
                     DescripcionGasto = costStateDto.DescripcionGasto
                 };
                 dbContext.FincaGastos.Add(fincaGasto);
@@ -117,6 +117,23 @@ namespace BovineBoss_API.Services.Implementacion
                 return true;
             }
             return false;
+        }
+
+        public async Task<List<CostByStateDTO>> GetCostsByState(int idFinca)
+        {
+            List<FincaGasto> fincaGastos = await dbContext.FincaGastos.Where(a => a.IdFinca == idFinca).ToListAsync();
+            List<CostByStateDTO> result = new List<CostByStateDTO>();
+            foreach(FincaGasto gasto in fincaGastos)
+            {
+                CostByStateDTO gastoDTO = new CostByStateDTO()
+                {
+                    idGasto= gasto.IdGasto,
+                    descripcionGasto = gasto.DescripcionGasto,
+                    valorGasto = gasto.ValorGasto
+                };
+                result.Add(gastoDTO);
+            }
+            return result;
         }
     }
 }

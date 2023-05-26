@@ -15,5 +15,6 @@ namespace BovineBoss_API.Services.Contrato
 
         Task<bool> ModifyCostToState(ModifyCostStateDto costStateDto);
 
+        Task<List<CostByStateDTO>> GetCostsByState(int idFinca);
     }
 }
