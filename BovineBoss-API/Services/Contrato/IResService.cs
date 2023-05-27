@@ -24,6 +24,8 @@ namespace BovineBoss_API.Services.Contrato
 
         Task<bool> AddWeightBull(WeightHistoryBullDto weight);
 
+        Task<WeightReportDTO> GetWeightReport(int idRes);
+
 
     }
 }

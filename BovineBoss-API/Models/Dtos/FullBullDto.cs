@@ -24,5 +24,7 @@ namespace BovineBoss_API.Models.Dtos
 
         public string DescripcionAdquisicion { get; set; } = null!;
 
+        public List<ResInconveniente> DrawBacks { get; set; }
+
     }
 }

@@ -1,20 +1,20 @@
 {
   "format": 1,
   "restore": {
-    "C:\\BovineBoss\\BovineBoss-API\\BovineBoss-API\\BovineBoss-API.csproj": {}
+    "C:\\Users\\braya\\Source\\Repos\\BovineBoss-API\\BovineBoss-API\\BovineBoss-API.csproj": {}
   },
   "projects": {
-    "C:\\BovineBoss\\BovineBoss-API\\BovineBoss-API\\BovineBoss-API.csproj": {
+    "C:\\Users\\braya\\Source\\Repos\\BovineBoss-API\\BovineBoss-API\\BovineBoss-API.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\BovineBoss\\BovineBoss-API\\BovineBoss-API\\BovineBoss-API.csproj",
+        "projectUniqueName": "C:\\Users\\braya\\Source\\Repos\\BovineBoss-API\\BovineBoss-API\\BovineBoss-API.csproj",
         "projectName": "BovineBoss-API",
-        "projectPath": "C:\\BovineBoss\\BovineBoss-API\\BovineBoss-API\\BovineBoss-API.csproj",
-        "packagesPath": "C:\\Users\\david\\.nuget\\packages\\",
-        "outputPath": "C:\\BovineBoss\\BovineBoss-API\\BovineBoss-API\\obj\\",
+        "projectPath": "C:\\Users\\braya\\Source\\Repos\\BovineBoss-API\\BovineBoss-API\\BovineBoss-API.csproj",
+        "packagesPath": "C:\\Users\\braya\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\braya\\Source\\Repos\\BovineBoss-API\\BovineBoss-API\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "C:\\Users\\david\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\braya\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
@@ -22,6 +22,7 @@
         ],
         "sources": {
           "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+          "C:\\Program Files\\dotnet\\sdk\\7.0.302\\Sdks\\Microsoft.NET.Sdk.Web\\library-packs": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
@@ -82,7 +83,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.202\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.302\\RuntimeIdentifierGraph.json"
         }
       }
     }

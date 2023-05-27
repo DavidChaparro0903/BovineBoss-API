@@ -1,11 +1,8 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using BovineBoss_API.Models;
 using BovineBoss_API.Services.Contrato;
 using BovineBoss_API.Models.DB;
 using BovineBoss_API.Models.Dtos;
 using System.Globalization;
-using System.Security.Cryptography;
-using System;
 
 namespace BovineBoss_API.Services.Implementacion
 {
@@ -69,8 +66,6 @@ namespace BovineBoss_API.Services.Implementacion
 
             }
         }
-
-
         private  async Task<Persona> AddAdministrator(CreateEmployeeDto Admin)
         {
             //TODO Agregar autogeneración de usuario
@@ -98,7 +93,6 @@ namespace BovineBoss_API.Services.Implementacion
                 return null;
             }
         }
-
         private async Task<AdministradorFinca> AddAdminFinca(int idAdmin,int IdFinca)
         {
             AdministradorFinca administradorFinca;
@@ -124,8 +118,6 @@ namespace BovineBoss_API.Services.Implementacion
             }
 
         }
-
-
         public async Task<ActiveAdminDto> ActiveAdmin(CreateEmployeeDto Admin)
         {
 
@@ -213,7 +205,6 @@ namespace BovineBoss_API.Services.Implementacion
 
             }
         }
-
         private async Task<Persona> AddTrabajador(CreateEmployeeDto trabajador)
         {
             Persona persona;
@@ -240,8 +231,6 @@ namespace BovineBoss_API.Services.Implementacion
                 return null;
             }
         }
-
-
         private async Task<TrabajadorFinca> AddTrabajadorFinca(int idTrabajador, int IdFinca)
         {
             TrabajadorFinca trabajadorFinca;
@@ -268,10 +257,6 @@ namespace BovineBoss_API.Services.Implementacion
             }
 
         }
-
-
-
-
         public async Task<ActiveTrabajadorDto> ActiveTrabajador(CreateEmployeeDto trabajador)
         {
             try
@@ -311,23 +296,17 @@ namespace BovineBoss_API.Services.Implementacion
                 return null;
             }
         }
-
-
         public async Task<Persona> GetPersona(int id)
         {
 
             return await dbContext.Personas.Where(e => e.IdPersona == id).FirstOrDefaultAsync();
      
         }
-
-
-
         public async Task<Finca> GetFinca(int idNuevaFinca)
         {
             return await dbContext.Fincas.Where(f => f.IdFinca == idNuevaFinca).FirstOrDefaultAsync();
 
         }
-
         public async Task<bool> UpdateTrabajador(ModifyTrabajadorDto trabajador)
         {
 
@@ -351,10 +330,6 @@ namespace BovineBoss_API.Services.Implementacion
             }
 
          }
-
-
-
-
         public async Task<bool> UpdateTrabajador(ModifyTrabajadorAdminDto trabajador)
         {
 
@@ -381,18 +356,9 @@ namespace BovineBoss_API.Services.Implementacion
             }
 
         }
-
-
-
-
-
-
-
         /*
          Metodo utilizado en el rol trabajador para poder modificarse
-         */
-
-
+        */
         public async Task saveChangesTrabajador(ModifyTrabajadorDto trabajador, Persona personFound)
         {
             personFound.NombrePersona = trabajador.NombrePersona;
@@ -404,13 +370,9 @@ namespace BovineBoss_API.Services.Implementacion
             dbContext.Personas.Update(personFound);
             await dbContext.SaveChangesAsync();
         }
-
-
-
         /*
          Metodo utilizado en el rol administrador para modificar un trabajador
          */
-
         public async Task saveChangesTrabajador(ModifyTrabajadorAdminDto trabajador, Persona personFound)
         {
             personFound.NombrePersona = trabajador.NombrePersona;
@@ -424,9 +386,6 @@ namespace BovineBoss_API.Services.Implementacion
 
             await dbContext.SaveChangesAsync();
         }
-
-
-
         public async Task<bool> UpdateAdmin(ModifyAdminDto Admin)
         {
             try
@@ -454,15 +413,10 @@ namespace BovineBoss_API.Services.Implementacion
 
             }
         }
-
-
-
-
         /**
         Observamos que el empleado no este activo en una finca, si esta activo en almenos una
         retorna false de lo contrario retorna true
-         
-         */
+        */
         public async Task<bool> employeeIsNotActiveInStates(int idEmployee, List<int> listIdState)
         {
             foreach (int idState in listIdState)
@@ -496,14 +450,9 @@ namespace BovineBoss_API.Services.Implementacion
 
         }
 
-
-
-
         /*
          Tenemos que comprobar que el trabajador no se pueda agregar a una finca en la que ya se encuentra y esta habilitado
-
-         */
-
+        */
         public async Task<bool> addNewEstate(CreateNewEstateDto createNewEstateDto)
         {
             bool existIdState = await stateExists(createNewEstateDto.ListIdState);
@@ -528,7 +477,6 @@ namespace BovineBoss_API.Services.Implementacion
             }
             return false;
         }
-
 
 
         public async Task<bool> addNewEstateAdmin(CreateNewEstateDto createNewEstateDto)
@@ -556,11 +504,6 @@ namespace BovineBoss_API.Services.Implementacion
         }
 
 
-
-
-
-
-
         private async Task<bool> stateExists(List<int> listIdState)
         {
             foreach(int idState in listIdState)
@@ -575,8 +518,6 @@ namespace BovineBoss_API.Services.Implementacion
             return true;
 
         }
-
-
         private async Task<bool> employeeIsActiveInState(int idEmployee, int idState)
         {
             var isActive = from p in dbContext.Personas
@@ -619,9 +560,6 @@ namespace BovineBoss_API.Services.Implementacion
         }
 
 
-
-
-
         public async Task<bool> isEmployee(int idEmployee)
         {
             var employee = from p in dbContext.Personas
@@ -636,7 +574,6 @@ namespace BovineBoss_API.Services.Implementacion
             return false;
                 
          }
-
 
 
         public async Task<bool> isAdmin(int idAdmin)
@@ -659,8 +596,8 @@ namespace BovineBoss_API.Services.Implementacion
             try
             {
                 var estateWorkerList = dbContext.Personas.Where(w => w.TipoPersona== "P");
-                var listaPersona = estateWorkerList.Select(p => new OwnerDTO()
-                {
+                var listaPersona = estateWorkerList.Select(p => new OwnerDTO()                
+	{
                     Id = p.IdPersona,
                     NombrePersona = p.NombrePersona,
                     ApellidoPersona = p.ApellidoPersona,
@@ -674,9 +611,6 @@ namespace BovineBoss_API.Services.Implementacion
 
             }
         }
-
-
-
 
         //public async Task saveChangesTrabajadorFinca(ModifyTrabajadorAdminDto trabajador)
         //{

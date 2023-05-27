@@ -325,7 +325,7 @@ public partial class BovineBossContext : DbContext
             entity.ToTable("Res_Inconveniente");
 
             entity.Property(e => e.FechaInconveniente)
-                .HasColumnType("date")
+                .HasColumnType("datetime")
                 .HasColumnName("fecha_inconveniente");
             entity.Property(e => e.IdInconveniente).HasColumnName("id_inconveniente");
             entity.Property(e => e.IdRes).HasColumnName("id_res");

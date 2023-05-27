@@ -37,7 +37,8 @@ namespace BovineBoss_API.Services.Implementacion
                 ComisionesPagada = p.Adquisiciones.FirstOrDefault().ComisionesPagada,
                 CostoCompraRes = p.Adquisiciones.FirstOrDefault().CostoCompraRes,
                 DescripcionAdquisicion = p.Adquisiciones.FirstOrDefault().DescripcionAdquisicion,
-                PrecioFlete = p.Adquisiciones.FirstOrDefault().PrecioFlete
+                PrecioFlete = p.Adquisiciones.FirstOrDefault().PrecioFlete,
+                DrawBacks = p.ResInconvenientes.ToList()
             }).AsNoTracking().ToListAsync();
         }
         public async Task<Raza> AddRaza(RazaDTO nuevaRaza)
@@ -304,7 +305,8 @@ namespace BovineBoss_API.Services.Implementacion
                 ComisionesPagada = p.Adquisiciones.FirstOrDefault().ComisionesPagada,
                 CostoCompraRes = p.Adquisiciones.FirstOrDefault().CostoCompraRes,
                 DescripcionAdquisicion = p.Adquisiciones.FirstOrDefault().DescripcionAdquisicion,
-                PrecioFlete = p.Adquisiciones.FirstOrDefault().PrecioFlete
+                PrecioFlete = p.Adquisiciones.FirstOrDefault().PrecioFlete,
+                DrawBacks = p.ResInconvenientes.ToList()
             }).AsNoTracking().ToListAsync();
         }
 
@@ -359,7 +361,26 @@ namespace BovineBoss_API.Services.Implementacion
 
             }
         }
-    
-    
+
+        public async Task<WeightReportDTO> GetWeightReport(int idRes)
+        {
+            var historial = await dbContext.HistorialPesos
+                .Where(hp => hp.IdRes == idRes)
+                .ToListAsync();
+
+            WeightReportDTO result = new WeightReportDTO();
+
+            result.fechas = new DateTime[historial.Count];
+            result.valores = new int[historial.Count];
+
+            for (int i = 0; i < historial.Count; i++)
+            {
+                result.fechas[i] = historial[i].FechaActualizacion;
+                result.valores[i] = historial[i].PesoRes;
+            }
+
+            return result;
+        }
+
     }
 }

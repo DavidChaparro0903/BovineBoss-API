@@ -266,6 +266,22 @@ namespace BovineBoss_API.Controllers
             }
         }
 
-
+        [HttpGet("GetWeightReport")]
+        public async Task<IActionResult> GetWeightReport(int idRes)
+        {
+            Response r = new();
+            try
+            {
+                WeightReportDTO data = await resService.GetWeightReport(idRes);
+                r.data = data;
+                return Ok(r);
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                r.errors = "Hubo un error generando el reporte";
+                return BadRequest(r);
+            }
+        }
     }
 }
