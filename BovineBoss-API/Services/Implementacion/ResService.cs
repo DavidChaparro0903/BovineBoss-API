@@ -345,7 +345,7 @@ namespace BovineBoss_API.Services.Implementacion
 
                     IdRes = weight.IdRes,
                     PesoRes = weight.PesoRes,
-                    FechaActualizacion = DateTime.ParseExact(DateTime.UtcNow.ToString("MM-dd-yyyy HH:mm:ss"), "MM-dd-yyyy HH:mm:ss", CultureInfo.InvariantCulture)
+                    FechaActualizacion = weight.FechaActualizacion
                 };
 
                 dbContext.HistorialPesos.Add(historialPeso);

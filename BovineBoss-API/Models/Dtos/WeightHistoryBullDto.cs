@@ -6,5 +6,7 @@
 
         public int IdRes { get; set; }
 
+        public DateTime FechaActualizacion { get; set; }
+
     }
 }

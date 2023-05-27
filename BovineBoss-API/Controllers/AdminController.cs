@@ -89,6 +89,23 @@ namespace BovineBoss_API.Controllers
 
 
 
+        [HttpPost("AgregarAdministradorFinca")]
+        public async Task<IActionResult> addStateAdmin(CreateNewEstateDto createNewEstateDto)
+        {
+            Response r = new();
+            bool var = await personaService.addNewEstateAdmin(createNewEstateDto);
+            if (var)
+            {
+                r.message = "El Administrador fue agregado a las fincas correspondientes";
+                r.data = var;
+                return Ok(r);
+            }
+            r.errors = "Las fincas no existen o el trabajador ya esta en alguna de las fincas seleccionadas";
+            return BadRequest(r);
+        }
+
+
+
         //[HttpPost("AgregarFinca")]
         //public async Task<IActionResult> addStateEmployee(CreateNewEstateDto createNewEstateDto)
         //{

@@ -480,6 +480,24 @@ namespace BovineBoss_API.Services.Implementacion
         }
 
 
+        public async Task<bool> adminIsNotActiveInStates(int idAdmin, List<int> listIdState)
+        {
+            foreach (int idState in listIdState)
+            {
+                bool result = await adminIsActiveInState(idAdmin, idState);
+                if (result)
+                {
+                    return false;
+                }
+
+            }
+
+            return true;
+
+        }
+
+
+
 
         /*
          Tenemos que comprobar que el trabajador no se pueda agregar a una finca en la que ya se encuentra y esta habilitado
@@ -510,7 +528,38 @@ namespace BovineBoss_API.Services.Implementacion
             }
             return false;
         }
-    
+
+
+
+        public async Task<bool> addNewEstateAdmin(CreateNewEstateDto createNewEstateDto)
+        {
+            bool existIdState = await stateExists(createNewEstateDto.ListIdState);
+            bool AdminIsNotActiveListState = await adminIsNotActiveInStates(createNewEstateDto.IdEmployee, createNewEstateDto.ListIdState);
+            bool resultIsAdmin = await isAdmin(createNewEstateDto.IdEmployee);
+            if (existIdState && AdminIsNotActiveListState == true && resultIsAdmin)
+            {
+                foreach (int idState in createNewEstateDto.ListIdState)
+                {
+                    AdministradorFinca administradorFinca = new()
+                    {
+                        IdFinca = idState,
+                        IdAdministrador = createNewEstateDto.IdEmployee,
+                        FechaCambioAdmin = DateTime.ParseExact(DateTime.UtcNow.ToString("MM-dd-yyyy HH:mm:ss"), "MM-dd-yyyy HH:mm:ss", CultureInfo.InvariantCulture),
+                        EstadoAdministrador = true
+                    };
+                    dbContext.AdministradorFincas.Add(administradorFinca);
+                }
+                await dbContext.SaveChangesAsync();
+                return true;
+            }
+            return false;
+        }
+
+
+
+
+
+
 
         private async Task<bool> stateExists(List<int> listIdState)
         {
@@ -546,9 +595,31 @@ namespace BovineBoss_API.Services.Implementacion
                 return true;
             }
             return false;
-           
-
         }
+
+
+        private async Task<bool> adminIsActiveInState(int idEmployee, int idState)
+        {
+            var isActive = from p in dbContext.Personas
+                           join a in dbContext.AdministradorFincas
+                           on p.IdPersona equals a.IdAdministrador
+                           where p.TipoPersona == "A" &&
+                           a.EstadoAdministrador == true &&
+                           a.IdAdministrador == idEmployee &&
+                           a.IdFinca == idState
+                           select new { p.IdPersona, p.NombrePersona, a.EstadoAdministrador, a.IdFinca };
+
+
+            if (isActive.FirstOrDefault() != null)
+            {
+
+                return true;
+            }
+            return false;
+        }
+
+
+
 
 
         public async Task<bool> isEmployee(int idEmployee)
@@ -565,6 +636,23 @@ namespace BovineBoss_API.Services.Implementacion
             return false;
                 
          }
+
+
+
+        public async Task<bool> isAdmin(int idAdmin)
+        {
+            var employee = from p in dbContext.Personas
+                           where p.IdPersona == idAdmin
+                             && p.TipoPersona == "A"
+                           select new { p.IdPersona, p.TipoPersona };
+
+            if (await employee.FirstOrDefaultAsync() != null)
+            {
+                return true;
+            }
+            return false;
+
+        }
 
         public Task<IEnumerable<OwnerDTO>> GetOwners()
         {

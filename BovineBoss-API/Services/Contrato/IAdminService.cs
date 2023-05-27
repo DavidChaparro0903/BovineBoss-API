@@ -20,6 +20,8 @@ namespace BovineBoss_API.Services.Contrato
 
         Task<bool> UpdateAdmin(ModifyAdminDto Admin);
 
+        Task<bool> addNewEstateAdmin(CreateNewEstateDto createNewEstateDto);
+
 
        // Task<bool> addNewEstate(CreateNewEstateDto createNewEstateDto);
 
