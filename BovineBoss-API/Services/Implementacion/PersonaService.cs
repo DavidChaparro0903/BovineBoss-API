@@ -1,11 +1,8 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using BovineBoss_API.Models;
 using BovineBoss_API.Services.Contrato;
 using BovineBoss_API.Models.DB;
 using BovineBoss_API.Models.Dtos;
 using System.Globalization;
-using System.Security.Cryptography;
-using System;
 
 namespace BovineBoss_API.Services.Implementacion
 {
@@ -69,8 +66,6 @@ namespace BovineBoss_API.Services.Implementacion
 
             }
         }
-
-
         private  async Task<Persona> AddAdministrator(CreateEmployeeDto Admin)
         {
             //TODO Agregar autogeneración de usuario
@@ -98,7 +93,6 @@ namespace BovineBoss_API.Services.Implementacion
                 return null;
             }
         }
-
         private async Task<AdministradorFinca> AddAdminFinca(int idAdmin,int IdFinca)
         {
             AdministradorFinca administradorFinca;
@@ -124,8 +118,6 @@ namespace BovineBoss_API.Services.Implementacion
             }
 
         }
-
-
         public async Task<ActiveAdminDto> ActiveAdmin(CreateEmployeeDto Admin)
         {
 
@@ -213,7 +205,6 @@ namespace BovineBoss_API.Services.Implementacion
 
             }
         }
-
         private async Task<Persona> AddTrabajador(CreateEmployeeDto trabajador)
         {
             Persona persona;
@@ -240,8 +231,6 @@ namespace BovineBoss_API.Services.Implementacion
                 return null;
             }
         }
-
-
         private async Task<TrabajadorFinca> AddTrabajadorFinca(int idTrabajador, int IdFinca)
         {
             TrabajadorFinca trabajadorFinca;
@@ -268,10 +257,6 @@ namespace BovineBoss_API.Services.Implementacion
             }
 
         }
-
-
-
-
         public async Task<ActiveTrabajadorDto> ActiveTrabajador(CreateEmployeeDto trabajador)
         {
             try
@@ -311,23 +296,17 @@ namespace BovineBoss_API.Services.Implementacion
                 return null;
             }
         }
-
-
         public async Task<Persona> GetPersona(int id)
         {
 
             return await dbContext.Personas.Where(e => e.IdPersona == id).FirstOrDefaultAsync();
      
         }
-
-
-
         public async Task<Finca> GetFinca(int idNuevaFinca)
         {
             return await dbContext.Fincas.Where(f => f.IdFinca == idNuevaFinca).FirstOrDefaultAsync();
 
         }
-
         public async Task<bool> UpdateTrabajador(ModifyTrabajadorDto trabajador)
         {
 
@@ -351,10 +330,6 @@ namespace BovineBoss_API.Services.Implementacion
             }
 
          }
-
-
-
-
         public async Task<bool> UpdateTrabajador(ModifyTrabajadorAdminDto trabajador)
         {
 

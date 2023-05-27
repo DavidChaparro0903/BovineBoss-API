@@ -127,9 +127,10 @@ namespace BovineBoss_API.Services.Implementacion
             {
                 CostByStateDTO gastoDTO = new CostByStateDTO()
                 {
-                    idGasto= gasto.IdGasto,
-                    descripcionGasto = gasto.DescripcionGasto,
-                    valorGasto = gasto.ValorGasto
+                    IdGasto = gasto.IdGasto,
+                    DescripcionGasto = gasto.DescripcionGasto,
+                    ValorGasto = gasto.ValorGasto,
+                    CostDate = gasto.FechaGasto
                 };
                 result.Add(gastoDTO);
             }
